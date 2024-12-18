@@ -116,15 +116,18 @@ int dgbtrftridiag(int* la, int* n, int* kl, int* ku, double* AB, int* lab, int* 
 
 	// Gaussian elimination with partial pivoting
 	for (int k = 0; k < result_matrix_size - 1; k++) {
-		int pivot_idx = k;
-		double pivot_value = AB[indexABCol(k, k, lab)];
-
 		// Find the biggest pivot
-		for (int i = k + 1; i < result_matrix_size; i++) {
-			if (fabs(AB[indexABCol(i, k, lab)]) > fabs(pivot_value)) {
-				pivot_idx = i;
-				pivot_value = AB[indexABCol(i, k, lab)];
-			}
+		// We optimise the search by only looking at the next row since it's a tridiagonal matrix
+		// and looking further would only lead to 0's
+		int pivot_idx;
+		double pivot_value;
+		if (fabs(AB[indexABCol(k, k, lab)]) > fabs(AB[indexABCol(k + 1, k, lab)])) {
+			pivot_idx = k;
+			pivot_value = AB[indexABCol(k, k, lab)];
+		}
+		else {
+			pivot_idx = k + 1;
+			pivot_value = AB[indexABCol(k + 1, k, lab)];
 		}
 
 		// Swap if necessary
@@ -143,12 +146,9 @@ int dgbtrftridiag(int* la, int* n, int* kl, int* ku, double* AB, int* lab, int* 
 			ipiv[k] = k + 1;
 		}
 
-		for (int i = k + 1; i < result_matrix_size; i++) {
-			AB[indexABCol(i, k, lab)] /= AB[indexABCol(k, k, lab)];
-			for (int j = k + 1; j < result_matrix_size; j++) {
-				AB[indexABCol(i, j, lab)] -= AB[indexABCol(i, k, lab)] * AB[indexABCol(k, j, lab)];
-			}
-		}
+		// Perform the elimination, only the next row is affected since it's a tridiagonal matrix
+		AB[indexABCol(k + 1, k, lab)] /= AB[indexABCol(k, k, lab)];
+		AB[indexABCol(k + 1, k + 1, lab)] -= AB[indexABCol(k + 1, k, lab)] * AB[indexABCol(k, k + 1, lab)];
 	}
 	// Mark the last pivot
 	ipiv[result_matrix_size - 1] = result_matrix_size;
