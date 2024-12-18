@@ -69,9 +69,9 @@ R6. DGBTRS = Double General Band matrix TRiangular Solve.
 Elle résout un système linéaire A*x=b avec une matrice bande
 La matrice A doit avoir été factorisée avec dgbtrf, et est donc sa décomposition LU.
 Elle résout le système linéaire en 2 étapes:
-- Résolution du système linéaire L*y=b avec y=U\*x
+- Résolution du système linéaire L*y=b avec y=U\*x.
 - Résolution du système linéaire U*x=y avec U la matrice triangulaire supérieure de la décomposition LU de A.
-Elle utilise la méthode de substitution avant et arrière pour résoudre le système linéaire, et nécessite le vecteur ipiv de la factorisation LU de A.
+Elle utilise la méthode de substitution avant et arrière pour résoudre le système linéaire, avec les méthodes de remontée et de descente, et nécessite le vecteur ipiv de la factorisation LU de A.
 
 Q7. Que fait la fonction dgbsv ? Quelle méthode implémente-t-elle ?
 
