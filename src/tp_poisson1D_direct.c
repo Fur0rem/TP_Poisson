@@ -44,7 +44,6 @@ int main(int argc, char* argv[]) {
 	EX_SOL = (double*)malloc(sizeof(double) * la);
 	X = (double*)malloc(sizeof(double) * la);
 
-	// TODO : you have to implement those functions
 	set_grid_points_1D(X, &la);
 	set_dense_RHS_DBC_1D(RHS, &la, &T0, &T1);
 	set_analytical_solution_DBC_1D(EX_SOL, X, &la, &T0, &T1);
@@ -66,7 +65,7 @@ int main(int argc, char* argv[]) {
 	printf("Solution with LAPACK\n");
 	ipiv = (int*)calloc(la, sizeof(int));
 
-	/* LU Factorization */
+	/* LU Factorisation */
 	if (IMPLEM == TRF) {
 		dgbtrf_(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
 	}
@@ -74,6 +73,7 @@ int main(int argc, char* argv[]) {
 	/* LU for tridiagonal matrix  (can replace dgbtrf_) */
 	if (IMPLEM == TRI) {
 		dgbtrftridiag(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
+		write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU_moi.dat");
 	}
 
 	if (IMPLEM == TRI || IMPLEM == TRF) {
@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) {
 			if (info != 0) {
 				printf("\n INFO DGBTRS = %d\n", info);
 			}
+			write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU_TRI.dat");
 		}
 		else {
 			printf("\n INFO = %d\n", info);
@@ -91,7 +92,11 @@ int main(int argc, char* argv[]) {
 
 	/* It can also be solved with dgbsv */
 	if (IMPLEM == SV) {
-		// TODO : use dgbsv
+		dgbsv_(&la, &kl, &ku, &NRHS, AB, &lab, ipiv, RHS, &la, &info);
+		if (info != 0) {
+			printf("\n INFO DGBSV = %d\n", info);
+		}
+		write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU_SV.dat");
 	}
 
 	write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU.dat");

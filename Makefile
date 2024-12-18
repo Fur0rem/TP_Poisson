@@ -19,7 +19,9 @@ include $(HOSTNAME).mk
 
 # 
 # -- Compiler Option
-OPTC=${OPTCLOCAL}
+DEBUG_FLAGS = -Wall -Wextra -Og -g
+RELEASE_FLAGS = -O3
+OPTC=${OPTCLOCAL} ${RELEASE_FLAGS}
 
 #
 # -- Directories
@@ -46,6 +48,9 @@ OBJLIBPOISSON= lib_poisson1D$(SOL).o lib_poisson1D_writers.o lib_poisson1D_richa
 OBJTP2ITER= $(OBJLIBPOISSON) tp_poisson1D_iter.o
 OBJTP2DIRECT= $(OBJLIBPOISSON) tp_poisson1D_direct.o
 
+TEST_FOLDERS = tests
+TEST_FILES = $(wildcard $(TEST_FOLDERS)/*.c)
+
 #
 .PHONY: all
 
@@ -70,8 +75,21 @@ bin/tpPoisson1D_iter: $(OBJTP2ITER)
 bin/tpPoisson1D_direct: $(OBJTP2DIRECT)
 	$(CC) -o bin/tpPoisson1D_direct $(OPTC) $(addprefix $(TPDIROBJ)/, $(OBJTP2ITER)) $(LIBS)
 
+# Pour compiler tous les tests
+bin/%: $(TEST_FOLDERS)/%.c $(OBJLIBPOISSON)
+	$(CC) -o $@ $(OPTC) $(INCL) $(addprefix $(TPDIROBJ)/, $(OBJLIBPOISSON)) $< $(LIBS)
+
+bin/benchmark_direct_methods: benchmarks/benchmark_direct_methods.c $(OBJLIBPOISSON)
+	$(CC) -o $@ $(OPTC) $(INCL) $(addprefix $(TPDIROBJ)/, $(OBJLIBPOISSON)) $< $(LIBS)
+
+run_tests: bin/test_creation_poisson bin/test_forward_error bin/test_facto_LU
+	$(foreach test, $^, $(test);)
+
 run_testenv: bin/tp_testenv
 	bin/tp_testenv
+
+run_benchmark: bin/benchmark_direct_methods
+	bin/benchmark_direct_methods
 
 run_tpPoisson1D_iter: bin/tpPoisson1D_iter
 	bin/tpPoisson1D_iter
@@ -82,10 +100,6 @@ run_tpPoisson1D_direct: bin/tpPoisson1D_direct
 	bin/tpPoisson1D_direct
 	bin/tpPoisson1D_direct 1
 	bin/tpPoisson1D_direct 2
-
-run_test:
-	$(CC) -o bin/test $(OPTC) $(INCL) $(TPDIRSRC)/test.c $(LIBS)
-	bin/test
 
 clean:
 	rm *.o bin/*
