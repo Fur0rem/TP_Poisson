@@ -12,6 +12,7 @@
 #define GS    2
 
 int main(int argc, char* argv[]) {
+	printf("--------- ITERATIVE METHODS ---------\n\n");
 	int ierr;
 	int jj;
 	int nbpoints, la;
@@ -31,6 +32,7 @@ int main(int argc, char* argv[]) {
 
 	if (argc == 2) {
 		IMPLEM = atoi(argv[1]);
+		printf("IMPLEM = %d\n", IMPLEM);
 	}
 	else if (argc > 2) {
 		perror("Application takes at most one argument");
@@ -91,7 +93,19 @@ int main(int argc, char* argv[]) {
 	/* Solve with Richardson alpha */
 	if (IMPLEM == ALPHA) {
 		richardson_alpha(AB, RHS, SOL, &opt_alpha, &lab, &la, &ku, &kl, &tol, &maxit, resvec, &nbite);
+		plot_convergence_history(resvec, nbite, "rapport/convergence_richardson");
 	}
+	printf("Number of iterations for Richardson with optimal alpha is : %d\n", nbite);
+	printf("X = ");
+	for (jj = 0; jj < la; jj++) {
+		printf("%lf ", SOL[jj]);
+	}
+	printf("\n");
+	printf("X EXACT = ");
+	for (jj = 0; jj < la; jj++) {
+		printf("%lf ", EX_SOL[jj]);
+	}
+	printf("\n");
 
 	/* Richardson General Tridiag */
 
@@ -101,9 +115,11 @@ int main(int argc, char* argv[]) {
 	kl = 1;
 	MB = (double*)malloc(sizeof(double) * (lab)*la);
 	if (IMPLEM == JAC) {
+		printf("Jacobi\n");
 		extract_MB_jacobi_tridiag(AB, MB, &lab, &la, &ku, &kl, &kv);
 	}
 	else if (IMPLEM == GS) {
+		printf("Gauss-Seidel\n");
 		extract_MB_gauss_seidel_tridiag(AB, MB, &lab, &la, &ku, &kl, &kv);
 	}
 
@@ -111,6 +127,12 @@ int main(int argc, char* argv[]) {
 	if (IMPLEM == JAC || IMPLEM == GS) {
 		write_GB_operator_colMajor_poisson1D(MB, &lab, &la, "MB.dat");
 		richardson_MB(AB, RHS, SOL, MB, &lab, &la, &ku, &kl, &tol, &maxit, resvec, &nbite);
+		if (IMPLEM == JAC) {
+			plot_convergence_history(resvec, nbite, "rapport/convergence_jacobi");
+		}
+		else if (IMPLEM == GS) {
+			plot_convergence_history(resvec, nbite, "rapport/convergence_gauss-seidel");
+		}
 	}
 
 	/* Write solution */
@@ -118,6 +140,7 @@ int main(int argc, char* argv[]) {
 
 	/* Write convergence history */
 	write_vec(resvec, &nbite, "RESVEC.dat");
+	// plot_convergence_history(resvec, nbite, "rapport/convergence_richardson");
 
 	free(resvec);
 	free(RHS);

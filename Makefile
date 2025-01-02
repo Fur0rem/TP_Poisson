@@ -19,7 +19,7 @@ include $(HOSTNAME).mk
 
 # 
 # -- Compiler Option
-DEBUG_FLAGS = -Wall -Wextra -Og -g
+DEBUG_FLAGS = -Og -g
 RELEASE_FLAGS = -O3
 OPTC=${OPTCLOCAL} ${RELEASE_FLAGS}
 
@@ -73,7 +73,7 @@ bin/tpPoisson1D_iter: $(OBJTP2ITER)
 	$(CC) -o bin/tpPoisson1D_iter $(OPTC) $(addprefix $(TPDIROBJ)/, $(OBJTP2ITER)) $(LIBS)
 
 bin/tpPoisson1D_direct: $(OBJTP2DIRECT)
-	$(CC) -o bin/tpPoisson1D_direct $(OPTC) $(addprefix $(TPDIROBJ)/, $(OBJTP2ITER)) $(LIBS)
+	$(CC) -o bin/tpPoisson1D_direct $(OPTC) $(addprefix $(TPDIROBJ)/, $(OBJTP2DIRECT)) $(LIBS)
 
 # Pour compiler tous les tests
 bin/%: $(TEST_FOLDERS)/%.c $(OBJLIBPOISSON)
@@ -93,8 +93,8 @@ run_benchmark: bin/benchmark_direct_methods
 
 run_tpPoisson1D_iter: bin/tpPoisson1D_iter
 	bin/tpPoisson1D_iter
-	bin/tpPoisson1D_iter 1
-	bin/tpPoisson1D_iter 2
+	#bin/tpPoisson1D_iter 1
+	#bin/tpPoisson1D_iter 2
 
 run_tpPoisson1D_direct: bin/tpPoisson1D_direct
 	bin/tpPoisson1D_direct

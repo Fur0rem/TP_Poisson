@@ -62,7 +62,10 @@ void write_bench_results(BenchmarkResultList* list, char* filename) {
 		filename_with_extension_dat,
 		filename_without_benchmark,
 		filename_with_extension_svg);
-	system(command);
+	int res = system(command);
+	if (res != 0) {
+		perror("Error while plotting the benchmark results");
+	}
 }
 
 void benchmark() {

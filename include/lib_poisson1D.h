@@ -20,6 +20,7 @@ void write_GB2AIJ_operator_poisson1D(double* AB, int* la, char* filename);
 void write_GB_operator_rowMajor_poisson1D(double* AB, int* lab, int* la, char* filename);
 void write_GB_operator_colMajor_poisson1D(double* AB, int* lab, int* la, char* filename);
 void write_vec(double* vec, int* la, char* filename);
+void plot_convergence_history(double* vec, int size, char* filename);
 void write_xy(double* vec, double* x, int* la, char* filename);
 void eig_poisson1D(double* eigval, int* la);
 double eigmax_poisson1D(int* la);

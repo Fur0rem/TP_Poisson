@@ -51,7 +51,7 @@ void set_dense_RHS_DBC_1D(double* RHS, int* la, double* BC0, double* BC1) {
 	RHS[0] = T0;
 	RHS[nb_points - 1] = T1;
 	for (int i = 1; i < nb_points - 1; i++) {
-		RHS[i] = 0;
+		RHS[i] = 0.0;
 	}
 }
 
@@ -64,21 +64,16 @@ void set_analytical_solution_DBC_1D(double* EX_SOL, double* X, int* la, double* 
 	double T1 = *BC1;
 	int nb_points = *la;
 
-	EX_SOL[0] = T0;
-	EX_SOL[nb_points - 1] = T1;
-	for (int i = 1; i < nb_points - 1; i++) {
+	for (int i = 0; i < nb_points; i++) {
 		EX_SOL[i] = T0 + X[i] * (T1 - T0);
 	}
 }
 
-// Set the grid points between 0 and 1
 void set_grid_points_1D(double* x, int* la) {
 	int nb_points = *la;
-
-	double step = 1.0 / (nb_points - 1);
-
+	double step = 1.0 / (1.0 * (nb_points + 1));
 	for (int i = 0; i < nb_points; i++) {
-		x[i] = i * step;
+		x[i] = (i + 1) * step;
 	}
 }
 

@@ -1,3 +1,8 @@
+TODO: Ne pas oublier d'enlever ca
+[TP_Poisson]$ docker build -t tppoisson -f docker/Dockerfile .
+[TP_Poisson]$ docker run -it -v $PWD:/tp tppoisson
+root@container:/app# cd /tp
+
 # 2 Méthodes directe et stockage bande
 
 ### Exercice 3: Référence et utilisation de BLAS/LAPACK
@@ -274,3 +279,137 @@ U = \begin{bmatrix}
 	0 & 0 & 1.33 \\
 \end{bmatrix}
 $$
+
+# 3 Méthode de resolution itérative
+
+### Exercice 7: Implémentation C - Richardson
+
+Q3. Analyser la convergence, tracez l'historique de la convergence.
+
+R3.
+
+![Convergence Richardson](convergence_richardson.svg)
+
+
+
+### Exercice 8: Implémentation C - Jacobi
+
+On a A =
+$$
+\begin{bmatrix}
+	2 & -1 & 0 & 0 \\
+	-1 & 2 & -1 & 0 \\
+	0 & -1 & 2 & -1 \\
+	0 & 0 & -1 & 2 \\
+\end{bmatrix}
+$$
+
+On la sépare en D, L et U:
+$$
+D = \begin{bmatrix}
+	2 & 0 & 0 & 0 \\
+	0 & 2 & 0 & 0 \\
+	0 & 0 & 2 & 0 \\
+	0 & 0 & 0 & 2 \\
+\end{bmatrix}
+L = \begin{bmatrix}
+	0 & 0 & 0 & 0 \\
+	-1 & 0 & 0 & 0 \\
+	0 & -1 & 0 & 0 \\
+	0 & 0 & -1 & 0 \\
+\end{bmatrix}
+U = \begin{bmatrix}
+	0 & -1 & 0 & 0 \\
+	0 & 0 & -1 & 0 \\
+	0 & 0 & 0 & -1 \\
+	0 & 0 & 0 & 0 \\
+\end{bmatrix}
+$$
+
+La matrice d'itération de Jacobi est: (cf cours)
+$$
+M = D^{-1} = \begin{bmatrix}
+	0.5 & 0 & 0 & 0 \\
+	0 & 0.5 & 0 & 0 \\
+	0 & 0 & 0.5 & 0 \\
+	0 & 0 & 0 & 0.5 \\
+\end{bmatrix}
+$$
+
+On peut voir que la matrice d'itération de Jacobi est une matrice diagonale, et donc stockable en format General Band.
+
+On peut aussi remarquer que cette matrice revient au même résultat que de faire richardson avec un alpha = 0.5, car M = D^{-1} = 0.5 * I.
+
+![Convergence Jacobi](convergence_jacobi.svg)
+
+On a exactement la même convergence que pour Richardson avec un alpha = 0.5, ce qui confirme que ces deux méthodes sont équivalentes.
+
+### Exercice 9: Implémentation C - Gauss-Seidel
+
+On a A = 
+$$
+\begin{bmatrix}
+	2 & -1 & 0 & 0 \\
+	-1 & 2 & -1 & 0 \\
+	0 & -1 & 2 & -1 \\
+	0 & 0 & -1 & 2 \\
+\end{bmatrix}
+$$
+
+On la sépare en D, L et U:
+$$
+D = \begin{bmatrix}
+	2 & 0 & 0 & 0 \\
+	0 & 2 & 0 & 0 \\
+	0 & 0 & 2 & 0 \\
+	0 & 0 & 0 & 2 \\
+\end{bmatrix}
+L = \begin{bmatrix}
+	0 & 0 & 0 & 0 \\
+	-1 & 0 & 0 & 0 \\
+	0 & -1 & 0 & 0 \\
+	0 & 0 & -1 & 0 \\
+\end{bmatrix}
+U = \begin{bmatrix}
+	0 & -1 & 0 & 0 \\
+	0 & 0 & -1 & 0 \\
+	0 & 0 & 0 & -1 \\
+	0 & 0 & 0 & 0 \\
+\end{bmatrix}
+$$
+
+La matrice d'itération de Gauss-Seidel est:
+$$
+M = D - E = D + L = \begin{bmatrix}
+	2 & 0 & 0 & 0 \\
+	-1 & 2 & 0 & 0 \\
+	0 & -1 & 2 & 0 \\
+	0 & 0 & -1 & 2 \\
+\end{bmatrix}
+$$
+
+On inverse M pour obtenir la matrice d'itération de Gauss-Seidel:
+$$
+M^{-1} = \begin{bmatrix}
+	0.5 & 0 & 0 & 0 \\
+	0.25 & 0.5 & 0 & 0 \\
+	0.125 & 0.25 & 0.5 & 0 \\
+	0.0625 & 0.125 & 0.25 & 0.5 \\
+\end{bmatrix}
+$$
+
+On peut voir un pattern dans les coefficients de la matrice d'itération de Gauss-Seidel, en effet, chaque coefficient est la moitié du coefficient au dessus, et le premier coefficient est 0.5 à la diagonale principale.
+Cela est cohérent avec la méthode de Gauss-Seidel, car on fait la moyenne des valeurs des voisins pour obtenir la valeur de la cellule courante, et à chaque itération on fait la moyenne des valeurs des voisins de la valeur précédente, et donc on divise par 2 à chaque itération.
+
+Cependant, pour avoir une matrice tri-diagonale, nous allons devoir tronquer la matrice d'itération de Gauss-Seidel, car elle est triangulaire inférieure.
+Nous nous retrouvons avec une matrice M^{-1} un peu moins précise, mais qui est tri-diagonale:
+$$
+M^{-1} = \begin{bmatrix}
+	0.5 & 0 & 0 & 0 \\
+	0.25 & 0.5 & 0 & 0 \\
+	0 & 0.25 & 0.5 & 0 \\
+	0 & 0 & 0.25 & 0.5 \\
+\end{bmatrix}
+$$
+
+![Convergence Gauss-Seidel](convergence_gauss-seidel.svg)

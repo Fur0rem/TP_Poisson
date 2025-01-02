@@ -4,12 +4,14 @@
 /* to solve the Poisson 1D problem        */
 /******************************************/
 #include "lib_poisson1D.h"
+#include <stdlib.h>
 
 #define TRF 0
 #define TRI 1
 #define SV  2
 
 int main(int argc, char* argv[]) {
+	printf("--------- DIRECT METHODS ---------\n\n");
 	int ierr;
 	int jj;
 	int nbpoints, la;
@@ -67,11 +69,13 @@ int main(int argc, char* argv[]) {
 
 	/* LU Factorisation */
 	if (IMPLEM == TRF) {
+		printf("LU Factorisation\n");
 		dgbtrf_(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
 	}
 
 	/* LU for tridiagonal matrix  (can replace dgbtrf_) */
 	if (IMPLEM == TRI) {
+		printf("LU Factorisation for tridiagonal matrix\n");
 		dgbtrftridiag(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
 		write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU_moi.dat");
 	}
@@ -92,6 +96,7 @@ int main(int argc, char* argv[]) {
 
 	/* It can also be solved with dgbsv */
 	if (IMPLEM == SV) {
+		printf("LU Factorisation with dgbsv\n");
 		dgbsv_(&la, &kl, &ku, &NRHS, AB, &lab, ipiv, RHS, &la, &info);
 		if (info != 0) {
 			printf("\n INFO DGBSV = %d\n", info);
