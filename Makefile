@@ -44,7 +44,7 @@ INCL= -I $(TPDIR)/include $(INCLATLAS)
 #
 SOL?=
 OBJENV= tp_env.o
-OBJLIBPOISSON= lib_poisson1D$(SOL).o lib_poisson1D_writers.o lib_poisson1D_richardson$(SOL).o
+OBJLIBPOISSON= lib_poisson1D$(SOL).o lib_poisson1D_writers.o lib_poisson1D_richardson$(SOL).o lib_poisson1D_csc_csr.o
 OBJTP2ITER= $(OBJLIBPOISSON) tp_poisson1D_iter.o
 OBJTP2DIRECT= $(OBJLIBPOISSON) tp_poisson1D_direct.o
 
@@ -82,7 +82,7 @@ bin/%: $(TEST_FOLDERS)/%.c $(OBJLIBPOISSON)
 bin/benchmark_direct_methods: benchmarks/benchmark_direct_methods.c $(OBJLIBPOISSON)
 	$(CC) -o $@ $(OPTC) $(INCL) $(addprefix $(TPDIROBJ)/, $(OBJLIBPOISSON)) $< $(LIBS)
 
-run_tests: bin/test_creation_poisson bin/test_forward_error bin/test_facto_LU
+run_tests: bin/test_creation_poisson bin/test_forward_error bin/test_facto_LU bin/test_csr
 	$(foreach test, $^, $(test);)
 
 run_testenv: bin/tp_testenv

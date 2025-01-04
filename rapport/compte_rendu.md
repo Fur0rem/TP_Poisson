@@ -413,3 +413,155 @@ M^{-1} = \begin{bmatrix}
 $$
 
 ![Convergence Gauss-Seidel](convergence_gauss-seidel.svg)
+
+# 4: Autres formats de stockage
+
+### Exercice 10: Stockage CSR
+
+Q1. Écrire le stockage CSR pour la matrice de Poisson 1D.
+
+D'abord, rappelons ce qu'est le format CSR:
+Le format CSR (Compressed Sparse Row) est un format de stockage de matrices creuses, qui consiste à stocker uniquement les éléments non nuls de la matrice.
+On stocke 3 vecteurs:
+- Un vecteur des valeurs non nulles de la matrice, dans l'ordre des lignes.
+- Un vecteur des colonnes des valeurs non nulles de la matrice, dans l'ordre des lignes.
+- Un vecteur des indices de début de ligne, qui contient le nombre d'éléments non nuls avant la ligne i, à lire par fenêtre de 2 éléments pour obtenir les indices de début et de fin des éléments non nuls de la ligne i.
+
+
+Par exemple, prennons cette matrice compressée en format CSR:
+$$
+values = \begin{bmatrix}
+	1 & 2 & 3 & 4
+\end{bmatrix}
+$$
+$$
+columns = \begin{bmatrix}
+	1 & 0 & 2 & 1
+\end{bmatrix}
+$$
+$$
+rows = \begin{bmatrix}
+	0 & 1 & 3 & 4
+\end{bmatrix}
+$$
+
+
+On lit rows pour savoir que la première ligne contient les élements d'indices [0, 1[ dans values et columns.
+Il y a donc 1 élément non nul dans la première ligne, qui est values[0] = 1.
+Et on lit columns[0] pour savoir que cet élément est à la colonne 1.
+
+
+La deuxième ligne contient les éléments d'indices [1, 3[ dans values et columns.
+Il y a donc 2 éléments non nuls dans la deuxième ligne, qui sont values[1] = 2 et values[2] = 3.
+Et on lit columns[1] et columns[2] pour savoir que ces éléments sont à la colonne 0 et 2.
+
+On fait ça pour chaque ligne, et on peut reconstruire la matrice originale, qui est :
+$$
+\begin{bmatrix}
+	0 & 1 & 0 \\
+	2 & 0 & 3 \\
+	0 & 4 & 0 \\
+\end{bmatrix}
+$$
+
+On peut d'ailleurs recréer la matrice originale depuis son format CSR avec un algorithme très simple:
+```scilab
+A = zeros(N,N)
+for (i = 0; i < row.size() - 1; i++)
+  for (j = row[i]; j < row[i+1]; j++)
+    A(i, col[j]) = val[j]
+  end
+end
+```
+
+Pour la matrice de Poisson 1D, qui est de cette forme:
+$$
+P = \begin{bmatrix}
+	2 & -1 & 0 & 0 \\
+	-1 & 2 & -1 & 0 \\
+	0 & -1 & 2 & -1 \\
+	0 & 0 & -1 & 2 \\
+\end{bmatrix}
+$$
+
+On commence par stocker les valeurs non nulles en continu, dans le sens de lecture classique (gauche puis droite, haut puis bas):
+$$
+values = \begin{bmatrix}
+	2 & -1 &&& -1 & 2 & -1 &&& -1 & 2 & -1 &&& -1 & 2
+\end{bmatrix}
+$$
+Il suffit de construire un tableau de taille 3*n - 2 (la première et la dernière ligne ont 2 éléments non nuls, les autres en ont 3), 
+
+On rempli les 2 premiers éléments de la première ligne 2 et -1, 
+
+Puis on répète n-2 fois les 3 éléments -1, 2 et -1, 
+
+Et on finit par les 2 derniers éléments de la dernière ligne -1 et 2.
+
+Ensuite, on stocke les colonnes des valeurs non nulles:
+$$
+columns = \begin{bmatrix}
+	0 & 1 &&& 0 & 1 & 2 &&& 1 & 2 & 3 &&& 2 & 3
+\end{bmatrix}
+$$
+On construit un tableau de même taille, on stocke 0 et 1 pour la première ligne.
+
+Et pour chaque ligne i avant la dernière, on stocke i-1, i et i+1 (car chaque ligne a 3 éléments non nuls consécutifs, tous décalés d'une colonne).
+
+Pour la dernière ligne, on stocke n-2 et n-1 pour les deux derniers éléments.
+
+
+Enfin, on stocke les indices de début de ligne:
+$$
+rows = \begin{bmatrix}
+	0 & 2 & 5 & 8 & 10
+\end{bmatrix}
+$$
+
+On construit un tableau de taille n+1, et on stocke les indices [0, 2[ pour la première ligne.
+
+Pour chaque ligne i avant la dernière, on ajoute 3 à l'indice de fin de la ligne i-1 pour obtenir l'indice de fin de la ligne i, car chaque ligne a 3 éléments non nuls.
+
+Et pour la dernière ligne, on ajoute 2 à l'indice de fin de la ligne n-2 pour obtenir l'indice de fin de la dernière ligne, car la dernière ligne a 2 éléments non nuls.
+
+
+Q2. Écrire le stockage CSC pour la matrice de Poisson 1D.
+
+Le format CSC (Compressed Sparse Column) est similaire au format CSR, mais on stocke les valeurs non nulles par colonne au lieu de par ligne, et on stocke les indices de début de colonne au lieu de début de ligne.
+
+Les principes sont les mêmes, donc on va juste donner un exemple de stockage CSC pour la matrice de Poisson 1D:
+On repart de la matrice P de Poisson 1D de taille 4x4:
+$$
+P = \begin{bmatrix}
+	2 & -1 & 0 & 0 \\
+	-1 & 2 & -1 & 0 \\
+	0 & -1 & 2 & -1 \\
+	0 & 0 & -1 & 2 \\
+\end{bmatrix}
+$$
+
+On stocke les valeurs non nulles en continu, dans le sens de lecture priorité colonne (haut puis bas, gauche puis droite):
+$$
+values =
+\begin{bmatrix}
+	2 & -1 &&& -1 & 2 & -1 &&& -1 & 2 & -1 &&& -1 & 2
+\end{bmatrix}
+$$
+
+On stocke les lignes des valeurs non nulles:
+$$
+rows =
+\begin{bmatrix}
+	0 & 1 &&& 0 & 1 & 2 &&& 1 & 2 & 3 &&& 2 & 3
+\end{bmatrix}
+$$
+
+Et on stocke les indices de début de colonne:
+$$
+columns =
+\begin{bmatrix}
+	0 & 2 & 5 & 8 & 10
+\end{bmatrix}
+$$
+
+Les 3 membres de la matrice en format CSC sont les mêmes que pour le format CSR, mais la matrice est symétrique, donc cela reste cohérent.

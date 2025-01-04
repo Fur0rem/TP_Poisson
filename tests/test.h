@@ -35,6 +35,15 @@ bool mat_equals(double* mat1, double* mat2, int rows, int cols) {
 	return true;
 }
 
+bool vec_equals(double* vec1, double* vec2, int size) {
+	for (int i = 0; i < size; i++) {
+		if (fabs(vec1[i] - vec2[i]) > 1e-6) {
+			return false;
+		}
+	}
+	return true;
+}
+
 double* flattened_row_major(int rows, int cols, double mat[rows][cols]) {
 	double* res = (double*)malloc(rows * cols * sizeof(double));
 	for (int i = 0; i < rows; i++) {
