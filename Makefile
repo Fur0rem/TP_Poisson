@@ -21,7 +21,7 @@ include $(HOSTNAME).mk
 # -- Compiler Option
 DEBUG_FLAGS = -Og -g
 RELEASE_FLAGS = -O3
-OPTC=${OPTCLOCAL} ${RELEASE_FLAGS}
+OPTC=${OPTCLOCAL} ${DEBUG_FLAGS}
 
 #
 # -- Directories
@@ -92,12 +92,12 @@ run_benchmark: bin/benchmark_direct_methods
 	bin/benchmark_direct_methods
 
 run_tpPoisson1D_iter: bin/tpPoisson1D_iter
-	bin/tpPoisson1D_iter
-	#bin/tpPoisson1D_iter 1
-	#bin/tpPoisson1D_iter 2
+	bin/tpPoisson1D_iter 0
+	bin/tpPoisson1D_iter 1
+	bin/tpPoisson1D_iter 2
 
 run_tpPoisson1D_direct: bin/tpPoisson1D_direct
-	bin/tpPoisson1D_direct
+	bin/tpPoisson1D_direct 0
 	bin/tpPoisson1D_direct 1
 	bin/tpPoisson1D_direct 2
 
