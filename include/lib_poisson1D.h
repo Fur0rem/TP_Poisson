@@ -1,3 +1,6 @@
+#ifndef LIB_POISSON1D_H
+#define LIB_POISSON1D_H
+
 /**********************************************/
 /* lib_poisson1D.h                            */
 /* Header for Numerical library developed to  */
@@ -26,12 +29,12 @@ void eig_poisson1D(double* eigval, int* la);
 double eigmax_poisson1D(int* la);
 double eigmin_poisson1D(int* la);
 double richardson_alpha_opt(int* la);
-void richardson_alpha(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
-		      double* resvec, int* nbite);
+void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol,
+			      int* maxit, double* resvec, int* nbite);
 void extract_MB_jacobi_tridiag(double* AB, double* MB, int* lab, int* la, int* ku, int* kl, int* kv);
 void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, int* ku, int* kl, int* kv);
-void richardson_MB(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
-		   double* resvec, int* nbite);
+void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
+			   double* resvec, int* nbite);
 int indexABCol(int i, int j, int* lab);
 int dgbtrftridiag(int* la, int* n, int* kl, int* ku, double* AB, int* lab, int* ipiv, int* info);
 
@@ -88,4 +91,25 @@ void csr_free(CSRMatrix* csr);
  * @param[in] incx increment for x
  * @param[in] incy increment for y
  */
-void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, double beta, double* y, size_t incx, size_t incy);
+void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy);
+
+void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy);
+
+double csr_elem_at(CSRMatrix* csr, int i, int j);
+double csc_elem_at(CSCMatrix* csc, int i, int j);
+
+CSRMatrix csr_from_diag(double* diag, int nb_elements);
+CSCMatrix csc_from_diag(double* diag, int nb_elements);
+
+CSRMatrix csr_from_tridiag(double* diag, double* lower, double* upper, int nb_elements);
+CSCMatrix csc_from_tridiag(double* diag, double* lower, double* upper, int nb_elements);
+
+CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows);
+CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows);
+
+CSRMatrix extract_MB_gauss_seidel_csr(CSRMatrix* AB);
+CSRMatrix extract_MB_jacobi_csr(CSRMatrix* AB);
+
+void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_rich, double* tol, int* maxit, double* resvec, int* nbite);
+void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, double* tol, int* maxit, double* resvec, int* nbite);
+#endif // LIB_POISSON1D_H

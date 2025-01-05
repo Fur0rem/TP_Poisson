@@ -288,7 +288,7 @@ Q3. Analyser la convergence, tracez l'historique de la convergence.
 
 R3.
 
-![Convergence Richardson](convergence_richardson.svg)
+![Convergence Richardson](convergence_richardson_alpha_format_tri-diag.svg)
 
 
 
@@ -340,7 +340,7 @@ On peut voir que la matrice d'itération de Jacobi est une matrice diagonale, et
 
 On peut aussi remarquer que cette matrice revient au même résultat que de faire richardson avec un alpha = 0.5, car M = D^{-1} = 0.5 * I.
 
-![Convergence Jacobi](convergence_jacobi.svg)
+![Convergence Jacobi](convergence_jacobi_format_tri-diag.svg)
 
 On a exactement la même convergence que pour Richardson avec un alpha = 0.5, ce qui confirme que ces deux méthodes sont équivalentes.
 
@@ -412,7 +412,7 @@ M^{-1} = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-![Convergence Gauss-Seidel](convergence_gauss-seidel.svg)
+![Convergence Gauss-Seidel](convergence_gauss-seidel_format_tri-diag.svg)
 
 # 4: Autres formats de stockage
 
@@ -565,3 +565,14 @@ columns =
 $$
 
 Les 3 membres de la matrice en format CSC sont les mêmes que pour le format CSR, mais la matrice est symétrique, donc cela reste cohérent.
+
+Q4. Écrire les différents algorithmes pour ces formats.
+
+Les algorithmes restant les mêmes, on peut juste copier les algorithmes des formats tridiagonaux en changeant les appels dgbsv par dcsrmv ou dcscmv.
+
+On peut cependant noter quelques différences:
+- Le format CSR, n'étant plus limité à une matrice tri-diagonale, converge plus rapidement que le format tridiagonal pour Gauss-Seidel, car nous n'avons plus à tronquer la matrice d'itération.
+![Convergence Gauss-Seidel CSR](convergence_gauss-seidel_format_CSR.svg)
+![Convergence Gauss-Seidel Tridiag](convergence_gauss-seidel_format_tri-diag.svg)
+Ici, la méthode avec le format tri-diagonal converge en 80 itérations, alors que la méthode avec le format CSR n'en prend que 63.
+Pour Richardson "alpha" et Jacobi, il n'y a aucune différence, car pour l'un on utilise un scalaire, et pour l'autre une matrice diagonale, et les 2 formats arrivent à les stocker sans perte d'information.

@@ -91,10 +91,16 @@ run_testenv: bin/tp_testenv
 run_benchmark: bin/benchmark_direct_methods
 	bin/benchmark_direct_methods
 
-run_tpPoisson1D_iter: bin/tpPoisson1D_iter
-	bin/tpPoisson1D_iter 0
-	bin/tpPoisson1D_iter 1
-	bin/tpPoisson1D_iter 2
+run_tpPoisson1D_iter_tridiag: bin/tpPoisson1D_iter
+	bin/tpPoisson1D_iter 0 0
+	bin/tpPoisson1D_iter 1 0 
+	bin/tpPoisson1D_iter 2 0
+
+run_tpPoisson1D_iter_csr: bin/tpPoisson1D_iter
+	bin/tpPoisson1D_iter 0 1
+	bin/tpPoisson1D_iter 1 1 
+	bin/tpPoisson1D_iter 2 1
+
 
 run_tpPoisson1D_direct: bin/tpPoisson1D_direct
 	bin/tpPoisson1D_direct 0

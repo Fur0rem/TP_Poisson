@@ -89,8 +89,8 @@ double* residual(double* A, double* x, double* b, int nb_cols, int nb_lines) {
 // maxit (in, scalar) : maximum number of iterations for the Richardson method
 // resvec (out, vec) : vector of the norm of residuals, already allocated of the size maxit
 // nbite (out, scalar) : number of iterations
-void richardson_alpha(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
-		      double* resvec, int* nbite) {
+void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol,
+			      int* maxit, double* resvec, int* nbite) {
 	double alpha_opt = *alpha_rich;
 	int nb_lines = *lab;
 	int nb_cols = *la;
@@ -143,11 +143,61 @@ void richardson_alpha(double* AB, double* RHS, double* X, double* alpha_rich, in
 	*nb_iters_final = iter;
 	// residual_norms[iter] = norm_res;
 
-	printf("Number of iterations: %d\n", iter);
-	printf("X: ");
-	for (int i = 0; i < nb_cols; i++) {
-		printf("%lf ", X[i]);
+	free(tmp_vec);
+}
+
+void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_rich, double* tol, int* maxit, double* resvec, int* nbite) {
+	double alpha_opt = *alpha_rich;
+	int nb_lines = AB->nb_rows;
+	int nb_cols = AB->nb_cols;
+	int max_iters = *maxit;
+	double tolerance = *tol;
+	int* nb_iters_final = nbite;
+	double* residual_norms = resvec;
+
+	double* tmp_vec = malloc(sizeof(double) * nb_cols);
+	if (tmp_vec == NULL) {
+		fprintf(stderr, "Memory allocation failed for temp\n");
+		exit(EXIT_FAILURE);
 	}
+
+	// tmp_vec = RHS
+	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
+
+	// tmp_vec = tmp_vec - AB * X
+	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
+
+	// Compute the initial residual norm
+	double norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
+	residual_norms[0] = norm_res;
+
+	// Iterate until you reach the maximum number of iterations and break early if tolerance is reached
+	int iter = 1;
+	for (iter = 1; iter < max_iters; ++iter) {
+		// X = X + alpha * tmp_vec
+		cblas_daxpy(nb_cols, alpha_opt, tmp_vec, 1, X, 1);
+
+		// tmp_vec = RHS
+		memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
+
+		// tmp_vec = tmp_vec - AB * X
+		// cblas_dgbmv(
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
+
+		// Compute the residual and store it
+		norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
+		residual_norms[iter] = norm_res;
+
+		// Check for convergence
+		if (norm_res < tolerance) {
+			break;
+		}
+	}
+
+	*nb_iters_final = iter;
+	// residual_norms[iter] = norm_res;
 
 	free(tmp_vec);
 }
@@ -178,72 +228,51 @@ void extract_MB_jacobi_tridiag(double* AB, double* MB, int* lab, int* la, int* k
 	}
 }
 
-void invert_matrix(double** A, double** B, int n) {
-	// Initialize B as the identity matrix
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			B[i][j] = (i == j) ? 1.0 : 0.0;
-		}
+CSRMatrix extract_MB_jacobi_csr(CSRMatrix* AB) {
+	// extract the diagonal of AB
+	CSRMatrix MB = {
+	    .nb_rows = AB->nb_rows,
+	    .nb_cols = AB->nb_cols,
+	    .nb_non_zero = AB->nb_cols,
+	    .values = (double*)malloc(AB->nb_cols * sizeof(double)),
+	    .row_ptr = (int*)malloc((AB->nb_rows + 1) * sizeof(int)),
+	    .col_index = (int*)malloc(AB->nb_cols * sizeof(int)),
+	};
+	MB.row_ptr[0] = 0;
+
+	// set diagonal indices
+	for (int i = 0; i < AB->nb_cols; i++) {
+		MB.values[i] = 1.0 / csr_elem_at(AB, i, i);
+		MB.col_index[i] = i;
+		MB.row_ptr[i + 1] = i + 1;
 	}
 
-	// Gaussian elimination with partial pivoting
-	for (int i = 0; i < n; i++) {
-		// Find the pivot row
-		int max_row = i;
-		for (int k = i + 1; k < n; k++) {
-			if (fabs(A[k][i]) > fabs(A[max_row][i])) {
-				max_row = k;
-			}
-		}
-
-		// Swap rows in A and B
-		for (int k = 0; k < n; k++) {
-			double tmp = A[i][k];
-			A[i][k] = A[max_row][k];
-			A[max_row][k] = tmp;
-
-			tmp = B[i][k];
-			B[i][k] = B[max_row][k];
-			B[max_row][k] = tmp;
-		}
-
-		// Check for singular matrix
-		if (A[i][i] == 0.0) {
-			fprintf(stderr, "Matrix is singular\n");
-			exit(EXIT_FAILURE);
-		}
-
-		// Normalize the pivot row
-		double pivot = A[i][i];
-		for (int k = 0; k < n; k++) {
-			A[i][k] /= pivot;
-			B[i][k] /= pivot;
-		}
-
-		// Eliminate the current column in the rows below
-		for (int k = i + 1; k < n; k++) {
-			double factor = A[k][i];
-			for (int j = 0; j < n; j++) {
-				A[k][j] -= factor * A[i][j];
-				B[k][j] -= factor * B[i][j];
-			}
-		}
-	}
-
-	// Back substitution
-	for (int i = n - 1; i >= 0; i--) {
-		for (int k = i - 1; k >= 0; k--) {
-			double factor = A[k][i];
-			for (int j = 0; j < n; j++) {
-				A[k][j] -= factor * A[i][j];
-				B[k][j] -= factor * B[i][j];
-			}
-		}
-	}
+	return MB;
 }
 
 int idx_into_lower_triangular(int i, int j, int n) {
 	return (i + 1) * i / 2 + j;
+}
+
+void invert_lower_triangular(double* lower_triangular, double* inv_lower_triangular, int n) {
+	// Set the diagonal to reciprocal
+	for (int i = 0; i < n; i++) {
+		inv_lower_triangular[idx_into_lower_triangular(i, i, n)] = 1.0 / lower_triangular[idx_into_lower_triangular(i, i, n)];
+	}
+
+	// Now we iteratively compute the other elements from top to bottom such that A * inv_A = I
+	for (int i = 1; i < n; i++) {
+		// Compute the elements of the i-th row
+		for (int j = 0; j < i; j++) {
+			double sum = 0.0;
+			for (int k = j; k < i; k++) {
+				sum += lower_triangular[idx_into_lower_triangular(i, k, n)] *
+				       inv_lower_triangular[idx_into_lower_triangular(k, j, n)];
+			}
+			inv_lower_triangular[idx_into_lower_triangular(i, j, n)] =
+			    -sum / lower_triangular[idx_into_lower_triangular(i, i, n)];
+		}
+	}
 }
 
 // Extract the M iteration matrix for the Gauss-Seidel method
@@ -280,27 +309,9 @@ void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, 
 
 	// Invert the lower triangular matrix
 	double* inv_lower_triangular = (double*)malloc(((nb_cols + 1) * nb_cols / 2) * sizeof(double));
-	memset(inv_lower_triangular, 0, ((nb_cols + 1) * nb_cols / 2) * sizeof(double));
+	// memset(inv_lower_triangular, 0, ((nb_cols + 1) * nb_cols / 2) * sizeof(double));
 
-	// Set the diagonal to reciprocal
-	for (int i = 0; i < nb_cols; i++) {
-		inv_lower_triangular[idx_into_lower_triangular(i, i, nb_cols)] =
-		    1.0 / lower_triangular[idx_into_lower_triangular(i, i, nb_cols)];
-	}
-
-	// Now we iteratively compute the other elements from top to bottom such that A * inv_A = I
-	for (int i = 1; i < nb_cols; i++) {
-		// Compute the elements of the i-th row
-		for (int j = 0; j < i; j++) {
-			double sum = 0.0;
-			for (int k = j; k < i; k++) {
-				sum += lower_triangular[idx_into_lower_triangular(i, k, nb_cols)] *
-				       inv_lower_triangular[idx_into_lower_triangular(k, j, nb_cols)];
-			}
-			inv_lower_triangular[idx_into_lower_triangular(i, j, nb_cols)] =
-			    -sum / lower_triangular[idx_into_lower_triangular(i, i, nb_cols)];
-		}
-	}
+	invert_lower_triangular(lower_triangular, inv_lower_triangular, nb_cols);
 
 	// truncate the inv_lower_triangular back into a tridiagonal matrix
 	memset(MB, 0, nb_lines * (diagonals + upper_diags + lower_diags) * sizeof(double));
@@ -317,6 +328,45 @@ void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, 
 	}
 }
 
+// Extract the M iteration matrix for the Gauss-Seidel method
+CSRMatrix extract_MB_gauss_seidel_csr(CSRMatrix* AB) {
+	// CSRMatrix MB = csr_clone(AB);
+	// // set the upper diagonal to 0
+	// for (int i = 0; i < AB->nb_rows; i++) {
+	// 	MB.values[AB->row_ptr[i] + 1] = 0.0;
+	// }
+	double* dense = csr_to_dense_col_major(AB);
+
+	// convert dense to lower triangular
+	double* lower_triangular = (double*)malloc((AB->nb_rows + 1) * AB->nb_rows / 2 * sizeof(double));
+
+	// Copy the diagonal
+	int current_idx = 0;
+	for (int i = 0; i < AB->nb_rows; i++) {
+		lower_triangular[current_idx] = dense[i + i * AB->nb_rows];
+		current_idx += i + 2;
+	}
+
+	// Copy the lower diagonal
+	for (int i = 1; i < AB->nb_rows; i++) {
+		lower_triangular[idx_into_lower_triangular(i, i - 1, AB->nb_rows)] = dense[i + (i - 1) * AB->nb_rows];
+	}
+
+	// Invert the lower triangular matrix
+	double* inv_lower_triangular = (double*)malloc((AB->nb_rows + 1) * AB->nb_rows / 2 * sizeof(double));
+	invert_lower_triangular(lower_triangular, inv_lower_triangular, AB->nb_rows);
+
+	// put it back into the CSR format
+	CSRMatrix inv_lower_triangular_csr = csr_from_lower_triangular(inv_lower_triangular, AB->nb_rows);
+
+	// free memory
+	free(dense);
+	free(lower_triangular);
+	free(inv_lower_triangular);
+
+	return inv_lower_triangular_csr;
+}
+
 // richardson_MB : solve the Poisson problem using the Richardson method with the iteration matrix MB
 // AB (in, matrix) : the matrix of the Poisson problem, in general band tri diagonal form
 // RHS (in, vec) : the right-hand side of the Poisson problem
@@ -328,8 +378,8 @@ void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, 
 // of the norm of residuals, already allocated of the size maxit nbite (out, scalar) : number of iterations
 
 // Used to compute the jacobi method or gauss-seidel method depending on the MB matrix
-void richardson_MB(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
-		   double* resvec, int* nbite) {
+void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
+			   double* resvec, int* nbite) {
 	// double alpha_opt = *alpha_rich;
 	int nb_lines = *lab;
 	int nb_cols = *la;
@@ -401,11 +451,93 @@ void richardson_MB(double* AB, double* RHS, double* X, double* MB, int* lab, int
 	*nb_iters_final = iter;
 	// residual_norms[iter] = norm_res;
 
-	printf("Number of iterations: %d\n", iter);
-	printf("X: ");
-	for (int i = 0; i < nb_cols; i++) {
-		printf("%lf ", X[i]);
+	// printf("Number of iterations: %d\n", iter);
+	// printf("X: ");
+	// for (int i = 0; i < nb_cols; i++) {
+	// 	printf("%lf ", X[i]);
+	// }
+
+	free(tmp_vec);
+}
+
+// Used to compute the jacobi method or gauss-seidel method depending on the MB matrix
+void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, double* tol, int* maxit, double* resvec, int* nbite) {
+	// double alpha_opt = *alpha_rich;
+	int nb_lines = AB->nb_rows;
+	int nb_cols = AB->nb_cols;
+	int max_iters = *maxit;
+	double tolerance = *tol;
+	int* nb_iters_final = nbite;
+	double* residual_norms = resvec;
+
+	memset(X, 0, nb_cols * sizeof(double));
+
+	double* tmp_vec = malloc(sizeof(double) * nb_cols);
+	if (tmp_vec == NULL) {
+		fprintf(stderr, "Memory allocation failed for temp\n");
+		exit(EXIT_FAILURE);
 	}
+
+	// tmp_vec = RHS
+	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
+
+	// tmp_vec = tmp_vec - AB * X
+	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	dcsrmv('T', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
+	// Compute the initial residual norm
+	double norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
+	residual_norms[0] = norm_res;
+
+	// Iterate until you reach the maximum number of iterations and break early if tolerance is reached
+	int iter = 1;
+	for (iter = 1; iter < max_iters; ++iter) {
+		// X = X + alpha * tmp_vec
+		// cblas_daxpy(nb_cols, alpha_opt, tmp_vec, 1, X, 1);
+
+		// X = X + MB * tmp_vec
+		// cblas_dgbmv(
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, 1.0, MB, nb_lines, tmp_vec, 1, 1.0, X, 1);
+		dcsrmv('N', 1.0, MB, tmp_vec, 1, 1.0, X, 1);
+
+		// printf("\nX k : ");
+		// for (int i = 0; i < nb_cols; i++) {
+		// 	printf("%lf ", X[i]);
+		// }
+		// printf("\n");
+
+		// tmp_vec = RHS
+		memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
+
+		// tmp_vec = tmp_vec - AB * X
+		// cblas_dgbmv(
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
+
+		// Compute the residual and store it
+		norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
+		residual_norms[iter] = norm_res;
+
+		// Check for convergence
+		if (norm_res < tolerance) {
+			break;
+		}
+
+		// printf("residual at iter %d is %lf\n", iter, residual_norms[iter]);
+		// printf("X k+1 : ");
+		// for (int i = 0; i < nb_cols; i++) {
+		// 	printf("%lf ", X[i]);
+		// }
+		// printf("\n\n");
+	}
+
+	*nb_iters_final = iter;
+	// residual_norms[iter] = norm_res;
+
+	// printf("Number of iterations: %d\n", iter);
+	// printf("X: ");
+	// for (int i = 0; i < nb_cols; i++) {
+	// 	printf("%lf ", X[i]);
+	// }
 
 	free(tmp_vec);
 }

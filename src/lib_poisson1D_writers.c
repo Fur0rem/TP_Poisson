@@ -96,9 +96,16 @@ void plot_convergence_history(double* vec, int size, char* filename) {
 	for (int i = 1; i < strlen(filename_without_convergence_clone); i++) {
 		if (filename_without_convergence_clone[i] == ' ' || filename_without_convergence_clone[i] == '-' ||
 		    filename_without_convergence_clone[i] == '_') {
-			filename_without_convergence_clone[i + 1] = filename_without_convergence_clone[i + 1] - ('a' - 'A');
+			if (filename_without_convergence_clone[i] == '_') {
+				filename_without_convergence_clone[i] = ' ';
+			}
+			if (filename_without_convergence_clone[i + 1] >= 'a' && filename_without_convergence_clone[i + 1] <= 'z') {
+				filename_without_convergence_clone[i + 1] = filename_without_convergence_clone[i + 1] - ('a' - 'A');
+			}
 		}
 	}
+
+	printf("Plotting the convergence history of the method %s\n", filename_without_convergence_clone);
 
 	sprintf(command, "python3 -c \"import matplotlib.pyplot as plt; import numpy as np;");
 	// Add the data

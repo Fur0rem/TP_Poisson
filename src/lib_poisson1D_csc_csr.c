@@ -51,13 +51,13 @@ void print_csr_matrix(CSRMatrix* csr) {
 			int found = 0;
 			for (int k = csr->row_ptr[i]; k < csr->row_ptr[i + 1]; k++) {
 				if (csr->col_index[k] == j) {
-					printf("%lf\t", csr->values[k]);
+					printf("%.4lf\t", csr->values[k]);
 					found = 1;
 					break;
 				}
 			}
 			if (!found) {
-				printf("%lf\t", 0.0);
+				printf("%.4lf\t", 0.0);
 			}
 		}
 		printf("\n");
@@ -232,7 +232,7 @@ void csc_free(CSCMatrix* csc) {
 	free(csc->col_ptr);
 }
 
-void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, double beta, double* y, size_t incx, size_t incy) {
+void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy) {
 	// If M is not transposed, we can directly do the dot product of each row of M with x and not have to use extra memory
 	if (is_M_transposed == 'N') {
 		for (int i = 0; i < M->nb_rows; i++) {
@@ -259,7 +259,7 @@ void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, double 
 }
 
 // TODO
-void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, double beta, double* y, size_t incx, size_t incy) {
+void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy) {
 	// If M is not transposed, we can directly do the dot product of each row of M with x and not have to use extra memory
 	if (is_M_transposed == 'N') {
 		for (int i = 0; i < M->nb_cols; i++) {
@@ -283,4 +283,153 @@ void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, double 
 		}
 		free(result);
 	}
+}
+
+double csr_elem_at(CSRMatrix* csr, int i, int j) {
+	for (int nz_idx = csr->row_ptr[i]; nz_idx < csr->row_ptr[i + 1]; nz_idx++) {
+		if (csr->col_index[nz_idx] == j) {
+			return csr->values[nz_idx];
+		}
+	}
+	return 0;
+}
+
+double csc_elem_at(CSCMatrix* csc, int i, int j) {
+	for (int nz_idx = csc->col_ptr[j]; nz_idx < csc->col_ptr[j + 1]; nz_idx++) {
+		if (csc->row_index[nz_idx] == i) {
+			return csc->values[nz_idx];
+		}
+	}
+	return 0;
+}
+
+CSRMatrix csr_from_diag(double* diag, int nb_elements) {
+	CSRMatrix csr;
+	csr.nb_rows = nb_elements;
+	csr.nb_cols = nb_elements;
+	csr.nb_non_zero = nb_elements;
+	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
+	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
+	csr.row_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+	for (int i = 0; i < nb_elements; i++) {
+		csr.values[i] = diag[i];
+		csr.col_index[i] = i;
+		csr.row_ptr[i] = i;
+	}
+	csr.row_ptr[nb_elements] = nb_elements;
+	return csr;
+}
+
+CSCMatrix csc_from_diag(double* diag, int nb_elements) {
+	CSCMatrix csc;
+	csc.nb_rows = nb_elements;
+	csc.nb_cols = nb_elements;
+	csc.nb_non_zero = nb_elements;
+	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
+	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
+	csc.col_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+	for (int i = 0; i < nb_elements; i++) {
+		csc.values[i] = diag[i];
+		csc.row_index[i] = i;
+		csc.col_ptr[i] = i;
+	}
+	csc.col_ptr[nb_elements] = nb_elements;
+	return csc;
+}
+
+CSRMatrix csr_from_tridiag(double* diag, double* lower, double* upper, int nb_elements) {
+	CSRMatrix csr;
+	csr.nb_rows = nb_elements;
+	csr.nb_cols = nb_elements;
+	csr.nb_non_zero = 3 * nb_elements - 2;
+	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
+	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
+	csr.row_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+	// first line has 2 and -1
+	csr.values[0] = diag[0];
+	csr.col_index[0] = 0;
+	csr.values[1] = upper[0];
+	csr.col_index[1] = 1;
+	csr.row_ptr[0] = 0;
+	csr.row_ptr[1] = 2;
+	// middle lines have -1, 2, -1
+	for (int i = 1; i < nb_elements - 1; i++) {
+		csr.values[3 * i - 1] = lower[i - 1];
+		csr.col_index[3 * i - 1] = i - 1;
+		csr.values[3 * i] = diag[i];
+		csr.col_index[3 * i] = i;
+		csr.values[3 * i + 1] = upper[i];
+		csr.col_index[3 * i + 1] = i + 1;
+		csr.row_ptr[i + 1] = 3 * i + 2;
+	}
+	// last line has -1 and 2
+	csr.values[3 * nb_elements - 3] = lower[nb_elements - 2];
+	csr.col_index[3 * nb_elements - 3] = nb_elements - 2;
+	csr.values[3 * nb_elements - 2] = diag[nb_elements - 1];
+	csr.col_index[3 * nb_elements - 2] = nb_elements - 1;
+	csr.row_ptr[nb_elements] = 3 * nb_elements;
+	return csr;
+}
+
+CSCMatrix csc_from_tridiag(double* diag, double* lower, double* upper, int nb_elements) {
+	CSCMatrix csc;
+	csc.nb_rows = nb_elements;
+	csc.nb_cols = nb_elements;
+	csc.nb_non_zero = 3 * nb_elements - 2;
+	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
+	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
+	csc.col_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+	// first column has 2 and -1
+	csc.values[0] = diag[0];
+	csc.row_index[0] = 0;
+	csc.values[1] = upper[0];
+	csc.row_index[1] = 1;
+	csc.col_ptr[0] = 0;
+	csc.col_ptr[1] = 2;
+	// middle columns have -1, 2, -1
+	for (int i = 1; i < nb_elements - 1; i++) {
+		csc.values[3 * i - 1] = lower[i - 1];
+		csc.row_index[3 * i - 1] = i - 1;
+		csc.values[3 * i] = diag[i];
+		csc.row_index[3 * i] = i;
+		csc.values[3 * i + 1] = upper[i];
+		csc.row_index[3 * i + 1] = i + 1;
+		csc.col_ptr[i + 1] = 3 * i + 2;
+	}
+	// last column has -1 and 2
+	csc.values[3 * nb_elements - 3] = lower[nb_elements - 2];
+	csc.row_index[3 * nb_elements - 3] = nb_elements - 2;
+	csc.values[3 * nb_elements - 2] = diag[nb_elements - 1];
+	csc.row_index[3 * nb_elements - 2] = nb_elements - 1;
+	csc.col_ptr[nb_elements] = 3 * nb_elements;
+	return csc;
+}
+
+CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows) {
+	// mat is a lower triangular matrix, we can directly copy the values
+	CSRMatrix csr;
+	csr.nb_rows = nb_rows;
+	csr.nb_cols = nb_rows;
+	csr.nb_non_zero = nb_rows * (nb_rows + 1) / 2;
+	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
+	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
+	csr.row_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
+	int non_zero_idx = 0;
+	int current_idx = 0;
+	for (int i = 0; i < nb_rows; i++) {
+		csr.row_ptr[i] = non_zero_idx;
+		for (int j = 0; j <= i; j++) {
+			csr.values[non_zero_idx] = mat[current_idx];
+			csr.col_index[non_zero_idx] = j;
+			non_zero_idx++;
+			current_idx++;
+		}
+	}
+	csr.row_ptr[nb_rows] = non_zero_idx;
+	return csr;
+}
+
+CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows) {
+	// TODO
+	exit(1);
 }
