@@ -1,0 +1,40 @@
+\hypertarget{structCSRMatrix}{}\doxysection{C\+S\+R\+Matrix Struct Reference}
+\label{structCSRMatrix}\index{CSRMatrix@{CSRMatrix}}
+
+
+Compressed Sparse Row Matrix.  
+
+
+
+
+{\ttfamily \#include $<$lib\+\_\+poisson1\+D.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structCSRMatrix_af055c0c7aef0b30e674cdf11cc5d272a}\label{structCSRMatrix_af055c0c7aef0b30e674cdf11cc5d272a}} 
+int \mbox{\hyperlink{structCSRMatrix_af055c0c7aef0b30e674cdf11cc5d272a}{nb\+\_\+rows}}
+\begin{DoxyCompactList}\small\item\em Number of rows. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structCSRMatrix_aca21adf00afb594dec3b53b215b00be8}\label{structCSRMatrix_aca21adf00afb594dec3b53b215b00be8}} 
+int \mbox{\hyperlink{structCSRMatrix_aca21adf00afb594dec3b53b215b00be8}{nb\+\_\+cols}}
+\begin{DoxyCompactList}\small\item\em Number of columns. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structCSRMatrix_a9e6cddebae09fcb55f7392e6248a5aea}\label{structCSRMatrix_a9e6cddebae09fcb55f7392e6248a5aea}} 
+int \mbox{\hyperlink{structCSRMatrix_a9e6cddebae09fcb55f7392e6248a5aea}{nb\+\_\+non\+\_\+zero}}
+\begin{DoxyCompactList}\small\item\em Number of non zero elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structCSRMatrix_a58fd2a08910857d6f72eb96101b8cd16}\label{structCSRMatrix_a58fd2a08910857d6f72eb96101b8cd16}} 
+double $\ast$ \mbox{\hyperlink{structCSRMatrix_a58fd2a08910857d6f72eb96101b8cd16}{values}}
+\begin{DoxyCompactList}\small\item\em Values of the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structCSRMatrix_a82f090ce27f96fb38c5312090aa23835}\label{structCSRMatrix_a82f090ce27f96fb38c5312090aa23835}} 
+int $\ast$ \mbox{\hyperlink{structCSRMatrix_a82f090ce27f96fb38c5312090aa23835}{col\+\_\+index}}
+\begin{DoxyCompactList}\small\item\em Column index of the non zero elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structCSRMatrix_ae229fa372b5118ce45062c500b1100ab}\label{structCSRMatrix_ae229fa372b5118ce45062c500b1100ab}} 
+int $\ast$ \mbox{\hyperlink{structCSRMatrix_ae229fa372b5118ce45062c500b1100ab}{row\+\_\+ptr}}
+\begin{DoxyCompactList}\small\item\em Row pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Compressed Sparse Row Matrix. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/lib\+\_\+poisson1\+D.\+h\end{DoxyCompactItemize}

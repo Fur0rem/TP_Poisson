@@ -1,0 +1,13 @@
+<map id="benchmarks/benchmark_direct_methods.c" name="benchmarks/benchmark_direct_methods.c">
+<area shape="rect" id="node1" title="Benchmark the direct methods for solving the Poisson 1D problem." alt="" coords="405,5,583,47"/>
+<area shape="rect" id="node2" href="$lib__poisson1D_8h_source.html" title=" " alt="" coords="306,95,431,121"/>
+<area shape="rect" id="node9" title=" " alt="" coords="430,169,497,196"/>
+<area shape="rect" id="node10" title=" " alt="" coords="521,169,592,196"/>
+<area shape="rect" id="node11" title=" " alt="" coords="557,95,621,121"/>
+<area shape="rect" id="node3" href="$atlas__headers_8h_source.html" title=" " alt="" coords="193,169,318,196"/>
+<area shape="rect" id="node6" title=" " alt="" coords="343,169,405,196"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,169,76,196"/>
+<area shape="rect" id="node8" title=" " alt="" coords="100,169,168,196"/>
+<area shape="rect" id="node4" title=" " alt="" coords="171,244,239,271"/>
+<area shape="rect" id="node5" title=" " alt="" coords="263,244,347,271"/>
+</map>

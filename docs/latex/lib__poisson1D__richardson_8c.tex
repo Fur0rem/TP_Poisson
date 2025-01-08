@@ -1,0 +1,398 @@
+\hypertarget{lib__poisson1D__richardson_8c}{}\doxysection{src/lib\+\_\+poisson1\+D\+\_\+richardson.c File Reference}
+\label{lib__poisson1D__richardson_8c}\index{src/lib\_poisson1D\_richardson.c@{src/lib\_poisson1D\_richardson.c}}
+
+
+Numerical library developed to solve 1D Poisson problem (Heat equation) using the Richardson method.  
+
+
+{\ttfamily \#include \char`\"{}lib\+\_\+poisson1\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for lib\+\_\+poisson1\+D\+\_\+richardson.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lib__poisson1D__richardson_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_aa765e554656d4ab1a07d433047bb8760}{eig\+\_\+poisson1D}} (double $\ast$eigval, int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Computes the eigenvalues of the Poisson matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a6c6de2f18350577a33e00faba5d0dbb5}\label{lib__poisson1D__richardson_8c_a6c6de2f18350577a33e00faba5d0dbb5}} 
+double $\ast$ {\bfseries compute\+\_\+eigen\+\_\+values} (int $\ast$la)
+\item 
+double \mbox{\hyperlink{lib__poisson1D__richardson_8c_ab73a9f850f29e07eaaa7b11b34b1de28}{eigmax\+\_\+poisson1D}} (int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Computes the maximum eigenvalue of the Poisson matrix. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lib__poisson1D__richardson_8c_a786cf74560fd30777c62c7aea33a1f8f}{eigmin\+\_\+poisson1D}} (int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Computes the minimum eigenvalue of the Poisson matrix. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lib__poisson1D__richardson_8c_a7128ad49fb46d5304e7b07374e316188}{richardson\+\_\+alpha\+\_\+opt}} (int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Computes the optimal value of alpha for the Richardson method. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a49d6661d789d93aae5f2d590e1167c1f}\label{lib__poisson1D__richardson_8c_a49d6661d789d93aae5f2d590e1167c1f}} 
+double $\ast$ {\bfseries residual} (double $\ast$A, double $\ast$x, double $\ast$b, int nb\+\_\+cols, int nb\+\_\+rows)
+\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_abe2e805ef1418a3380fbc19587cbf2df}{richardson\+\_\+alpha\+\_\+tridiag}} (double $\ast$AB, double $\ast$R\+HS, double $\ast$X, double $\ast$alpha\+\_\+rich, int $\ast$lab, int $\ast$la, int $\ast$ku, int $\ast$kl, double $\ast$tol, int $\ast$maxit, double $\ast$resvec, int $\ast$nbite)
+\begin{DoxyCompactList}\small\item\em Solves Ax = b with the richardson method, with a scalar multiplier for iterating. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_a03d347674792e30b340a6351914d4e74}{richardson\+\_\+alpha\+\_\+csr}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$AB, double $\ast$R\+HS, double $\ast$X, double $\ast$alpha\+\_\+rich, double $\ast$tol, int $\ast$maxit, double $\ast$resvec, int $\ast$nbite)
+\begin{DoxyCompactList}\small\item\em Solves iteratively the system of linear equations Ax = B using the Richardson method with a step alpha. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_aa7542589c46a82fc367d28410de8ca48}{extract\+\_\+\+M\+B\+\_\+jacobi\+\_\+tridiag}} (double $\ast$AB, double $\ast$MB, int $\ast$lab, int $\ast$la, int $\ast$ku, int $\ast$kl, int $\ast$kv)
+\begin{DoxyCompactList}\small\item\em Computes the iteration matrix for the Jacobi method in the Richardson algorithm, in general band tri-\/diagonal form. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__richardson_8c_a786ac2927813df0484f5d716cb3a70c9}{extract\+\_\+\+M\+B\+\_\+jacobi\+\_\+csr}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$AB)
+\begin{DoxyCompactList}\small\item\em Extracts the Jacobi iteration matrix from the richardson algorithm in C\+SR format. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lib__poisson1D__richardson_8c_a3471884645546cdfd985847622012459}{idx\+\_\+into\+\_\+lower\+\_\+triangular}} (int i, int j, int n)
+\begin{DoxyCompactList}\small\item\em Compute the index of the element in the AB matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_a63e078b6dbddda3b99f49ede1eebed79}{invert\+\_\+lower\+\_\+triangular}} (double $\ast$lower\+\_\+triangular, double $\ast$inv\+\_\+lower\+\_\+triangular, int n)
+\begin{DoxyCompactList}\small\item\em Invert a lower triangular matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_a54bd07bad19e566c111fba746ece8f32}{extract\+\_\+\+M\+B\+\_\+gauss\+\_\+seidel\+\_\+tridiag}} (double $\ast$AB, double $\ast$MB, int $\ast$lab, int $\ast$la, int $\ast$ku, int $\ast$kl, int $\ast$kv)
+\begin{DoxyCompactList}\small\item\em Computes the iteration matrix for the Gauss-\/\+Seidel method in the Richardson algorithm, in general band tri-\/diagonal form. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__richardson_8c_a5e68ea2a8754d2c47a663898946f9736}{extract\+\_\+\+M\+B\+\_\+gauss\+\_\+seidel\+\_\+csr}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$AB)
+\begin{DoxyCompactList}\small\item\em Extracts the Gauss-\/\+Seidel iteration matrix from the richardson algorithm in C\+SR format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_ad32d33e059432deb74223e4aa797433e}{richardson\+\_\+\+M\+B\+\_\+tridiag}} (double $\ast$AB, double $\ast$R\+HS, double $\ast$X, double $\ast$MB, int $\ast$lab, int $\ast$la, int $\ast$ku, int $\ast$kl, double $\ast$tol, int $\ast$maxit, double $\ast$resvec, int $\ast$nbite)
+\begin{DoxyCompactList}\small\item\em Solve the Poisson problem using the Richardson method with the iteration matrix MB. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__richardson_8c_a1c1cd9bea983d4c4b75e199dc3101699}{richardson\+\_\+\+M\+B\+\_\+csr}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$AB, double $\ast$R\+HS, double $\ast$X, \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$MB, double $\ast$tol, int $\ast$maxit, double $\ast$resvec, int $\ast$nbite)
+\begin{DoxyCompactList}\small\item\em Solves iteratively the system of linear equations Ax = B using the Richardson method with an iteration matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Numerical library developed to solve 1D Poisson problem (Heat equation) using the Richardson method. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_aa765e554656d4ab1a07d433047bb8760}\label{lib__poisson1D__richardson_8c_aa765e554656d4ab1a07d433047bb8760}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!eig\_poisson1D@{eig\_poisson1D}}
+\index{eig\_poisson1D@{eig\_poisson1D}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{eig\_poisson1D()}{eig\_poisson1D()}}
+{\footnotesize\ttfamily void eig\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{eigval,  }\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Computes the eigenvalues of the Poisson matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em \mbox{[}put\mbox{]}} & eigval eigenvalues of the Poisson matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_ab73a9f850f29e07eaaa7b11b34b1de28}\label{lib__poisson1D__richardson_8c_ab73a9f850f29e07eaaa7b11b34b1de28}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!eigmax\_poisson1D@{eigmax\_poisson1D}}
+\index{eigmax\_poisson1D@{eigmax\_poisson1D}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{eigmax\_poisson1D()}{eigmax\_poisson1D()}}
+{\footnotesize\ttfamily double eigmax\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Computes the maximum eigenvalue of the Poisson matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+maximum eigenvalue of the Poisson matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a786cf74560fd30777c62c7aea33a1f8f}\label{lib__poisson1D__richardson_8c_a786cf74560fd30777c62c7aea33a1f8f}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!eigmin\_poisson1D@{eigmin\_poisson1D}}
+\index{eigmin\_poisson1D@{eigmin\_poisson1D}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{eigmin\_poisson1D()}{eigmin\_poisson1D()}}
+{\footnotesize\ttfamily double eigmin\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Computes the minimum eigenvalue of the Poisson matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+minimum eigenvalue of the Poisson matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a5e68ea2a8754d2c47a663898946f9736}\label{lib__poisson1D__richardson_8c_a5e68ea2a8754d2c47a663898946f9736}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!extract\_MB\_gauss\_seidel\_csr@{extract\_MB\_gauss\_seidel\_csr}}
+\index{extract\_MB\_gauss\_seidel\_csr@{extract\_MB\_gauss\_seidel\_csr}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{extract\_MB\_gauss\_seidel\_csr()}{extract\_MB\_gauss\_seidel\_csr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} extract\+\_\+\+M\+B\+\_\+gauss\+\_\+seidel\+\_\+csr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{AB }\end{DoxyParamCaption})}
+
+
+
+Extracts the Gauss-\/\+Seidel iteration matrix from the richardson algorithm in C\+SR format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & Equation matrix in C\+SR format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Gauss-\/\+Seidel iteration matrix in C\+SR format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a54bd07bad19e566c111fba746ece8f32}\label{lib__poisson1D__richardson_8c_a54bd07bad19e566c111fba746ece8f32}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!extract\_MB\_gauss\_seidel\_tridiag@{extract\_MB\_gauss\_seidel\_tridiag}}
+\index{extract\_MB\_gauss\_seidel\_tridiag@{extract\_MB\_gauss\_seidel\_tridiag}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{extract\_MB\_gauss\_seidel\_tridiag()}{extract\_MB\_gauss\_seidel\_tridiag()}}
+{\footnotesize\ttfamily void extract\+\_\+\+M\+B\+\_\+gauss\+\_\+seidel\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{double $\ast$}]{MB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{ku,  }\item[{int $\ast$}]{kl,  }\item[{int $\ast$}]{kv }\end{DoxyParamCaption})}
+
+
+
+Computes the iteration matrix for the Gauss-\/\+Seidel method in the Richardson algorithm, in general band tri-\/diagonal form. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix of the Poisson problem, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ out}}  & {\em MB} & iteration matrix for the Gauss-\/\+Seidel method, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em ku} & number of upper diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kl} & number of lower diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kv} & number of diagonals of MB \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a786ac2927813df0484f5d716cb3a70c9}\label{lib__poisson1D__richardson_8c_a786ac2927813df0484f5d716cb3a70c9}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!extract\_MB\_jacobi\_csr@{extract\_MB\_jacobi\_csr}}
+\index{extract\_MB\_jacobi\_csr@{extract\_MB\_jacobi\_csr}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{extract\_MB\_jacobi\_csr()}{extract\_MB\_jacobi\_csr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} extract\+\_\+\+M\+B\+\_\+jacobi\+\_\+csr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{AB }\end{DoxyParamCaption})}
+
+
+
+Extracts the Jacobi iteration matrix from the richardson algorithm in C\+SR format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & Equation matrix in C\+SR format \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Jacobi iteration matrix in C\+SR format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_aa7542589c46a82fc367d28410de8ca48}\label{lib__poisson1D__richardson_8c_aa7542589c46a82fc367d28410de8ca48}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!extract\_MB\_jacobi\_tridiag@{extract\_MB\_jacobi\_tridiag}}
+\index{extract\_MB\_jacobi\_tridiag@{extract\_MB\_jacobi\_tridiag}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{extract\_MB\_jacobi\_tridiag()}{extract\_MB\_jacobi\_tridiag()}}
+{\footnotesize\ttfamily void extract\+\_\+\+M\+B\+\_\+jacobi\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{double $\ast$}]{MB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{ku,  }\item[{int $\ast$}]{kl,  }\item[{int $\ast$}]{kv }\end{DoxyParamCaption})}
+
+
+
+Computes the iteration matrix for the Jacobi method in the Richardson algorithm, in general band tri-\/diagonal form. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix of the Poisson problem, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ out}}  & {\em MB} & iteration matrix for the Jacobi method, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em ku} & number of upper diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kl} & number of lower diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kv} & number of diagonals of MB \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a3471884645546cdfd985847622012459}\label{lib__poisson1D__richardson_8c_a3471884645546cdfd985847622012459}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!idx\_into\_lower\_triangular@{idx\_into\_lower\_triangular}}
+\index{idx\_into\_lower\_triangular@{idx\_into\_lower\_triangular}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{idx\_into\_lower\_triangular()}{idx\_into\_lower\_triangular()}}
+{\footnotesize\ttfamily int idx\+\_\+into\+\_\+lower\+\_\+triangular (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Compute the index of the element in the AB matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i} & row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & column index \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+index of the element in the AB matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a63e078b6dbddda3b99f49ede1eebed79}\label{lib__poisson1D__richardson_8c_a63e078b6dbddda3b99f49ede1eebed79}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!invert\_lower\_triangular@{invert\_lower\_triangular}}
+\index{invert\_lower\_triangular@{invert\_lower\_triangular}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{invert\_lower\_triangular()}{invert\_lower\_triangular()}}
+{\footnotesize\ttfamily void invert\+\_\+lower\+\_\+triangular (\begin{DoxyParamCaption}\item[{double $\ast$}]{lower\+\_\+triangular,  }\item[{double $\ast$}]{inv\+\_\+lower\+\_\+triangular,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Invert a lower triangular matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em lower\+\_\+triangular} & Lower triangular matrix \\
+\hline
+\mbox{\texttt{ out}}  & {\em inv\+\_\+lower\+\_\+triangular} & Inverted lower triangular matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em n} & Number of rows \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a03d347674792e30b340a6351914d4e74}\label{lib__poisson1D__richardson_8c_a03d347674792e30b340a6351914d4e74}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!richardson\_alpha\_csr@{richardson\_alpha\_csr}}
+\index{richardson\_alpha\_csr@{richardson\_alpha\_csr}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{richardson\_alpha\_csr()}{richardson\_alpha\_csr()}}
+{\footnotesize\ttfamily void richardson\+\_\+alpha\+\_\+csr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{AB,  }\item[{double $\ast$}]{R\+HS,  }\item[{double $\ast$}]{X,  }\item[{double $\ast$}]{alpha\+\_\+rich,  }\item[{double $\ast$}]{tol,  }\item[{int $\ast$}]{maxit,  }\item[{double $\ast$}]{resvec,  }\item[{int $\ast$}]{nbite }\end{DoxyParamCaption})}
+
+
+
+Solves iteratively the system of linear equations Ax = B using the Richardson method with a step alpha. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & Equation matrix in C\+SR format (A) \\
+\hline
+\mbox{\texttt{ in}}  & {\em R\+HS} & Right-\/hand side vector (B) \\
+\hline
+\mbox{\texttt{ out}}  & {\em X} & Solution vector (x) \\
+\hline
+\mbox{\texttt{ out}}  & {\em alpha\+\_\+rich} & Optimal alpha for the Richardson method \\
+\hline
+\mbox{\texttt{ in}}  & {\em tol} & Tolerance for the residual \\
+\hline
+\mbox{\texttt{ in}}  & {\em maxit} & Maximum number of iterations \\
+\hline
+\mbox{\texttt{ out}}  & {\em resvec} & Residual vector for each iteration \\
+\hline
+\mbox{\texttt{ out}}  & {\em nbite} & Number of iterations taken \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a7128ad49fb46d5304e7b07374e316188}\label{lib__poisson1D__richardson_8c_a7128ad49fb46d5304e7b07374e316188}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!richardson\_alpha\_opt@{richardson\_alpha\_opt}}
+\index{richardson\_alpha\_opt@{richardson\_alpha\_opt}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{richardson\_alpha\_opt()}{richardson\_alpha\_opt()}}
+{\footnotesize\ttfamily double richardson\+\_\+alpha\+\_\+opt (\begin{DoxyParamCaption}\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Computes the optimal value of alpha for the Richardson method. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+optimal value of alpha for the Richardson method 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_abe2e805ef1418a3380fbc19587cbf2df}\label{lib__poisson1D__richardson_8c_abe2e805ef1418a3380fbc19587cbf2df}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!richardson\_alpha\_tridiag@{richardson\_alpha\_tridiag}}
+\index{richardson\_alpha\_tridiag@{richardson\_alpha\_tridiag}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{richardson\_alpha\_tridiag()}{richardson\_alpha\_tridiag()}}
+{\footnotesize\ttfamily void richardson\+\_\+alpha\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{double $\ast$}]{R\+HS,  }\item[{double $\ast$}]{X,  }\item[{double $\ast$}]{alpha\+\_\+rich,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{ku,  }\item[{int $\ast$}]{kl,  }\item[{double $\ast$}]{tol,  }\item[{int $\ast$}]{maxit,  }\item[{double $\ast$}]{resvec,  }\item[{int $\ast$}]{nbite }\end{DoxyParamCaption})}
+
+
+
+Solves Ax = b with the richardson method, with a scalar multiplier for iterating. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix of the Poisson problem, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ in}}  & {\em R\+HS} & right-\/hand side of the Poisson problem \\
+\hline
+\mbox{\texttt{ out}}  & {\em X} & solution of the Poisson problem \\
+\hline
+\mbox{\texttt{ in}}  & {\em alpha\+\_\+rich} & value of alpha for the Richardson method \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em ku} & number of upper diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kl} & number of lower diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em tol} & tolerance for the Richardson method \\
+\hline
+\mbox{\texttt{ in}}  & {\em maxit} & maximum number of iterations for the Richardson method \\
+\hline
+\mbox{\texttt{ out}}  & {\em resvec} & vector of the norm of residuals, already allocated of the size maxit \\
+\hline
+\mbox{\texttt{ out}}  & {\em nbite} & number of iterations taken \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_a1c1cd9bea983d4c4b75e199dc3101699}\label{lib__poisson1D__richardson_8c_a1c1cd9bea983d4c4b75e199dc3101699}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!richardson\_MB\_csr@{richardson\_MB\_csr}}
+\index{richardson\_MB\_csr@{richardson\_MB\_csr}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{richardson\_MB\_csr()}{richardson\_MB\_csr()}}
+{\footnotesize\ttfamily void richardson\+\_\+\+M\+B\+\_\+csr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{AB,  }\item[{double $\ast$}]{R\+HS,  }\item[{double $\ast$}]{X,  }\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{MB,  }\item[{double $\ast$}]{tol,  }\item[{int $\ast$}]{maxit,  }\item[{double $\ast$}]{resvec,  }\item[{int $\ast$}]{nbite }\end{DoxyParamCaption})}
+
+
+
+Solves iteratively the system of linear equations Ax = B using the Richardson method with an iteration matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & Equation matrix in C\+SR format (A) \\
+\hline
+\mbox{\texttt{ in}}  & {\em R\+HS} & Right-\/hand side vector (B) \\
+\hline
+\mbox{\texttt{ out}}  & {\em X} & Solution vector (x) \\
+\hline
+\mbox{\texttt{ in}}  & {\em MB} & Iteration matrix in C\+SR format (M⁻¹) \\
+\hline
+\mbox{\texttt{ in}}  & {\em tol} & Tolerance for the residual \\
+\hline
+\mbox{\texttt{ in}}  & {\em maxit} & Maximum number of iterations \\
+\hline
+\mbox{\texttt{ out}}  & {\em resvec} & Residual vector for each iteration \\
+\hline
+\mbox{\texttt{ out}}  & {\em nbite} & Number of iterations taken \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__richardson_8c_ad32d33e059432deb74223e4aa797433e}\label{lib__poisson1D__richardson_8c_ad32d33e059432deb74223e4aa797433e}} 
+\index{lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}!richardson\_MB\_tridiag@{richardson\_MB\_tridiag}}
+\index{richardson\_MB\_tridiag@{richardson\_MB\_tridiag}!lib\_poisson1D\_richardson.c@{lib\_poisson1D\_richardson.c}}
+\doxysubsubsection{\texorpdfstring{richardson\_MB\_tridiag()}{richardson\_MB\_tridiag()}}
+{\footnotesize\ttfamily void richardson\+\_\+\+M\+B\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{double $\ast$}]{R\+HS,  }\item[{double $\ast$}]{X,  }\item[{double $\ast$}]{MB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{ku,  }\item[{int $\ast$}]{kl,  }\item[{double $\ast$}]{tol,  }\item[{int $\ast$}]{maxit,  }\item[{double $\ast$}]{resvec,  }\item[{int $\ast$}]{nbite }\end{DoxyParamCaption})}
+
+
+
+Solve the Poisson problem using the Richardson method with the iteration matrix MB. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix of the Poisson problem, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ in}}  & {\em R\+HS} & right-\/hand side of the Poisson problem \\
+\hline
+\mbox{\texttt{ out}}  & {\em X} & solution of the Poisson problem, already allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em MB} & iteration matrix for the Richardson method, in general band tri-\/diagonal form \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em ku} & number of upper diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kl} & number of lower diagonals of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em tol} & tolerance for the Richardson method \\
+\hline
+\mbox{\texttt{ in}}  & {\em maxit} & maximum number of iterations for the Richardson method \\
+\hline
+\mbox{\texttt{ out}}  & {\em resvec} & vector of the norm of residuals, already allocated of the size maxit \\
+\hline
+\mbox{\texttt{ out}}  & {\em nbite} & number of iterations \\
+\hline
+\end{DoxyParams}

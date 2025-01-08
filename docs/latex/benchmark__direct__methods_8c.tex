@@ -1,0 +1,110 @@
+\hypertarget{benchmark__direct__methods_8c}{}\doxysection{benchmarks/benchmark\+\_\+direct\+\_\+methods.c File Reference}
+\label{benchmark__direct__methods_8c}\index{benchmarks/benchmark\_direct\_methods.c@{benchmarks/benchmark\_direct\_methods.c}}
+
+
+Benchmark the direct methods for solving the Poisson 1D problem.  
+
+
+{\ttfamily \#include \char`\"{}lib\+\_\+poisson1\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+Include dependency graph for benchmark\+\_\+direct\+\_\+methods.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{benchmark__direct__methods_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}}
+\begin{DoxyCompactList}\small\item\em List of benchmark results. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$ \mbox{\hyperlink{benchmark__direct__methods_8c_ad65b17c096fd2337f3beb979c0455d35}{benchmark\+\_\+result\+\_\+list\+\_\+new}} ()
+\begin{DoxyCompactList}\small\item\em Create a new benchmark result list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{benchmark__direct__methods_8c_abf77839a948a61c24f9c8ed107cc68e0}{benchmark\+\_\+result\+\_\+list\+\_\+push}} (\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$list, double average\+\_\+nanos)
+\begin{DoxyCompactList}\small\item\em Push a new result to the list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{benchmark__direct__methods_8c_a42124fa897337359eee83a3332d6642e}{benchmark\+\_\+result\+\_\+list\+\_\+free}} (\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$list)
+\begin{DoxyCompactList}\small\item\em Free the list of benchmark results. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{benchmark__direct__methods_8c_a36724524a15fbfbdf3926a9b93d7bbbc}{write\+\_\+bench\+\_\+results}} (\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$list, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write and plot the benchmark results to files. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{benchmark__direct__methods_8c_a05f60aa14719d33e2a487063a92dc022}\label{benchmark__direct__methods_8c_a05f60aa14719d33e2a487063a92dc022}} 
+void \mbox{\hyperlink{benchmark__direct__methods_8c_a05f60aa14719d33e2a487063a92dc022}{benchmark}} ()
+\begin{DoxyCompactList}\small\item\em Benchmark the direct methods for solving the Poisson 1D problem. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{benchmark__direct__methods_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{benchmark__direct__methods_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+int {\bfseries main} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Benchmark the direct methods for solving the Poisson 1D problem. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{benchmark__direct__methods_8c_a42124fa897337359eee83a3332d6642e}\label{benchmark__direct__methods_8c_a42124fa897337359eee83a3332d6642e}} 
+\index{benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}!benchmark\_result\_list\_free@{benchmark\_result\_list\_free}}
+\index{benchmark\_result\_list\_free@{benchmark\_result\_list\_free}!benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}}
+\doxysubsubsection{\texorpdfstring{benchmark\_result\_list\_free()}{benchmark\_result\_list\_free()}}
+{\footnotesize\ttfamily void benchmark\+\_\+result\+\_\+list\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+Free the list of benchmark results. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & List of results \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{benchmark__direct__methods_8c_ad65b17c096fd2337f3beb979c0455d35}\label{benchmark__direct__methods_8c_ad65b17c096fd2337f3beb979c0455d35}} 
+\index{benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}!benchmark\_result\_list\_new@{benchmark\_result\_list\_new}}
+\index{benchmark\_result\_list\_new@{benchmark\_result\_list\_new}!benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}}
+\doxysubsubsection{\texorpdfstring{benchmark\_result\_list\_new()}{benchmark\_result\_list\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}}$\ast$ benchmark\+\_\+result\+\_\+list\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Create a new benchmark result list. 
+
+\begin{DoxyReturn}{Returns}
+Benchmark result list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{benchmark__direct__methods_8c_abf77839a948a61c24f9c8ed107cc68e0}\label{benchmark__direct__methods_8c_abf77839a948a61c24f9c8ed107cc68e0}} 
+\index{benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}!benchmark\_result\_list\_push@{benchmark\_result\_list\_push}}
+\index{benchmark\_result\_list\_push@{benchmark\_result\_list\_push}!benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}}
+\doxysubsubsection{\texorpdfstring{benchmark\_result\_list\_push()}{benchmark\_result\_list\_push()}}
+{\footnotesize\ttfamily void benchmark\+\_\+result\+\_\+list\+\_\+push (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$}]{list,  }\item[{double}]{average\+\_\+nanos }\end{DoxyParamCaption})}
+
+
+
+Push a new result to the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & List of results \\
+\hline
+{\em average\+\_\+nanos} & Average time in nanoseconds \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{benchmark__direct__methods_8c_a36724524a15fbfbdf3926a9b93d7bbbc}\label{benchmark__direct__methods_8c_a36724524a15fbfbdf3926a9b93d7bbbc}} 
+\index{benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}!write\_bench\_results@{write\_bench\_results}}
+\index{write\_bench\_results@{write\_bench\_results}!benchmark\_direct\_methods.c@{benchmark\_direct\_methods.c}}
+\doxysubsubsection{\texorpdfstring{write\_bench\_results()}{write\_bench\_results()}}
+{\footnotesize\ttfamily void write\+\_\+bench\+\_\+results (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structBenchmarkResultList}{Benchmark\+Result\+List}} $\ast$}]{list,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write and plot the benchmark results to files. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & List of results \\
+\hline
+{\em filename} & plot will be saved in rapport/filename.\+svg and results in rapport/filename.\+dat \\
+\hline
+\end{DoxyParams}

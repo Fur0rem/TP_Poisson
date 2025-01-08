@@ -1,0 +1,46 @@
+This directory contains the code corresponding to the solution of Poisson 1D problem by direct method or iterative method. It is organized in three directories\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{src/ }
+\DoxyCodeLine{include/}
+\DoxyCodeLine{bin/}
+\DoxyCodeLine{benchmarks/}
+\DoxyCodeLine{tests/}
+\end{DoxyCode}
+
+
+\char`\"{}src\char`\"{} contains the source codes, \char`\"{}include\char`\"{} contains the header files and \char`\"{}bin\char`\"{} contains the executables. The \char`\"{}benchmarks\char`\"{} directory contains the benchmarking codes and the \char`\"{}tests\char`\"{} directory contains the unit tests. The compilation and execution can be done using the Makefile.
+
+Here are the principal targets\+: testenv\+: bin/tp\+\_\+testenv tp2poisson1\+D\+\_\+direct\+: bin/tp\+Poisson1\+D\+\_\+direct tp2poisson1\+D\+\_\+iter\+: bin/tp\+Poisson1\+D\+\_\+iter
+
+The command, 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ make target \# Compile an executable bin/target }
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ make all \# compile the executable corresponding to all targets}
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ make run\_target \#Execute ./bin/target}
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ make clean}
+\DoxyCodeLine{rm *.o bin/*}
+\end{DoxyCode}
+
+
+Here\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ make run\_testenv}
+\DoxyCodeLine{\$ make run\_tpPoisson1D\_iter}
+\DoxyCodeLine{\$ make run\_tpPoisson1D\_direct}
+\end{DoxyCode}
+ 

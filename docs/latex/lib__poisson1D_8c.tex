@@ -1,0 +1,329 @@
+\hypertarget{lib__poisson1D_8c}{}\doxysection{src/lib\+\_\+poisson1D.c File Reference}
+\label{lib__poisson1D_8c}\index{src/lib\_poisson1D.c@{src/lib\_poisson1D.c}}
+
+
+Numerical library developed to manipulate matrices and vectors for the Poisson 1D problem.  
+
+
+{\ttfamily \#include \char`\"{}lib\+\_\+poisson1\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for lib\+\_\+poisson1\+D.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lib__poisson1D_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a5732c27f769bfc651e22eea3a23b1e6e}{set\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1D}} (double $\ast$AB, int $\ast$lab, int $\ast$la, int $\ast$kv)
+\begin{DoxyCompactList}\small\item\em Set the 1D Poisson matrix in GB format, column major. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a78d8307f975f59802e1a2144de330c2b}{set\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1\+D\+\_\+\+Id}} (double $\ast$AB, int $\ast$lab, int $\ast$la, int $\ast$kv)
+\begin{DoxyCompactList}\small\item\em Set the identity matrix in GB format, column major. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a16e1308575e08204c7cf5afae243035f}{set\+\_\+dense\+\_\+\+R\+H\+S\+\_\+\+D\+B\+C\+\_\+1D}} (double $\ast$R\+HS, int $\ast$la, double $\ast$B\+C0, double $\ast$B\+C1)
+\begin{DoxyCompactList}\small\item\em Set the system of equations right-\/hand side for the heat equation with Dirichlet boundary conditions. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_aa5a07c7ce6de4770433c168a8e70ac1a}{set\+\_\+analytical\+\_\+solution\+\_\+\+D\+B\+C\+\_\+1D}} (double $\ast$E\+X\+\_\+\+S\+OL, double $\ast$X, int $\ast$la, double $\ast$B\+C0, double $\ast$B\+C1)
+\begin{DoxyCompactList}\small\item\em Computes the analytical solution of the 1D Poisson problem with Dirichlet boundary conditions. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a232912666a4d6ad1c04a128db90858ed}{set\+\_\+grid\+\_\+points\+\_\+1D}} (double $\ast$x, int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Set the grid points for the 1D Poisson problem. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lib__poisson1D_8c_a9cb152b6a05a1bcc83ac34c52c7824e4}{relative\+\_\+forward\+\_\+error}} (double $\ast$x\+\_\+exact, double $\ast$x\+\_\+approx, int $\ast$la)
+\begin{DoxyCompactList}\small\item\em Compute the relative forward error between two vectors. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lib__poisson1D_8c_a3ab3c8cb6a22a352b7b6a30b62309e61}{index\+A\+B\+Col}} (int i, int j, int $\ast$lab)
+\begin{DoxyCompactList}\small\item\em Computes the index of the element in the AB matrix in column major format. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lib__poisson1D_8c_ace0e8fede868aa300f06628aa45560e9}{dgbtrftridiag}} (int $\ast$la, int $\ast$n, int $\ast$kl, int $\ast$ku, double $\ast$AB, int $\ast$lab, int $\ast$ipiv, int $\ast$info)
+\begin{DoxyCompactList}\small\item\em Compute the LU factorisation of a tridiagonal matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a9e655e5b66254a90a6f01432fd517650}{dcsrmv}} (char is\+\_\+\+M\+\_\+transposed, double alpha, \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$M, double $\ast$x, size\+\_\+t incx, double beta, double $\ast$y, size\+\_\+t incy)
+\begin{DoxyCompactList}\small\item\em Compute the matrix-\/vector product y = alpha $\ast$ M $\ast$ x + beta $\ast$ y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_a9ad9a7813eca5481c9dcfec56f75b5e7}{dcscmv}} (char is\+\_\+\+M\+\_\+transposed, double alpha, \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$M, double $\ast$x, size\+\_\+t incx, double beta, double $\ast$y, size\+\_\+t incy)
+\begin{DoxyCompactList}\small\item\em Compute the matrix-\/vector product y = alpha $\ast$ M $\ast$ x + beta $\ast$ y. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lib__poisson1D_8c_af39fea134a7db76c4622ef917e73f322}{dcsrtrf}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$A, int $\ast$ipiv, int $\ast$info)
+\begin{DoxyCompactList}\small\item\em Triangularisation of a C\+SR matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_ab310b50a826e51b1eb45ae9e109a8efb}{dcsrtrs}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$A, int $\ast$ipiv, double $\ast$b, double $\ast$x)
+\begin{DoxyCompactList}\small\item\em Solve a system of linear equations Ax = b using the LU decomposition, assuming A has been triangularised using dcsrtrf. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D_8c_ad09d9b5d9aee9ff341b765414d0897eb}{dcsrsv}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$A, double $\ast$b, double $\ast$x)
+\begin{DoxyCompactList}\small\item\em Solve a system of linear equations Ax = b using the LU decomposition Calls dcsrtrf and dcsrtrs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Numerical library developed to manipulate matrices and vectors for the Poisson 1D problem. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lib__poisson1D_8c_a9ad9a7813eca5481c9dcfec56f75b5e7}\label{lib__poisson1D_8c_a9ad9a7813eca5481c9dcfec56f75b5e7}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dcscmv@{dcscmv}}
+\index{dcscmv@{dcscmv}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dcscmv()}{dcscmv()}}
+{\footnotesize\ttfamily void dcscmv (\begin{DoxyParamCaption}\item[{char}]{is\+\_\+\+M\+\_\+transposed,  }\item[{double}]{alpha,  }\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{M,  }\item[{double $\ast$}]{x,  }\item[{size\+\_\+t}]{incx,  }\item[{double}]{beta,  }\item[{double $\ast$}]{y,  }\item[{size\+\_\+t}]{incy }\end{DoxyParamCaption})}
+
+
+
+Compute the matrix-\/vector product y = alpha $\ast$ M $\ast$ x + beta $\ast$ y. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em is\+\_\+\+M\+\_\+transposed} & \textquotesingle{}N\textquotesingle{} if M is not transposed, \textquotesingle{}T\textquotesingle{} if M is transposed \\
+\hline
+\mbox{\texttt{ in}}  & {\em alpha} & scalar alpha to multiply M $\ast$ x by \\
+\hline
+\mbox{\texttt{ in}}  & {\em M} & matrix M in C\+SC format \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & vector x \\
+\hline
+\mbox{\texttt{ in}}  & {\em beta} & scalar beta to multiply y by \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em y} & vector y, will be updated with the result \\
+\hline
+\mbox{\texttt{ in}}  & {\em incx} & increment for x \\
+\hline
+\mbox{\texttt{ in}}  & {\em incy} & increment for y \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_a9e655e5b66254a90a6f01432fd517650}\label{lib__poisson1D_8c_a9e655e5b66254a90a6f01432fd517650}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dcsrmv@{dcsrmv}}
+\index{dcsrmv@{dcsrmv}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dcsrmv()}{dcsrmv()}}
+{\footnotesize\ttfamily void dcsrmv (\begin{DoxyParamCaption}\item[{char}]{is\+\_\+\+M\+\_\+transposed,  }\item[{double}]{alpha,  }\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{M,  }\item[{double $\ast$}]{x,  }\item[{size\+\_\+t}]{incx,  }\item[{double}]{beta,  }\item[{double $\ast$}]{y,  }\item[{size\+\_\+t}]{incy }\end{DoxyParamCaption})}
+
+
+
+Compute the matrix-\/vector product y = alpha $\ast$ M $\ast$ x + beta $\ast$ y. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em is\+\_\+\+M\+\_\+transposed} & \textquotesingle{}N\textquotesingle{} if M is not transposed, \textquotesingle{}T\textquotesingle{} if M is transposed \\
+\hline
+\mbox{\texttt{ in}}  & {\em alpha} & scalar alpha to multiply M $\ast$ x by \\
+\hline
+\mbox{\texttt{ in}}  & {\em M} & matrix M in C\+SR format \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & vector x \\
+\hline
+\mbox{\texttt{ in}}  & {\em beta} & scalar beta to multiply y by \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em y} & vector y, will be updated with the result \\
+\hline
+\mbox{\texttt{ in}}  & {\em incx} & increment for x \\
+\hline
+\mbox{\texttt{ in}}  & {\em incy} & increment for y \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_ad09d9b5d9aee9ff341b765414d0897eb}\label{lib__poisson1D_8c_ad09d9b5d9aee9ff341b765414d0897eb}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dcsrsv@{dcsrsv}}
+\index{dcsrsv@{dcsrsv}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dcsrsv()}{dcsrsv()}}
+{\footnotesize\ttfamily void dcsrsv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{A,  }\item[{double $\ast$}]{b,  }\item[{double $\ast$}]{x }\end{DoxyParamCaption})}
+
+
+
+Solve a system of linear equations Ax = b using the LU decomposition Calls dcsrtrf and dcsrtrs. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em A} & Matrix in C\+SR format \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em b} & Right-\/hand side vector \\
+\hline
+\mbox{\texttt{ out}}  & {\em x} & Solution vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_af39fea134a7db76c4622ef917e73f322}\label{lib__poisson1D_8c_af39fea134a7db76c4622ef917e73f322}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dcsrtrf@{dcsrtrf}}
+\index{dcsrtrf@{dcsrtrf}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dcsrtrf()}{dcsrtrf()}}
+{\footnotesize\ttfamily int dcsrtrf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{A,  }\item[{int $\ast$}]{ipiv,  }\item[{int $\ast$}]{info }\end{DoxyParamCaption})}
+
+
+
+Triangularisation of a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em A} & Matrix in C\+SR format \\
+\hline
+\mbox{\texttt{ out}}  & {\em ipiv} & Pivot indices \\
+\hline
+\mbox{\texttt{ out}}  & {\em info} & Return status \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_ab310b50a826e51b1eb45ae9e109a8efb}\label{lib__poisson1D_8c_ab310b50a826e51b1eb45ae9e109a8efb}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dcsrtrs@{dcsrtrs}}
+\index{dcsrtrs@{dcsrtrs}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dcsrtrs()}{dcsrtrs()}}
+{\footnotesize\ttfamily void dcsrtrs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{A,  }\item[{int $\ast$}]{ipiv,  }\item[{double $\ast$}]{b,  }\item[{double $\ast$}]{x }\end{DoxyParamCaption})}
+
+
+
+Solve a system of linear equations Ax = b using the LU decomposition, assuming A has been triangularised using dcsrtrf. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em A} & Matrix in C\+SR format, triangularised using dcsrtrf \\
+\hline
+\mbox{\texttt{ in}}  & {\em ipiv} & Pivot indices \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em b} & Right-\/hand side vector \\
+\hline
+\mbox{\texttt{ out}}  & {\em x} & Solution vector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_ace0e8fede868aa300f06628aa45560e9}\label{lib__poisson1D_8c_ace0e8fede868aa300f06628aa45560e9}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!dgbtrftridiag@{dgbtrftridiag}}
+\index{dgbtrftridiag@{dgbtrftridiag}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{dgbtrftridiag()}{dgbtrftridiag()}}
+{\footnotesize\ttfamily int dgbtrftridiag (\begin{DoxyParamCaption}\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{n,  }\item[{int $\ast$}]{kl,  }\item[{int $\ast$}]{ku,  }\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{ipiv,  }\item[{int $\ast$}]{info }\end{DoxyParamCaption})}
+
+
+
+Compute the LU factorisation of a tridiagonal matrix. 
+
+\mbox{\Hypertarget{lib__poisson1D_8c_a3ab3c8cb6a22a352b7b6a30b62309e61}\label{lib__poisson1D_8c_a3ab3c8cb6a22a352b7b6a30b62309e61}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!indexABCol@{indexABCol}}
+\index{indexABCol@{indexABCol}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{indexABCol()}{indexABCol()}}
+{\footnotesize\ttfamily int index\+A\+B\+Col (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j,  }\item[{int $\ast$}]{lab }\end{DoxyParamCaption})}
+
+
+
+Computes the index of the element in the AB matrix in column major format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i} & row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & column index \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+index of the element in the AB matrix in column major format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D_8c_a9cb152b6a05a1bcc83ac34c52c7824e4}\label{lib__poisson1D_8c_a9cb152b6a05a1bcc83ac34c52c7824e4}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!relative\_forward\_error@{relative\_forward\_error}}
+\index{relative\_forward\_error@{relative\_forward\_error}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{relative\_forward\_error()}{relative\_forward\_error()}}
+{\footnotesize\ttfamily double relative\+\_\+forward\+\_\+error (\begin{DoxyParamCaption}\item[{double $\ast$}]{x,  }\item[{double $\ast$}]{y,  }\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Compute the relative forward error between two vectors. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & first vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & second vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of elements in the vectors \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+relative forward error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D_8c_aa5a07c7ce6de4770433c168a8e70ac1a}\label{lib__poisson1D_8c_aa5a07c7ce6de4770433c168a8e70ac1a}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!set\_analytical\_solution\_DBC\_1D@{set\_analytical\_solution\_DBC\_1D}}
+\index{set\_analytical\_solution\_DBC\_1D@{set\_analytical\_solution\_DBC\_1D}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{set\_analytical\_solution\_DBC\_1D()}{set\_analytical\_solution\_DBC\_1D()}}
+{\footnotesize\ttfamily void set\+\_\+analytical\+\_\+solution\+\_\+\+D\+B\+C\+\_\+1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{E\+X\+\_\+\+S\+OL,  }\item[{double $\ast$}]{X,  }\item[{int $\ast$}]{la,  }\item[{double $\ast$}]{B\+C0,  }\item[{double $\ast$}]{B\+C1 }\end{DoxyParamCaption})}
+
+
+
+Computes the analytical solution of the 1D Poisson problem with Dirichlet boundary conditions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em E\+X\+\_\+\+S\+OL} & analytical solution of the 1D Poisson problem, assuming E\+X\+\_\+\+S\+OL is allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em X} & grid points \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\mbox{\texttt{ in}}  & {\em B\+C0} & value of the Dirichlet boundary condition at the left boundary \\
+\hline
+\mbox{\texttt{ in}}  & {\em B\+C1} & value of the Dirichlet boundary condition at the right boundary \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_a16e1308575e08204c7cf5afae243035f}\label{lib__poisson1D_8c_a16e1308575e08204c7cf5afae243035f}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!set\_dense\_RHS\_DBC\_1D@{set\_dense\_RHS\_DBC\_1D}}
+\index{set\_dense\_RHS\_DBC\_1D@{set\_dense\_RHS\_DBC\_1D}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{set\_dense\_RHS\_DBC\_1D()}{set\_dense\_RHS\_DBC\_1D()}}
+{\footnotesize\ttfamily void set\+\_\+dense\+\_\+\+R\+H\+S\+\_\+\+D\+B\+C\+\_\+1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{R\+HS,  }\item[{int $\ast$}]{la,  }\item[{double $\ast$}]{B\+C0,  }\item[{double $\ast$}]{B\+C1 }\end{DoxyParamCaption})}
+
+
+
+Set the system of equations right-\/hand side for the heat equation with Dirichlet boundary conditions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em R\+HS} & right-\/hand side of the system of equations, assuming R\+HS is allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\mbox{\texttt{ in}}  & {\em B\+C0} & value of the Dirichlet boundary condition at the left boundary \\
+\hline
+\mbox{\texttt{ in}}  & {\em B\+C1} & value of the Dirichlet boundary condition at the right boundary \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_a5732c27f769bfc651e22eea3a23b1e6e}\label{lib__poisson1D_8c_a5732c27f769bfc651e22eea3a23b1e6e}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!set\_GB\_operator\_colMajor\_poisson1D@{set\_GB\_operator\_colMajor\_poisson1D}}
+\index{set\_GB\_operator\_colMajor\_poisson1D@{set\_GB\_operator\_colMajor\_poisson1D}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{set\_GB\_operator\_colMajor\_poisson1D()}{set\_GB\_operator\_colMajor\_poisson1D()}}
+{\footnotesize\ttfamily void set\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{kv }\end{DoxyParamCaption})}
+
+
+
+Set the 1D Poisson matrix in GB format, column major. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em AB} & Poisson matrix in GB format, assuming AB is allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kv} & number of superdiagonals of free space \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_a78d8307f975f59802e1a2144de330c2b}\label{lib__poisson1D_8c_a78d8307f975f59802e1a2144de330c2b}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!set\_GB\_operator\_colMajor\_poisson1D\_Id@{set\_GB\_operator\_colMajor\_poisson1D\_Id}}
+\index{set\_GB\_operator\_colMajor\_poisson1D\_Id@{set\_GB\_operator\_colMajor\_poisson1D\_Id}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{set\_GB\_operator\_colMajor\_poisson1D\_Id()}{set\_GB\_operator\_colMajor\_poisson1D\_Id()}}
+{\footnotesize\ttfamily void set\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1\+D\+\_\+\+Id (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{int $\ast$}]{kv }\end{DoxyParamCaption})}
+
+
+
+Set the identity matrix in GB format, column major. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em AB} & Identity matrix in GB format, assuming AB is allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em kv} & number of superdiagonals of free space \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D_8c_a232912666a4d6ad1c04a128db90858ed}\label{lib__poisson1D_8c_a232912666a4d6ad1c04a128db90858ed}} 
+\index{lib\_poisson1D.c@{lib\_poisson1D.c}!set\_grid\_points\_1D@{set\_grid\_points\_1D}}
+\index{set\_grid\_points\_1D@{set\_grid\_points\_1D}!lib\_poisson1D.c@{lib\_poisson1D.c}}
+\doxysubsubsection{\texorpdfstring{set\_grid\_points\_1D()}{set\_grid\_points\_1D()}}
+{\footnotesize\ttfamily void set\+\_\+grid\+\_\+points\+\_\+1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{x,  }\item[{int $\ast$}]{la }\end{DoxyParamCaption})}
+
+
+
+Set the grid points for the 1D Poisson problem. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em x} & grid points, assuming x is allocated \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}

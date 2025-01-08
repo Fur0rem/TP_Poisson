@@ -1,0 +1,163 @@
+\hypertarget{lib__poisson1D__writers_8c}{}\doxysection{src/lib\+\_\+poisson1\+D\+\_\+writers.c File Reference}
+\label{lib__poisson1D__writers_8c}\index{src/lib\_poisson1D\_writers.c@{src/lib\_poisson1D\_writers.c}}
+
+
+Write results of the Poisson 1D problem to files.  
+
+
+{\ttfamily \#include \char`\"{}lib\+\_\+poisson1\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for lib\+\_\+poisson1\+D\+\_\+writers.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lib__poisson1D__writers_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_a00819fd48e0d2d055cb0b8f80af26462}{write\+\_\+\+G\+B\+\_\+operator\+\_\+row\+Major\+\_\+poisson1D}} (double $\ast$AB, int $\ast$lab, int $\ast$la, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write a matrix in GB format to a file, in row major. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_a350630315f969d3b82d5ad0aebcf863e}{write\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1D}} (double $\ast$AB, int $\ast$lab, int $\ast$la, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write a matrix in GB format to a file, in column major. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_a7220bb7e5daaf5c0e494bdfd8f724c11}{write\+\_\+\+G\+B2\+A\+I\+J\+\_\+operator\+\_\+poisson1D}} (double $\ast$AB, int $\ast$la, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write a matrix in GB format to a file, with indices. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_ad6f876e18e98b30665a0aadcef84ef60}{write\+\_\+vec}} (double $\ast$vec, int $\ast$la, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write a vector to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_ac950eada42e0f9b8a7bb2cc1b54c60e8}{plot\+\_\+convergence\+\_\+history}} (double $\ast$vec, int size, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Plot the convergence history and saves it to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__writers_8c_aaf1ae3af84678ced5dbff1f7acff2aae}{write\+\_\+xy}} (double $\ast$vec, double $\ast$x, int $\ast$la, char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Write two vectors to a file, a pair of elements per line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Write results of the Poisson 1D problem to files. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_ac950eada42e0f9b8a7bb2cc1b54c60e8}\label{lib__poisson1D__writers_8c_ac950eada42e0f9b8a7bb2cc1b54c60e8}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!plot\_convergence\_history@{plot\_convergence\_history}}
+\index{plot\_convergence\_history@{plot\_convergence\_history}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{plot\_convergence\_history()}{plot\_convergence\_history()}}
+{\footnotesize\ttfamily void plot\+\_\+convergence\+\_\+history (\begin{DoxyParamCaption}\item[{double $\ast$}]{vec,  }\item[{int}]{size,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Plot the convergence history and saves it to a file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vec} & convergence history to write \\
+\hline
+\mbox{\texttt{ in}}  & {\em size} & number of elements in the convergence history \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_a7220bb7e5daaf5c0e494bdfd8f724c11}\label{lib__poisson1D__writers_8c_a7220bb7e5daaf5c0e494bdfd8f724c11}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!write\_GB2AIJ\_operator\_poisson1D@{write\_GB2AIJ\_operator\_poisson1D}}
+\index{write\_GB2AIJ\_operator\_poisson1D@{write\_GB2AIJ\_operator\_poisson1D}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{write\_GB2AIJ\_operator\_poisson1D()}{write\_GB2AIJ\_operator\_poisson1D()}}
+{\footnotesize\ttfamily void write\+\_\+\+G\+B2\+A\+I\+J\+\_\+operator\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{la,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write a matrix in GB format to a file, with indices. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix in GB format \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_a350630315f969d3b82d5ad0aebcf863e}\label{lib__poisson1D__writers_8c_a350630315f969d3b82d5ad0aebcf863e}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!write\_GB\_operator\_colMajor\_poisson1D@{write\_GB\_operator\_colMajor\_poisson1D}}
+\index{write\_GB\_operator\_colMajor\_poisson1D@{write\_GB\_operator\_colMajor\_poisson1D}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{write\_GB\_operator\_colMajor\_poisson1D()}{write\_GB\_operator\_colMajor\_poisson1D()}}
+{\footnotesize\ttfamily void write\+\_\+\+G\+B\+\_\+operator\+\_\+col\+Major\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write a matrix in GB format to a file, in column major. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix in GB format \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_a00819fd48e0d2d055cb0b8f80af26462}\label{lib__poisson1D__writers_8c_a00819fd48e0d2d055cb0b8f80af26462}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!write\_GB\_operator\_rowMajor\_poisson1D@{write\_GB\_operator\_rowMajor\_poisson1D}}
+\index{write\_GB\_operator\_rowMajor\_poisson1D@{write\_GB\_operator\_rowMajor\_poisson1D}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{write\_GB\_operator\_rowMajor\_poisson1D()}{write\_GB\_operator\_rowMajor\_poisson1D()}}
+{\footnotesize\ttfamily void write\+\_\+\+G\+B\+\_\+operator\+\_\+row\+Major\+\_\+poisson1D (\begin{DoxyParamCaption}\item[{double $\ast$}]{AB,  }\item[{int $\ast$}]{lab,  }\item[{int $\ast$}]{la,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write a matrix in GB format to a file, in row major. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em AB} & matrix in GB format \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of rows of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em lab} & number of columns of AB \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_ad6f876e18e98b30665a0aadcef84ef60}\label{lib__poisson1D__writers_8c_ad6f876e18e98b30665a0aadcef84ef60}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!write\_vec@{write\_vec}}
+\index{write\_vec@{write\_vec}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{write\_vec()}{write\_vec()}}
+{\footnotesize\ttfamily void write\+\_\+vec (\begin{DoxyParamCaption}\item[{double $\ast$}]{vec,  }\item[{int $\ast$}]{la,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write a vector to a file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vec} & vector to write \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of elements in the vector \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__writers_8c_aaf1ae3af84678ced5dbff1f7acff2aae}\label{lib__poisson1D__writers_8c_aaf1ae3af84678ced5dbff1f7acff2aae}} 
+\index{lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}!write\_xy@{write\_xy}}
+\index{write\_xy@{write\_xy}!lib\_poisson1D\_writers.c@{lib\_poisson1D\_writers.c}}
+\doxysubsubsection{\texorpdfstring{write\_xy()}{write\_xy()}}
+{\footnotesize\ttfamily void write\+\_\+xy (\begin{DoxyParamCaption}\item[{double $\ast$}]{vec,  }\item[{double $\ast$}]{x,  }\item[{int $\ast$}]{la,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Write two vectors to a file, a pair of elements per line. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vec} & first vector to write \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & second vector to write \\
+\hline
+\mbox{\texttt{ in}}  & {\em la} & number of elements in the vectors \\
+\hline
+\mbox{\texttt{ in}}  & {\em filename} & name of the file to write to \\
+\hline
+\end{DoxyParams}

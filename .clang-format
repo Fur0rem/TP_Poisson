@@ -1,4 +1,4 @@
-UseTab: Always
+UseTab: Never
 TabWidth: 8
 IndentWidth: 8
 BasedOnStyle: LLVM

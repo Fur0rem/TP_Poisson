@@ -1,0 +1,12 @@
+<map id="src/tp_poisson1D_direct.c" name="src/tp_poisson1D_direct.c">
+<area shape="rect" id="node1" title="Main function to solve the Poisson 1D problem using direct methods." alt="" coords="347,5,535,32"/>
+<area shape="rect" id="node2" href="$lib__poisson1D_8h_source.html" title=" " alt="" coords="329,80,454,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="541,155,612,181"/>
+<area shape="rect" id="node3" href="$atlas__headers_8h_source.html" title=" " alt="" coords="26,155,151,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="176,155,239,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="263,155,333,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="357,155,425,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="450,155,517,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,229,73,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="97,229,181,256"/>
+</map>

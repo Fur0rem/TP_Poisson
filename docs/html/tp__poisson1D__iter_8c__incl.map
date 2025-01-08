@@ -1,0 +1,12 @@
+<map id="src/tp_poisson1D_iter.c" name="src/tp_poisson1D_iter.c">
+<area shape="rect" id="node1" title="Main function to solve the Poisson 1D problem using iterative methods." alt="" coords="383,5,555,32"/>
+<area shape="rect" id="node2" href="$lib__poisson1D_8h_source.html" title=" " alt="" coords="306,80,431,107"/>
+<area shape="rect" id="node9" title=" " alt="" coords="430,155,497,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="521,155,592,181"/>
+<area shape="rect" id="node3" href="$atlas__headers_8h_source.html" title=" " alt="" coords="193,155,318,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="343,155,405,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,155,76,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="100,155,168,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="171,229,239,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="263,229,347,256"/>
+</map>

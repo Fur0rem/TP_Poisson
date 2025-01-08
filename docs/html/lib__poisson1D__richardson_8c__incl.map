@@ -1,0 +1,13 @@
+<map id="src/lib_poisson1D_richardson.c" name="src/lib_poisson1D_richardson.c">
+<area shape="rect" id="node1" title="Numerical library developed to solve 1D Poisson problem (Heat equation) using the Richardson method." alt="" coords="372,5,595,32"/>
+<area shape="rect" id="node2" href="$lib__poisson1D_8h_source.html" title=" " alt="" coords="270,80,395,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="357,155,425,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="450,155,517,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="541,155,612,181"/>
+<area shape="rect" id="node11" title=" " alt="" coords="572,80,643,107"/>
+<area shape="rect" id="node3" href="$atlas__headers_8h_source.html" title=" " alt="" coords="26,155,151,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="176,155,239,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="263,155,333,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,229,73,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="97,229,181,256"/>
+</map>

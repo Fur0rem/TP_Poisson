@@ -1,0 +1,499 @@
+\hypertarget{lib__poisson1D__csc__csr_8c}{}\doxysection{src/lib\+\_\+poisson1\+D\+\_\+csc\+\_\+csr.c File Reference}
+\label{lib__poisson1D__csc__csr_8c}\index{src/lib\_poisson1D\_csc\_csr.c@{src/lib\_poisson1D\_csc\_csr.c}}
+
+
+Numerical library to manipulate C\+SR and C\+SC matrices.  
+
+
+{\ttfamily \#include \char`\"{}lib\+\_\+poisson1\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for lib\+\_\+poisson1\+D\+\_\+csc\+\_\+csr.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lib__poisson1D__csc__csr_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double $\ast$ \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_adb0f4658f34b893c8dc0ebf45f080cf8}{csr\+\_\+to\+\_\+dense\+\_\+col\+\_\+major}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr)
+\begin{DoxyCompactList}\small\item\em Convert a C\+SR matrix to a dense matrix in column major format. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a4b65ebe8e8850c0723c4c722f90b2274}{dense\+\_\+col\+\_\+major\+\_\+to\+\_\+csr}} (double $\ast$dense, int nb\+\_\+rows, int nb\+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Convert a dense matrix in column major format to a C\+SR matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_aa4cdf7f270d5fed0ba55239c33ae238c}{print\+\_\+csr\+\_\+matrix}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr)
+\begin{DoxyCompactList}\small\item\em Print a C\+SR matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_afdea8304ce209dae2a5902e2555411ad}{poisson1\+D\+\_\+csr\+\_\+matrix}} (int nb\+\_\+equations)
+\begin{DoxyCompactList}\small\item\em Create a 1D Poisson matrix in C\+SR format. \end{DoxyCompactList}\item 
+double $\ast$ \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a0baf62984eee3d82559eb4511bb8fcd7}{csc\+\_\+to\+\_\+dense\+\_\+col\+\_\+major}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc)
+\begin{DoxyCompactList}\small\item\em Convert a C\+SC matrix to a dense matrix in column major format. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a6c023c8b32ad0326b8fdef90188502dd}{dense\+\_\+col\+\_\+major\+\_\+to\+\_\+csc}} (double $\ast$dense, int nb\+\_\+rows, int nb\+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Convert a dense matrix in column major format to a C\+SC matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a009654934d0711be08f82a8b6dd070e8}{print\+\_\+csc\+\_\+matrix}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc)
+\begin{DoxyCompactList}\small\item\em Print a C\+SC matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a2ae9223816ec4b3c7d11a0fe282e01ac}{poisson1\+D\+\_\+csc\+\_\+matrix}} (int nb\+\_\+equations)
+\begin{DoxyCompactList}\small\item\em Create a 1D Poisson matrix in C\+SC format. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a0dc9e60611b278859525c8691fb2b3fe}{csr\+\_\+clone}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr)
+\begin{DoxyCompactList}\small\item\em Clone a C\+SR matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a2296547ab8778206a70870e2e67edbab}{csc\+\_\+clone}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc)
+\begin{DoxyCompactList}\small\item\em Clone a C\+SC matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a4face679fe78fa81da1b0ba6ee814f74}{csr\+\_\+free}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr)
+\begin{DoxyCompactList}\small\item\em Free a C\+SR matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_af4b2295b3246f74c5efbc0ff1e1574db}{csc\+\_\+free}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc)
+\begin{DoxyCompactList}\small\item\em Free a C\+SC matrix. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a108e78856688cc47be6a5c06c209a9c9}{csr\+\_\+elem\+\_\+at}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr, int i, int j)
+\begin{DoxyCompactList}\small\item\em Get the element at position (i, j) in a C\+SR matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a9fbab12c2bbb0707da398ba7c43cf38e}{csr\+\_\+write\+\_\+at}} (\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$csr, int i, int j, double value)
+\begin{DoxyCompactList}\small\item\em Write a value at position (i, j) in a C\+SR matrix. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a68b2e4dd051fde15f44f627c9d6631b0}{csc\+\_\+elem\+\_\+at}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc, int i, int j)
+\begin{DoxyCompactList}\small\item\em Get the element at position (i, j) in a C\+SC matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a94f3ed5e31f647d6693c6cbf139a50b4}{csc\+\_\+write\+\_\+at}} (\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$csc, int i, int j, double value)
+\begin{DoxyCompactList}\small\item\em Write a value at position (i, j) in a C\+SC matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a0f408f40b5028dd6fcf72ebf7f4b6e4f}{csr\+\_\+from\+\_\+diag}} (double $\ast$diag, int nb\+\_\+elements)
+\begin{DoxyCompactList}\small\item\em Create a C\+SR matrix from a diagonal. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a352f20dd461157e4eebc692a6473953b}{csc\+\_\+from\+\_\+diag}} (double $\ast$diag, int nb\+\_\+elements)
+\begin{DoxyCompactList}\small\item\em Create a C\+SC matrix from a diagonal. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a16c0b1275dbcc1c16efff291476b4274}{csr\+\_\+from\+\_\+tridiag}} (double $\ast$diag, double $\ast$lower, double $\ast$upper, int nb\+\_\+elements)
+\begin{DoxyCompactList}\small\item\em Create a C\+SR matrix from a tridiagonal matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_a486a7bb245e42be47bc2c118ef68005a}{csc\+\_\+from\+\_\+tridiag}} (double $\ast$diag, double $\ast$lower, double $\ast$upper, int nb\+\_\+elements)
+\begin{DoxyCompactList}\small\item\em Create a C\+SC matrix from a tridiagonal matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_ad187430da161054b81e8c52037333908}{csr\+\_\+from\+\_\+lower\+\_\+triangular}} (double $\ast$mat, int nb\+\_\+rows)
+\begin{DoxyCompactList}\small\item\em Create a C\+SR matrix from a lower triangular matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} \mbox{\hyperlink{lib__poisson1D__csc__csr_8c_adbbd9a749e038739a8cb3a98333ce0cb}{csc\+\_\+from\+\_\+lower\+\_\+triangular}} (double $\ast$mat, int nb\+\_\+rows)
+\begin{DoxyCompactList}\small\item\em Create a C\+SC matrix from a lower triangular matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Numerical library to manipulate C\+SR and C\+SC matrices. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a2296547ab8778206a70870e2e67edbab}\label{lib__poisson1D__csc__csr_8c_a2296547ab8778206a70870e2e67edbab}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_clone@{csc\_clone}}
+\index{csc\_clone@{csc\_clone}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_clone()}{csc\_clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} csc\+\_\+clone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc }\end{DoxyParamCaption})}
+
+
+
+Clone a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix to clone \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cloned C\+SC matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a68b2e4dd051fde15f44f627c9d6631b0}\label{lib__poisson1D__csc__csr_8c_a68b2e4dd051fde15f44f627c9d6631b0}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_elem\_at@{csc\_elem\_at}}
+\index{csc\_elem\_at@{csc\_elem\_at}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_elem\_at()}{csc\_elem\_at()}}
+{\footnotesize\ttfamily double csc\+\_\+elem\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc,  }\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+
+
+Get the element at position (i, j) in a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em i} & Row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & Column index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Element at position (i, j) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_af4b2295b3246f74c5efbc0ff1e1574db}\label{lib__poisson1D__csc__csr_8c_af4b2295b3246f74c5efbc0ff1e1574db}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_free@{csc\_free}}
+\index{csc\_free@{csc\_free}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_free()}{csc\_free()}}
+{\footnotesize\ttfamily void csc\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc }\end{DoxyParamCaption})}
+
+
+
+Free a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix to free \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a352f20dd461157e4eebc692a6473953b}\label{lib__poisson1D__csc__csr_8c_a352f20dd461157e4eebc692a6473953b}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_from\_diag@{csc\_from\_diag}}
+\index{csc\_from\_diag@{csc\_from\_diag}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_from\_diag()}{csc\_from\_diag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} csc\+\_\+from\+\_\+diag (\begin{DoxyParamCaption}\item[{double $\ast$}]{diag,  }\item[{int}]{nb\+\_\+elements }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SC matrix from a diagonal. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em diag} & Diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+elements} & Number of elements in the diagonal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SC matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_adbbd9a749e038739a8cb3a98333ce0cb}\label{lib__poisson1D__csc__csr_8c_adbbd9a749e038739a8cb3a98333ce0cb}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_from\_lower\_triangular@{csc\_from\_lower\_triangular}}
+\index{csc\_from\_lower\_triangular@{csc\_from\_lower\_triangular}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_from\_lower\_triangular()}{csc\_from\_lower\_triangular()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} csc\+\_\+from\+\_\+lower\+\_\+triangular (\begin{DoxyParamCaption}\item[{double $\ast$}]{mat,  }\item[{int}]{nb\+\_\+rows }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SC matrix from a lower triangular matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em mat} & Lower triangular matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+rows} & Number of rows \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SC matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a486a7bb245e42be47bc2c118ef68005a}\label{lib__poisson1D__csc__csr_8c_a486a7bb245e42be47bc2c118ef68005a}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_from\_tridiag@{csc\_from\_tridiag}}
+\index{csc\_from\_tridiag@{csc\_from\_tridiag}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_from\_tridiag()}{csc\_from\_tridiag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} csc\+\_\+from\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{diag,  }\item[{double $\ast$}]{lower,  }\item[{double $\ast$}]{upper,  }\item[{int}]{nb\+\_\+elements }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SC matrix from a tridiagonal matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em diag} & Diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em lower} & Lower diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em upper} & Upper diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+elements} & Number of elements in the diagonal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SC matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a0baf62984eee3d82559eb4511bb8fcd7}\label{lib__poisson1D__csc__csr_8c_a0baf62984eee3d82559eb4511bb8fcd7}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_to\_dense\_col\_major@{csc\_to\_dense\_col\_major}}
+\index{csc\_to\_dense\_col\_major@{csc\_to\_dense\_col\_major}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_to\_dense\_col\_major()}{csc\_to\_dense\_col\_major()}}
+{\footnotesize\ttfamily double$\ast$ csc\+\_\+to\+\_\+dense\+\_\+col\+\_\+major (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc }\end{DoxyParamCaption})}
+
+
+
+Convert a C\+SC matrix to a dense matrix in column major format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dense matrix in column major format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a94f3ed5e31f647d6693c6cbf139a50b4}\label{lib__poisson1D__csc__csr_8c_a94f3ed5e31f647d6693c6cbf139a50b4}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csc\_write\_at@{csc\_write\_at}}
+\index{csc\_write\_at@{csc\_write\_at}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csc\_write\_at()}{csc\_write\_at()}}
+{\footnotesize\ttfamily void csc\+\_\+write\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{double}]{value }\end{DoxyParamCaption})}
+
+
+
+Write a value at position (i, j) in a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em i} & Row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & Column index \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & Value to write \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a0dc9e60611b278859525c8691fb2b3fe}\label{lib__poisson1D__csc__csr_8c_a0dc9e60611b278859525c8691fb2b3fe}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_clone@{csr\_clone}}
+\index{csr\_clone@{csr\_clone}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_clone()}{csr\_clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} csr\+\_\+clone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr }\end{DoxyParamCaption})}
+
+
+
+Clone a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix to clone \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cloned C\+SR matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a108e78856688cc47be6a5c06c209a9c9}\label{lib__poisson1D__csc__csr_8c_a108e78856688cc47be6a5c06c209a9c9}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_elem\_at@{csr\_elem\_at}}
+\index{csr\_elem\_at@{csr\_elem\_at}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_elem\_at()}{csr\_elem\_at()}}
+{\footnotesize\ttfamily double csr\+\_\+elem\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr,  }\item[{int}]{i,  }\item[{int}]{j }\end{DoxyParamCaption})}
+
+
+
+Get the element at position (i, j) in a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em i} & Row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & Column index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Element at position (i, j) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a4face679fe78fa81da1b0ba6ee814f74}\label{lib__poisson1D__csc__csr_8c_a4face679fe78fa81da1b0ba6ee814f74}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_free@{csr\_free}}
+\index{csr\_free@{csr\_free}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_free()}{csr\_free()}}
+{\footnotesize\ttfamily void csr\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr }\end{DoxyParamCaption})}
+
+
+
+Free a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix to free \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a0f408f40b5028dd6fcf72ebf7f4b6e4f}\label{lib__poisson1D__csc__csr_8c_a0f408f40b5028dd6fcf72ebf7f4b6e4f}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_from\_diag@{csr\_from\_diag}}
+\index{csr\_from\_diag@{csr\_from\_diag}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_from\_diag()}{csr\_from\_diag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} csr\+\_\+from\+\_\+diag (\begin{DoxyParamCaption}\item[{double $\ast$}]{diag,  }\item[{int}]{nb\+\_\+elements }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SR matrix from a diagonal. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em diag} & Diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+elements} & Number of elements in the diagonal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SR matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_ad187430da161054b81e8c52037333908}\label{lib__poisson1D__csc__csr_8c_ad187430da161054b81e8c52037333908}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_from\_lower\_triangular@{csr\_from\_lower\_triangular}}
+\index{csr\_from\_lower\_triangular@{csr\_from\_lower\_triangular}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_from\_lower\_triangular()}{csr\_from\_lower\_triangular()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} csr\+\_\+from\+\_\+lower\+\_\+triangular (\begin{DoxyParamCaption}\item[{double $\ast$}]{mat,  }\item[{int}]{nb\+\_\+rows }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SR matrix from a lower triangular matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em mat} & Lower triangular matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+rows} & Number of rows \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SR matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a16c0b1275dbcc1c16efff291476b4274}\label{lib__poisson1D__csc__csr_8c_a16c0b1275dbcc1c16efff291476b4274}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_from\_tridiag@{csr\_from\_tridiag}}
+\index{csr\_from\_tridiag@{csr\_from\_tridiag}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_from\_tridiag()}{csr\_from\_tridiag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} csr\+\_\+from\+\_\+tridiag (\begin{DoxyParamCaption}\item[{double $\ast$}]{diag,  }\item[{double $\ast$}]{lower,  }\item[{double $\ast$}]{upper,  }\item[{int}]{nb\+\_\+elements }\end{DoxyParamCaption})}
+
+
+
+Create a C\+SR matrix from a tridiagonal matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em diag} & Diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em lower} & Lower diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em upper} & Upper diagonal values \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+elements} & Number of elements in the diagonal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SR matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_adb0f4658f34b893c8dc0ebf45f080cf8}\label{lib__poisson1D__csc__csr_8c_adb0f4658f34b893c8dc0ebf45f080cf8}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_to\_dense\_col\_major@{csr\_to\_dense\_col\_major}}
+\index{csr\_to\_dense\_col\_major@{csr\_to\_dense\_col\_major}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_to\_dense\_col\_major()}{csr\_to\_dense\_col\_major()}}
+{\footnotesize\ttfamily double$\ast$ csr\+\_\+to\+\_\+dense\+\_\+col\+\_\+major (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr }\end{DoxyParamCaption})}
+
+
+
+Convert a C\+SR matrix to a dense matrix in column major format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dense matrix in column major format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a9fbab12c2bbb0707da398ba7c43cf38e}\label{lib__poisson1D__csc__csr_8c_a9fbab12c2bbb0707da398ba7c43cf38e}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!csr\_write\_at@{csr\_write\_at}}
+\index{csr\_write\_at@{csr\_write\_at}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{csr\_write\_at()}{csr\_write\_at()}}
+{\footnotesize\ttfamily void csr\+\_\+write\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr,  }\item[{int}]{i,  }\item[{int}]{j,  }\item[{double}]{value }\end{DoxyParamCaption})}
+
+
+
+Write a value at position (i, j) in a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em i} & Row index \\
+\hline
+\mbox{\texttt{ in}}  & {\em j} & Column index \\
+\hline
+\mbox{\texttt{ in}}  & {\em value} & Value to write \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a6c023c8b32ad0326b8fdef90188502dd}\label{lib__poisson1D__csc__csr_8c_a6c023c8b32ad0326b8fdef90188502dd}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!dense\_col\_major\_to\_csc@{dense\_col\_major\_to\_csc}}
+\index{dense\_col\_major\_to\_csc@{dense\_col\_major\_to\_csc}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{dense\_col\_major\_to\_csc()}{dense\_col\_major\_to\_csc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} dense\+\_\+col\+\_\+major\+\_\+to\+\_\+csc (\begin{DoxyParamCaption}\item[{double $\ast$}]{dense,  }\item[{int}]{nb\+\_\+rows,  }\item[{int}]{nb\+\_\+cols }\end{DoxyParamCaption})}
+
+
+
+Convert a dense matrix in column major format to a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em dense} & Dense matrix in column major format \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+rows} & Number of lines of the dense matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+cols} & Number of columns of the dense matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SC matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a4b65ebe8e8850c0723c4c722f90b2274}\label{lib__poisson1D__csc__csr_8c_a4b65ebe8e8850c0723c4c722f90b2274}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!dense\_col\_major\_to\_csr@{dense\_col\_major\_to\_csr}}
+\index{dense\_col\_major\_to\_csr@{dense\_col\_major\_to\_csr}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{dense\_col\_major\_to\_csr()}{dense\_col\_major\_to\_csr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} dense\+\_\+col\+\_\+major\+\_\+to\+\_\+csr (\begin{DoxyParamCaption}\item[{double $\ast$}]{dense,  }\item[{int}]{nb\+\_\+rows,  }\item[{int}]{nb\+\_\+cols }\end{DoxyParamCaption})}
+
+
+
+Convert a dense matrix in column major format to a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em dense} & Dense matrix in column major format \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+rows} & Number of lines of the dense matrix \\
+\hline
+\mbox{\texttt{ in}}  & {\em nb\+\_\+cols} & Number of columns of the dense matrix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+C\+SR matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a2ae9223816ec4b3c7d11a0fe282e01ac}\label{lib__poisson1D__csc__csr_8c_a2ae9223816ec4b3c7d11a0fe282e01ac}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!poisson1D\_csc\_matrix@{poisson1D\_csc\_matrix}}
+\index{poisson1D\_csc\_matrix@{poisson1D\_csc\_matrix}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{poisson1D\_csc\_matrix()}{poisson1D\_csc\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} poisson1\+D\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{int}]{nb\+\_\+equations }\end{DoxyParamCaption})}
+
+
+
+Create a 1D Poisson matrix in C\+SC format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nb\+\_\+equations} & Number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Poisson matrix in C\+SC format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_afdea8304ce209dae2a5902e2555411ad}\label{lib__poisson1D__csc__csr_8c_afdea8304ce209dae2a5902e2555411ad}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!poisson1D\_csr\_matrix@{poisson1D\_csr\_matrix}}
+\index{poisson1D\_csr\_matrix@{poisson1D\_csr\_matrix}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{poisson1D\_csr\_matrix()}{poisson1D\_csr\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} poisson1\+D\+\_\+csr\+\_\+matrix (\begin{DoxyParamCaption}\item[{int}]{nb\+\_\+equations }\end{DoxyParamCaption})}
+
+
+
+Create a 1D Poisson matrix in C\+SR format. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nb\+\_\+equations} & Number of equations in the problem to solve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Poisson matrix in C\+SR format 
+\end{DoxyReturn}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_a009654934d0711be08f82a8b6dd070e8}\label{lib__poisson1D__csc__csr_8c_a009654934d0711be08f82a8b6dd070e8}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!print\_csc\_matrix@{print\_csc\_matrix}}
+\index{print\_csc\_matrix@{print\_csc\_matrix}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{print\_csc\_matrix()}{print\_csc\_matrix()}}
+{\footnotesize\ttfamily void print\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSCMatrix}{C\+S\+C\+Matrix}} $\ast$}]{csc }\end{DoxyParamCaption})}
+
+
+
+Print a C\+SC matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csc} & C\+SC matrix to print \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib__poisson1D__csc__csr_8c_aa4cdf7f270d5fed0ba55239c33ae238c}\label{lib__poisson1D__csc__csr_8c_aa4cdf7f270d5fed0ba55239c33ae238c}} 
+\index{lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}!print\_csr\_matrix@{print\_csr\_matrix}}
+\index{print\_csr\_matrix@{print\_csr\_matrix}!lib\_poisson1D\_csc\_csr.c@{lib\_poisson1D\_csc\_csr.c}}
+\doxysubsubsection{\texorpdfstring{print\_csr\_matrix()}{print\_csr\_matrix()}}
+{\footnotesize\ttfamily void print\+\_\+csr\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structCSRMatrix}{C\+S\+R\+Matrix}} $\ast$}]{csr }\end{DoxyParamCaption})}
+
+
+
+Print a C\+SR matrix. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em csr} & C\+SR matrix to print \\
+\hline
+\end{DoxyParams}

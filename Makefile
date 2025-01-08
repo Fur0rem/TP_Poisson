@@ -55,7 +55,7 @@ TEST_FILES = $(wildcard $(TEST_FOLDERS)/*.c)
 .PHONY: all
 
 all: bin/tp_testenv bin/tpPoisson1D_iter bin/tpPoisson1D_direct
-run: run_testenv run_tpPoisson1D_iter run_tpPoisson1D_direct
+run: run_testenv run_tpPoisson1D_iter_tridiag run_tpPoisson1D_iter_csr_csc run_tpPoisson1D_direct
 
 testenv: bin/tp_testenv
 
@@ -96,7 +96,7 @@ run_tpPoisson1D_iter_tridiag: bin/tpPoisson1D_iter
 	bin/tpPoisson1D_iter 1 0 
 	bin/tpPoisson1D_iter 2 0
 
-run_tpPoisson1D_iter_csr: bin/tpPoisson1D_iter
+run_tpPoisson1D_iter_csr_csc: bin/tpPoisson1D_iter
 	bin/tpPoisson1D_iter 0 1
 	bin/tpPoisson1D_iter 1 1 
 	bin/tpPoisson1D_iter 2 1

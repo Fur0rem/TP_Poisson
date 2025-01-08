@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['csc_5fclone_118',['csc_clone',['../lib__poisson1D__csc__csr_8c.html#a2296547ab8778206a70870e2e67edbab',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5felem_5fat_119',['csc_elem_at',['../lib__poisson1D__csc__csr_8c.html#a68b2e4dd051fde15f44f627c9d6631b0',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5ffree_120',['csc_free',['../lib__poisson1D__csc__csr_8c.html#af4b2295b3246f74c5efbc0ff1e1574db',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5ffrom_5fdiag_121',['csc_from_diag',['../lib__poisson1D__csc__csr_8c.html#a352f20dd461157e4eebc692a6473953b',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5ffrom_5flower_5ftriangular_122',['csc_from_lower_triangular',['../lib__poisson1D__csc__csr_8c.html#adbbd9a749e038739a8cb3a98333ce0cb',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5ffrom_5ftridiag_123',['csc_from_tridiag',['../lib__poisson1D__csc__csr_8c.html#a486a7bb245e42be47bc2c118ef68005a',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5fto_5fdense_5fcol_5fmajor_124',['csc_to_dense_col_major',['../lib__poisson1D__csc__csr_8c.html#a0baf62984eee3d82559eb4511bb8fcd7',1,'lib_poisson1D_csc_csr.c']]],
+  ['csc_5fwrite_5fat_125',['csc_write_at',['../lib__poisson1D__csc__csr_8c.html#a94f3ed5e31f647d6693c6cbf139a50b4',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5fclone_126',['csr_clone',['../lib__poisson1D__csc__csr_8c.html#a0dc9e60611b278859525c8691fb2b3fe',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5felem_5fat_127',['csr_elem_at',['../lib__poisson1D__csc__csr_8c.html#a108e78856688cc47be6a5c06c209a9c9',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5ffree_128',['csr_free',['../lib__poisson1D__csc__csr_8c.html#a4face679fe78fa81da1b0ba6ee814f74',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5ffrom_5fdiag_129',['csr_from_diag',['../lib__poisson1D__csc__csr_8c.html#a0f408f40b5028dd6fcf72ebf7f4b6e4f',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5ffrom_5flower_5ftriangular_130',['csr_from_lower_triangular',['../lib__poisson1D__csc__csr_8c.html#ad187430da161054b81e8c52037333908',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5ffrom_5ftridiag_131',['csr_from_tridiag',['../lib__poisson1D__csc__csr_8c.html#a16c0b1275dbcc1c16efff291476b4274',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5fto_5fdense_5fcol_5fmajor_132',['csr_to_dense_col_major',['../lib__poisson1D__csc__csr_8c.html#adb0f4658f34b893c8dc0ebf45f080cf8',1,'lib_poisson1D_csc_csr.c']]],
+  ['csr_5fwrite_5fat_133',['csr_write_at',['../lib__poisson1D__csc__csr_8c.html#a9fbab12c2bbb0707da398ba7c43cf38e',1,'lib_poisson1D_csc_csr.c']]]
+];

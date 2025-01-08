@@ -1,0 +1,88 @@
+\hypertarget{test_8h}{}\doxysection{tests/test.h File Reference}
+\label{test_8h}\index{tests/test.h@{tests/test.h}}
+
+
+Test utilities.  
+
+
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+Include dependency graph for test.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{test_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{test_8h_a8d23feea868a983c8c2b661e1e16972f}\label{test_8h_a8d23feea868a983c8c2b661e1e16972f}} 
+\#define \mbox{\hyperlink{test_8h_a8d23feea868a983c8c2b661e1e16972f}{R\+ED}}~\char`\"{}\textbackslash{}033\mbox{[}0;31m\char`\"{}
+\begin{DoxyCompactList}\small\item\em Red color. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_acfbc006ea433ad708fdee3e82996e721}\label{test_8h_acfbc006ea433ad708fdee3e82996e721}} 
+\#define \mbox{\hyperlink{test_8h_acfbc006ea433ad708fdee3e82996e721}{G\+R\+E\+EN}}~\char`\"{}\textbackslash{}033\mbox{[}0;32m\char`\"{}
+\begin{DoxyCompactList}\small\item\em Green color. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_ab702106cf3b3e96750b6845ded4e0299}\label{test_8h_ab702106cf3b3e96750b6845ded4e0299}} 
+\#define \mbox{\hyperlink{test_8h_ab702106cf3b3e96750b6845ded4e0299}{R\+E\+S\+ET}}~\char`\"{}\textbackslash{}033\mbox{[}0m\char`\"{}
+\begin{DoxyCompactList}\small\item\em Reset color. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{test_8h_ac22830a985e1daed0c9eadba8c6f606e}{A\+S\+S\+E\+RT}}(condition)
+\begin{DoxyCompactList}\small\item\em Assert a condition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{test_8h_a13cbd01ef7beb2a8a6bde89e1db46cf9}\label{test_8h_a13cbd01ef7beb2a8a6bde89e1db46cf9}} 
+void \mbox{\hyperlink{test_8h_a13cbd01ef7beb2a8a6bde89e1db46cf9}{print\+\_\+mat\+\_\+col\+\_\+major}} (double $\ast$mat, int rows, int cols)
+\begin{DoxyCompactList}\small\item\em Print a matrix in column major format. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_a5598ade4be1fc917a2715bec6c0b1fe0}\label{test_8h_a5598ade4be1fc917a2715bec6c0b1fe0}} 
+void \mbox{\hyperlink{test_8h_a5598ade4be1fc917a2715bec6c0b1fe0}{print\+\_\+mat\+\_\+row\+\_\+major}} (double $\ast$mat, int rows, int cols)
+\begin{DoxyCompactList}\small\item\em Print a matrix in row major format. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_a604a7c1b8b47eb9d7c35b04c2f4680eb}\label{test_8h_a604a7c1b8b47eb9d7c35b04c2f4680eb}} 
+bool \mbox{\hyperlink{test_8h_a604a7c1b8b47eb9d7c35b04c2f4680eb}{mat\+\_\+equals}} (double $\ast$mat1, double $\ast$mat2, int rows, int cols)
+\begin{DoxyCompactList}\small\item\em Check if two matrices are approximately equal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_a772c7b8914c186819c99603d591ce0ed}\label{test_8h_a772c7b8914c186819c99603d591ce0ed}} 
+bool \mbox{\hyperlink{test_8h_a772c7b8914c186819c99603d591ce0ed}{vec\+\_\+equals}} (double $\ast$vec1, double $\ast$vec2, int size)
+\begin{DoxyCompactList}\small\item\em Check if two vectors are approximately equal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_a5fdd68abeb617f3b4bfdd279b55da1ce}\label{test_8h_a5fdd68abeb617f3b4bfdd279b55da1ce}} 
+double $\ast$ \mbox{\hyperlink{test_8h_a5fdd68abeb617f3b4bfdd279b55da1ce}{flattened\+\_\+row\+\_\+major}} (int rows, int cols, double mat\mbox{[}rows\mbox{]}\mbox{[}cols\mbox{]})
+\begin{DoxyCompactList}\small\item\em Flattens a 2D matrix into a 1D matrix row major format. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{test_8h_a41f6f21e0a8a6cb9df4cd9a2f4780c45}\label{test_8h_a41f6f21e0a8a6cb9df4cd9a2f4780c45}} 
+double $\ast$ \mbox{\hyperlink{test_8h_a41f6f21e0a8a6cb9df4cd9a2f4780c45}{row\+\_\+to\+\_\+col\+\_\+major}} (double $\ast$mat, int rows, int cols)
+\begin{DoxyCompactList}\small\item\em Flattens a 2D matrix into a 1D matrix column major format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Test utilities. 
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{test_8h_ac22830a985e1daed0c9eadba8c6f606e}\label{test_8h_ac22830a985e1daed0c9eadba8c6f606e}} 
+\index{test.h@{test.h}!ASSERT@{ASSERT}}
+\index{ASSERT@{ASSERT}!test.h@{test.h}}
+\doxysubsubsection{\texorpdfstring{ASSERT}{ASSERT}}
+{\footnotesize\ttfamily \#define A\+S\+S\+E\+RT(\begin{DoxyParamCaption}\item[{}]{condition }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (!(condition)) \{                                                                                                                \(\backslash\)}
+\DoxyCodeLine{                printf(\mbox{\hyperlink{test_8h_a8d23feea868a983c8c2b661e1e16972f}{RED}} \textcolor{stringliteral}{"Assertion failed: "} \#condition \textcolor{stringliteral}{"\(\backslash\)n"} \mbox{\hyperlink{test_8h_ab702106cf3b3e96750b6845ded4e0299}{RESET}} \textcolor{stringliteral}{"File: \%s, Line: \%d\(\backslash\)n"}, \_\_FILE\_\_, \_\_LINE\_\_);                         \(\backslash\)}
+\DoxyCodeLine{                exit(1);                                                                                                                   \(\backslash\)}
+\DoxyCodeLine{        \}                                                                                                                                  \(\backslash\)}
+\DoxyCodeLine{        else \{                                                                                                                             \(\backslash\)}
+\DoxyCodeLine{                printf(\mbox{\hyperlink{test_8h_acfbc006ea433ad708fdee3e82996e721}{GREEN}} \textcolor{stringliteral}{"Assertion passed: "} \#condition \textcolor{stringliteral}{"\(\backslash\)n"} \mbox{\hyperlink{test_8h_ab702106cf3b3e96750b6845ded4e0299}{RESET}});                                                                  \(\backslash\)}
+\DoxyCodeLine{        \}}
+
+\end{DoxyCode}
+
+
+Assert a condition. 
+

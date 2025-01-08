@@ -162,7 +162,7 @@ double richardson_alpha_opt(int* la);
  * @param[out] nbite number of iterations taken
  */
 void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol,
-			      int* maxit, double* resvec, int* nbite);
+                              int* maxit, double* resvec, int* nbite);
 
 /**
  * @brief Computes the iteration matrix for the Jacobi method in the Richardson algorithm, in general band tri-diagonal form
@@ -204,7 +204,7 @@ void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, 
  * @param[out] nbite number of iterations
  */
 void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
-			   double* resvec, int* nbite);
+                           double* resvec, int* nbite);
 
 /**
  * @brief Computes the index of the element in the AB matrix in column major format
@@ -225,12 +225,12 @@ int dgbtrftridiag(int* la, int* n, int* kl, int* ku, double* AB, int* lab, int* 
  * @brief Compressed Sparse Row Matrix
  */
 typedef struct CSRMatrix {
-	int nb_rows;	 ///< Number of rows
-	int nb_cols;	 ///< Number of columns
-	int nb_non_zero; ///< Number of non zero elements
-	double* values;	 ///< Values of the matrix
-	int* col_index;	 ///< Column index of the non zero elements
-	int* row_ptr;	 ///< Row pointer
+        int nb_rows;     ///< Number of rows
+        int nb_cols;     ///< Number of columns
+        int nb_non_zero; ///< Number of non zero elements
+        double* values;  ///< Values of the matrix
+        int* col_index;  ///< Column index of the non zero elements
+        int* row_ptr;    ///< Row pointer
 } CSRMatrix;
 
 /**
@@ -266,12 +266,12 @@ CSRMatrix poisson1D_csr_matrix(int nb_equations);
  * @brief Compressed Sparse Column Matrix
  */
 typedef struct {
-	int nb_rows;	 ///< Number of rows
-	int nb_cols;	 ///< Number of columns
-	int nb_non_zero; ///< Number of non zero elements
-	double* values;	 ///< Values of the matrix
-	int* row_index;	 ///< Row index of the non zero elements
-	int* col_ptr;	 ///< Column pointer
+        int nb_rows;     ///< Number of rows
+        int nb_cols;     ///< Number of columns
+        int nb_non_zero; ///< Number of non zero elements
+        double* values;  ///< Values of the matrix
+        int* row_index;  ///< Row index of the non zero elements
+        int* col_ptr;    ///< Column pointer
 } CSCMatrix;
 
 /**
@@ -321,13 +321,13 @@ CSCMatrix csc_clone(CSCMatrix* csc);
  * @brief Free a CSR matrix
  * @param[in] csr CSR matrix to free
  */
-void csc_free(CSCMatrix* csc);
+void csr_free(CSRMatrix* csr);
 
 /**
  * @brief Free a CSC matrix
  * @param[in] csc CSC matrix to free
  */
-void csr_free(CSRMatrix* csr);
+void csc_free(CSCMatrix* csc);
 
 /**
  * @brief Get the element at position (i, j) in a CSR matrix
