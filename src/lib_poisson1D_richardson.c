@@ -65,12 +65,12 @@ double richardson_alpha_opt(int* la) {
 	return 2.0 / (eigmin_poisson1D(la) + eigmax_poisson1D(la));
 }
 
-double* residual(double* A, double* x, double* b, int nb_cols, int nb_lines) {
+double* residual(double* A, double* x, double* b, int nb_cols, int nb_rows) {
 	double* res = (double*)malloc(nb_cols * sizeof(double));
 	for (int i = 0; i < nb_cols; i++) {
 		res[i] = b[i];
-		for (int j = 0; j < nb_lines; j++) {
-			res[i] -= A[i * nb_lines + j] * x[j];
+		for (int j = 0; j < nb_rows; j++) {
+			res[i] -= A[i * nb_rows + j] * x[j];
 		}
 	}
 	return res;
@@ -92,7 +92,7 @@ double* residual(double* A, double* x, double* b, int nb_cols, int nb_lines) {
 void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_rich, int* lab, int* la, int* ku, int* kl, double* tol,
 			      int* maxit, double* resvec, int* nbite) {
 	double alpha_opt = *alpha_rich;
-	int nb_lines = *lab;
+	int nb_rows = *lab;
 	int nb_cols = *la;
 	int upper_diags = *ku;
 	int lower_diags = *kl;
@@ -111,7 +111,7 @@ void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_
 	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
 
 	// tmp_vec = tmp_vec - AB * X
-	cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 
 	// Compute the initial residual norm
 	double norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
@@ -128,7 +128,7 @@ void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_
 
 		// tmp_vec = tmp_vec - AB * X
 		cblas_dgbmv(
-		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 
 		// Compute the residual and store it
 		norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
@@ -148,7 +148,7 @@ void richardson_alpha_tridiag(double* AB, double* RHS, double* X, double* alpha_
 
 void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_rich, double* tol, int* maxit, double* resvec, int* nbite) {
 	double alpha_opt = *alpha_rich;
-	int nb_lines = AB->nb_rows;
+	int nb_rows = AB->nb_rows;
 	int nb_cols = AB->nb_cols;
 	int max_iters = *maxit;
 	double tolerance = *tol;
@@ -165,7 +165,7 @@ void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_r
 	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
 
 	// tmp_vec = tmp_vec - AB * X
-	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 	dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
 
 	// Compute the initial residual norm
@@ -183,7 +183,7 @@ void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_r
 
 		// tmp_vec = tmp_vec - AB * X
 		// cblas_dgbmv(
-		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 		dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
 
 		// Compute the residual and store it
@@ -213,14 +213,14 @@ void richardson_alpha_csr(CSRMatrix* AB, double* RHS, double* X, double* alpha_r
 
 // M-1 = D^-1 (diagonal)
 void extract_MB_jacobi_tridiag(double* AB, double* MB, int* lab, int* la, int* ku, int* kl, int* kv) {
-	int nb_lines = *lab;
+	int nb_rows = *lab;
 	int nb_cols = *la;
 	int upper_diags = *ku;
 	int lower_diags = *kl;
 	int diagonals = *kv;
 
 	// Set MB to 0
-	memset(MB, 0, nb_lines * diagonals * sizeof(double));
+	memset(MB, 0, nb_rows * diagonals * sizeof(double));
 
 	// Copy the diagonal of AB to MB
 	for (int i = 0; i < nb_cols; i++) {
@@ -285,7 +285,7 @@ void invert_lower_triangular(double* lower_triangular, double* inv_lower_triangu
 // kv (in, scalar) : number of diagonals of MB
 // M = D (diagonal) - E (lower triangle)
 void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, int* ku, int* kl, int* kv) {
-	int nb_lines = *lab;
+	int nb_rows = *lab;
 	int nb_cols = *la;
 	int upper_diags = *ku;
 	int lower_diags = *kl;
@@ -314,7 +314,7 @@ void extract_MB_gauss_seidel_tridiag(double* AB, double* MB, int* lab, int* la, 
 	invert_lower_triangular(lower_triangular, inv_lower_triangular, nb_cols);
 
 	// truncate the inv_lower_triangular back into a tridiagonal matrix
-	memset(MB, 0, nb_lines * (diagonals + upper_diags + lower_diags) * sizeof(double));
+	memset(MB, 0, nb_rows * (diagonals + upper_diags + lower_diags) * sizeof(double));
 	// Copy the diagonal
 	current_idx = 0;
 	for (int i = 0; i < nb_cols; i++) {
@@ -381,7 +381,7 @@ CSRMatrix extract_MB_gauss_seidel_csr(CSRMatrix* AB) {
 void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* lab, int* la, int* ku, int* kl, double* tol, int* maxit,
 			   double* resvec, int* nbite) {
 	// double alpha_opt = *alpha_rich;
-	int nb_lines = *lab;
+	int nb_rows = *lab;
 	int nb_cols = *la;
 	int upper_diags = *ku;
 	int lower_diags = *kl;
@@ -402,7 +402,7 @@ void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* 
 	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
 
 	// tmp_vec = tmp_vec - AB * X
-	cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 
 	// Compute the initial residual norm
 	double norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
@@ -416,7 +416,7 @@ void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* 
 
 		// X = X + MB * tmp_vec
 		cblas_dgbmv(
-		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, 1.0, MB, nb_lines, tmp_vec, 1, 1.0, X, 1);
+		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, 1.0, MB, nb_rows, tmp_vec, 1, 1.0, X, 1);
 
 		// printf("\nX k : ");
 		// for (int i = 0; i < nb_cols; i++) {
@@ -429,7 +429,7 @@ void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* 
 
 		// tmp_vec = tmp_vec - AB * X
 		cblas_dgbmv(
-		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		    CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 
 		// Compute the residual and store it
 		norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
@@ -463,7 +463,7 @@ void richardson_MB_tridiag(double* AB, double* RHS, double* X, double* MB, int* 
 // Used to compute the jacobi method or gauss-seidel method depending on the MB matrix
 void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, double* tol, int* maxit, double* resvec, int* nbite) {
 	// double alpha_opt = *alpha_rich;
-	int nb_lines = AB->nb_rows;
+	int nb_rows = AB->nb_rows;
 	int nb_cols = AB->nb_cols;
 	int max_iters = *maxit;
 	double tolerance = *tol;
@@ -482,7 +482,7 @@ void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, dou
 	memcpy(tmp_vec, RHS, nb_cols * sizeof(double));
 
 	// tmp_vec = tmp_vec - AB * X
-	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+	// cblas_dgbmv(CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 	dcsrmv('T', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
 	// Compute the initial residual norm
 	double norm_res = cblas_dnrm2(nb_cols, tmp_vec, 1) / cblas_dnrm2(nb_cols, RHS, 1);
@@ -496,7 +496,7 @@ void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, dou
 
 		// X = X + MB * tmp_vec
 		// cblas_dgbmv(
-		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, 1.0, MB, nb_lines, tmp_vec, 1, 1.0, X, 1);
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, 1.0, MB, nb_rows, tmp_vec, 1, 1.0, X, 1);
 		dcsrmv('N', 1.0, MB, tmp_vec, 1, 1.0, X, 1);
 
 		// printf("\nX k : ");
@@ -510,7 +510,7 @@ void richardson_MB_csr(CSRMatrix* AB, double* RHS, double* X, CSRMatrix* MB, dou
 
 		// tmp_vec = tmp_vec - AB * X
 		// cblas_dgbmv(
-		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_lines, X, 1, 1.0, tmp_vec, 1);
+		//     CblasColMajor, CblasNoTrans, nb_cols, nb_cols, lower_diags, upper_diags, -1.0, AB, nb_rows, X, 1, 1.0, tmp_vec, 1);
 		dcsrmv('N', -1.0, AB, X, 1, 1.0, tmp_vec, 1);
 
 		// Compute the residual and store it

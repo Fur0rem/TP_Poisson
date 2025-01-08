@@ -9,10 +9,10 @@
 int main() {
 	// Test de la matrice identité
 	{
-		int nb_lines = 1;
+		int nb_rows = 1;
 		int la = 3;
 		int kv = 1;
-		int lab = nb_lines + kv;
+		int lab = nb_rows + kv;
 		double* mat = (double*)malloc(lab * la * sizeof(double));
 		set_GB_operator_colMajor_poisson1D_Id(mat, &lab, &la, &kv);
 		print_mat_col_major(mat, lab, la);
@@ -31,10 +31,10 @@ int main() {
 
 	// Test de la matrice de poisson
 	{
-		int nb_lines = 3;
+		int nb_rows = 3;
 		int la = 7;
 		int kv = 2;
-		int lab = nb_lines + kv;
+		int lab = nb_rows + kv;
 
 		double* mat = (double*)malloc(lab * la * sizeof(double));
 		set_GB_operator_colMajor_poisson1D(mat, &lab, &la, &kv);

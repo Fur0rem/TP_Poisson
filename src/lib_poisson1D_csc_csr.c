@@ -294,6 +294,15 @@ double csr_elem_at(CSRMatrix* csr, int i, int j) {
 	return 0;
 }
 
+void csr_write_at(CSRMatrix* csr, int i, int j, double value) {
+	for (int nz_idx = csr->row_ptr[i]; nz_idx < csr->row_ptr[i + 1]; nz_idx++) {
+		if (csr->col_index[nz_idx] == j) {
+			csr->values[nz_idx] = value;
+			return;
+		}
+	}
+}
+
 double csc_elem_at(CSCMatrix* csc, int i, int j) {
 	for (int nz_idx = csc->col_ptr[j]; nz_idx < csc->col_ptr[j + 1]; nz_idx++) {
 		if (csc->row_index[nz_idx] == i) {
@@ -301,6 +310,15 @@ double csc_elem_at(CSCMatrix* csc, int i, int j) {
 		}
 	}
 	return 0;
+}
+
+void csc_write_at(CSCMatrix* csc, int i, int j, double value) {
+	for (int nz_idx = csc->col_ptr[j]; nz_idx < csc->col_ptr[j + 1]; nz_idx++) {
+		if (csc->row_index[nz_idx] == i) {
+			csc->values[nz_idx] = value;
+			return;
+		}
+	}
 }
 
 CSRMatrix csr_from_diag(double* diag, int nb_elements) {
@@ -412,6 +430,7 @@ CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows) {
 	csr.nb_cols = nb_rows;
 	csr.nb_non_zero = nb_rows * (nb_rows + 1) / 2;
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
+	memcpy(csr.values, mat, csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
 	int non_zero_idx = 0;
@@ -419,7 +438,7 @@ CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows) {
 	for (int i = 0; i < nb_rows; i++) {
 		csr.row_ptr[i] = non_zero_idx;
 		for (int j = 0; j <= i; j++) {
-			csr.values[non_zero_idx] = mat[current_idx];
+			// csr.values[non_zero_idx] = mat[current_idx];
 			csr.col_index[non_zero_idx] = j;
 			non_zero_idx++;
 			current_idx++;
@@ -430,6 +449,25 @@ CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows) {
 }
 
 CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows) {
-	// TODO
-	exit(1);
+	// mat is a lower triangular matrix, but we can't copy because it's in the wrong order
+	CSCMatrix csc;
+	csc.nb_rows = nb_rows;
+	csc.nb_cols = nb_rows;
+	csc.nb_non_zero = nb_rows * (nb_rows + 1) / 2;
+	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
+	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
+	csc.col_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
+	int non_zero_idx = 0;
+	int current_idx = 0;
+	for (int i = 0; i < nb_rows; i++) {
+		csc.col_ptr[i] = non_zero_idx;
+		for (int j = 0; j <= i; j++) {
+			csc.values[non_zero_idx] = mat[current_idx];
+			csc.row_index[non_zero_idx] = j;
+			non_zero_idx++;
+			current_idx++;
+		}
+	}
+	csc.col_ptr[nb_rows] = non_zero_idx;
+	return csc;
 }

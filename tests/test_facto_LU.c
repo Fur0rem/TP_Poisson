@@ -6,10 +6,10 @@
 #include <stdlib.h>
 
 int main() {
-	int nb_lines = 3;
+	int nb_rows = 3;
 	int la = 3;
 	int kv = 1;
-	int lab = nb_lines + kv;
+	int lab = nb_rows + kv;
 	double* poisson = (double*)malloc(lab * la * sizeof(double));
 	set_GB_operator_colMajor_poisson1D(poisson, &lab, &la, &kv);
 	print_mat_col_major(poisson, lab, la);
