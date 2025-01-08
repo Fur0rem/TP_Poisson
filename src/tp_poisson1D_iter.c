@@ -4,6 +4,7 @@
  */
 
 #include "lib_poisson1D.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -41,7 +42,6 @@ int main(int argc, char* argv[]) {
                 printf("IMPLEM = %d, FORMAT = %d\n", IMPLEM, FORMAT);
         }
         else {
-                // TODO: better error message
                 perror("Usage: ./tp2_poisson1D_iter <IMPLEM> <FORMAT>, format=0 -> tridiag, format=1 -> csr, format=2 -> csc");
                 exit(1);
         }
@@ -104,6 +104,8 @@ int main(int argc, char* argv[]) {
                         richardson_alpha_tridiag(AB, RHS, SOL, &opt_alpha, &lab, &la, &ku, &kl, &tol, &maxit, resvec, &nbite);
                         plot_convergence_history(resvec, nbite, "rapport/convergence_richardson_alpha_format_tri-diag");
                         printf("Number of iterations for Richardson with optimal alpha is : %d\n", nbite);
+                        printf("Relative residual is : %lf\n", resvec[nbite - 1]);
+                        printf("Error to real solution is : %lf\n", relative_forward_error(EX_SOL, SOL, &la));
                 }
                 /* Richardson General Tridiag */
 
@@ -133,6 +135,8 @@ int main(int argc, char* argv[]) {
                                 plot_convergence_history(resvec, nbite, "rapport/convergence_gauss-seidel_format_tri-diag");
                                 printf("Number of iterations for Gauss-Seidel is : %d\n", nbite);
                         }
+                        printf("Relative residual is : %lf\n", resvec[nbite - 1]);
+                        printf("Error to real solution is : %lf\n", relative_forward_error(EX_SOL, SOL, &la));
                 }
         }
         else if (FORMAT == CSR) {
@@ -150,6 +154,8 @@ int main(int argc, char* argv[]) {
                         richardson_alpha_csr(&AB, RHS, SOL, &opt_alpha, &tol, &maxit, resvec, &nbite);
                         plot_convergence_history(resvec, nbite, "rapport/convergence_richardson_alpha_format_CSR");
                         printf("Number of iterations for Richardson with optimal alpha is : %d\n", nbite);
+                        printf("Relative residual is : %lf\n", resvec[nbite - 1]);
+                        printf("Error to real solution is : %lf\n", relative_forward_error(EX_SOL, SOL, &la));
                 }
                 /* Richardson General CSR */
 
@@ -177,6 +183,8 @@ int main(int argc, char* argv[]) {
                                 plot_convergence_history(resvec, nbite, "rapport/convergence_gauss-seidel_format_CSR");
                                 printf("Number of iterations for Gauss-Seidel is : %d\n", nbite);
                         }
+                        printf("Relative residual is : %lf\n", resvec[nbite - 1]);
+                        printf("Error to real solution is : %lf\n", relative_forward_error(EX_SOL, SOL, &la));
                 }
         }
         else if (IMPLEM == CSC) {
@@ -191,7 +199,8 @@ int main(int argc, char* argv[]) {
         }
         printf("\n");
 
-        printf("Exact exact:\t");
+        set_analytical_solution_DBC_1D(EX_SOL, X, &la, &T0, &T1);
+        printf("X exact:\t");
         for (int i = 0; i < la; i++) {
                 printf("%lf\t", EX_SOL[i]);
         }

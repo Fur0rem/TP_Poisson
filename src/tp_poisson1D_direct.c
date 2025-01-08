@@ -9,6 +9,17 @@
 #define TRI 1
 #define SV  2
 
+double error_to_real_solution(double* x_exact, double* x, int size) {
+        // ||x - x_exact|| / ||x_exact||
+        double norm_x_minus_x_exact = 0.0;
+        double norm_x_exact = 0.0;
+        for (int i = 0; i < size; i++) {
+                norm_x_minus_x_exact += (x[i] - x_exact[i]) * (x[i] - x_exact[i]);
+                norm_x_exact += x_exact[i] * x_exact[i];
+        }
+        return sqrt(norm_x_minus_x_exact) / sqrt(norm_x_exact);
+}
+
 int main(int argc, char* argv[]) {
         printf("--------- DIRECT METHODS ---------\n\n");
         int ierr;

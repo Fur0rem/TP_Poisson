@@ -3,9 +3,180 @@ TODO: Ne pas oublier d'enlever ca
 [TP_Poisson]$ docker run -it -v $PWD:/tp tppoisson
 root@container:/app# cd /tp
 
-# 2 Méthodes directe et stockage bande
+# Projet de Calcul Numérique : TP Poisson 1D
 
-### Exercice 3: Référence et utilisation de BLAS/LAPACK
+## 0 : Introduction
+
+Ce TP a pour but de résoudre le problème de l'équation de la chaleur stationnaire par méthodes directes et itératives, et de comparer les performances, précision et complexité des différentes méthodes.
+Nous faisons cela en C en utilisant les bibliothèques BLAS et LAPACK.
+
+Dans ce rapport nous allons dans un premier temps étudier l'équation de la chaleur, nous allons la transformer afin de pouvoir la traiter numériquement.
+
+Ensuite, nous discuterons du format de stockage bande, et des matrices tri-diagonales.
+Nous en profiterons pour nous nous familiariser avec les fonctions de BLAS et LAPACK.
+
+
+Enfin, nous allons étudier les méthodes directes et itératives pour résoudre le problème de Poisson 1D.
+Avec les méthodes directes, nous utiliserons des fonctions de résolution de systèmes linéaires comme la factorisation LU, descente et remontée, et avec les méthodes itératives, nous utiliserons des méthodes de résolution de systèmes linéaires itératives comme Richardson, Jacobi et Gauss-Seidel.
+Nous comparerons les performances, précision et complexité des différentes méthodes.
+
+Enfin, nous explorerons d'autres formats de stockage de matrices creuses, comme le format CSR et CSC, et nous implémenterons les méthodes directes et itératives avec ces formats.
+
+## 1 : Travail préliminaire : Étude de l'équation de la chaleur
+
+Nous travaillons avec l'équation de la chaleur en 1D, dans un milieu immobile, linéaire, et homogène, avec des termes sources et isotropes.
+
+L'équation de la chaleur peut se poser sous la forme d'un système d'équations différentielles partielles, avec des conditions aux bords, ici les conditions de Dirichlet.
+
+$$
+\begin{cases}
+	-k \frac{\delta ^2T}{\delta x^2} = g, x \in ]0, 1[ \\
+	T(0) = T_0 \\
+	T(1) = T_1
+\end{cases}
+$$ 
+avec $k$ la conductivité thermique, $T$ la température, $g$ un terme source, $T_0$ et $T_1$ les températures aux bords.
+
+Dans ce projet, nous allons supposer qu'il n'y a pas de terme source ($g = 0$).
+
+L'équation est posée dans un milieu continu, et donc pour pouvoir la résoudre numériquement, nous devons la discrétiser.
+Nous allons discrétiser l'espace de façon uniforme en $n+2$ points.
+
+```
+x_0     x_1     x_2     ...     x_n     x_{n+1}
+ |     	 |     	 |           	 |     	   |
+T_0 -+-	T_1 -+-	T_2 -+- T_i -+-	T_n -+-	T_{n+1}
+```
+
+
+
+En chaque point $x_i$, nous pouvons donc réécrire l'équation de la chaleur sous forme discrète:
+$$
+	-k (\frac{\delta^2 T}{\delta x^2})_i = 0
+$$
+
+Nous obtenons donc le système linéaire suivant:
+$$
+\begin{cases}
+	T(0) = T_0 \\
+	-k (\frac{\delta^2 T}{\delta x_i^2}) = 0, \forall i \in [1, n] \\
+	T(1) = T_1
+\end{cases}
+$$
+
+La chaleur se propage donc de manière linéaire entre les points, et nous connaissons une solution analytique pour ce problème, qui est une fonction linéaire:
+$$
+T(x) = T_0 + x(T_1 - T_0)
+$$
+
+Nous allons réécrire ce système $A * u = b$, avec $A$ une matrice à déterminer, $u$ le vecteur solution représentant les $T(x)$, et $b$ le vecteur de droite contenant les conditions.
+
+### 1.1 : Approximation de la dérivée seconde
+
+La dérivée seconde reste dans le domaine continu, et donc pour pouvoir la calculer numériquement, nous devons l'approximer.
+Pour cela, nous allons utiliser un développement de Taylor d'ordre 2, puis une méthode de différences finies centrées.
+
+Le développement de Taylor d'ordre 2 de la fonction $T$ en $x_i$ est:
+$$
+u(x_i + h) = u(x_i) + h (\frac{du}{dx})_i + h^2 (\frac{d^2u}{dx^2})_i + o(h^2)
+\\
+u(x_i - h) = u(x_i) - h (\frac{du}{dx})_i + h^2 (\frac{d^2u}{dx^2})_i + o(h^2)
+$$
+Ensuite, en sommant les deux équations, nous obtenons:
+$$
+u(x_i + h) + u(x_i - h) = 2u(x_i) + 2h^2 (\frac{d^2u}{dx^2})_i + o(h^2)
+$$
+Et donc, en isolant les termes en $T(x)$ d'un côté, et les termes en $\frac{d^2T}{dx^2}$ de l'autre, nous obtenons:
+$$
+u(x_i + h) - 2u(x_i) + u(x_i - h) = h^2 (\frac{d^2u}{dx^2})_i + o(h^2)
+$$
+Ensuite, on va multiplier par $-1$ pour faire réapparaître notre terme g.
+$$
+- u(x_i + h) + 2u(x_i) - u(x_i - h) = -h^2 (\frac{d^2u}{dx^2})_i + o(h^2)
+\\
+= -h^2 g_i + o(h^2)
+$$
+
+Et donc, en isolant $g_i$, nous obtenons:
+$$
+(\frac{d^2T}{dx^2})_i = g_i = \frac{u(x_i + h) - 2u(x_i) + u(x_i - h)}{h^2} + o(h^2)
+$$
+
+Nous avons donc une approximation de la dérivée seconde de T en $x_i$ en fonction de T en $x_i$, $x_{i-1}$ et $x_{i+1}$.
+
+### 1.2 : Système linéaire
+
+Le système linéaire que nous devons résoudre est donc:
+$$
+\begin{cases}
+	u_0 = T_0 \\
+	-u_0 + 2u_1 - u_2 = -h^2 g_1 \\
+	-u_1 + 2u_2 - u_3 = -h^2 g_2 \\
+	... \\
+	-u_{n-1} + 2u_n - u_{n+1} = -h^2 g_n \\
+	u_{n+1} = T_1
+\end{cases}
+$$
+En écriture plus compacte:
+$$
+\begin{cases}
+	u_0 = T_0 \\
+	-u_{i-1} + 2u_i - u_{i+1} = -h^2 g_i, \forall i \in [[1, n]] \\
+	u_{n+1} = T_1
+\end{cases}
+$$
+
+De plus, comme nous avons posé $g = 0$, nous avons:
+$$
+\begin{cases}
+	u_0 = T_0 \\
+	-u_{i-1} + 2u_i - u_{i+1} = 0, \forall i \in [[1, n]] \\
+	u_{n+1} = T_1
+\end{cases}
+$$
+
+Sous la forme d'un système matriciel $A * u = b$, nous avons:
+$$
+\begin{bmatrix}
+	2 & -1 & 0 & ... & 0 & 0 & 0\\
+	-1 & 2 & -1 & ... & 0 & 0 & 0\\
+	0 & -1 & 2 & ... & 0 & 0 & 0 \\
+	... & ... & ... & ... & ... & ... & ... \\
+	0 & 0 & 0 & ... & 2 & -1 & 0 \\
+	0 & 0 & 0 & ... & -1 & 2 & -1 \\
+	0 & 0 & 0 & ... & 0 &-1 & 2 \\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	u_0 \\
+	u_1 \\
+	u_2 \\
+	... \\
+	u_{n-1} \\
+	u_n \\
+	u_{n+1} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+	T_0 \\
+	0 \\
+	0 \\
+	... \\
+	0 \\
+	0 \\
+	T_1 \\
+\end{bmatrix}
+$$
+
+La matrice A est appelée matrice de Poisson 1D, et est une matrice tri-diagonale.
+La diagonale principale est composée de 2, les diagonales au dessus et en dessous de la diagonale principale sont composées de -1, et les autres éléments sont nuls.
+
+
+## 2 : Méthodes directes et stockage bande
+
+### 2.3 : Référence et utilisation de BLAS/LAPACK
+
+### Prise en main de BLAS et LAPACK
 
 Q1. En C, comment doit on déclarer et allouer une matrice pour utiliser BLAS et LAPACK?
 
@@ -40,6 +211,66 @@ Q3. A quoi correspond la dimension principale (leading dimension) généralement
 
 R3. La dimension principale correspond au nombre de lignes de la matrice en LAPACK_COL_MAJOR et au nombre de colonnes en LAPACK_ROW_MAJOR.
     C'est à dire le nombres d'éléments entre deux éléments consécutifs de la même ligne (en LAPACK_COL_MAJOR) ou de la même colonne (en LAPACK_ROW_MAJOR).
+
+### Manipulation de matrices bandes
+Le stockage bande est un format de stockage pour des matrices particulières, qui n'ont des éléments non nuls que dans une bande autour de la diagonale principale.
+Par exemple, une matrice tri-diagonale ou penta-diagonale.
+$$
+T = \begin{bmatrix}
+	1 & 2 & 0 & 0 & 0 & 0 \\
+	3 & 1 & 2 & 0 & 0 & 0 \\
+	0 & 3 & 1 & 2 & 0 & 0 \\
+	0 & 0 & 3 & 1 & 2 & 0 \\
+	0 & 0 & 0 & 3 & 1 & 2 \\
+	0 & 0 & 0 & 0 & 3 & 1 \\
+\end{bmatrix}
+
+P = \begin{bmatrix}
+	1 & 2 & 3 & 0 & 0 & 0 \\
+	4 & 1 & 2 & 3 & 0 & 0 \\
+	5 & 4 & 1 & 2 & 3 & 0 \\
+	0 & 5 & 4 & 1 & 2 & 3 \\
+	0 & 0 & 5 & 4 & 1 & 2 \\
+	0 & 0 & 0 & 5 & 4 & 1 \\
+\end{bmatrix}
+$$
+
+Comme nous pouvons le voir sur ces matrices, le nombre d'éléments non nuls devient très vite important en fonction de la taille de la matrice.
+Pour une matrice de taille $n$ avec $b$ bandes, la proportion d'éléments non nuls est de 
+$\frac{b * n}{n^2} = \frac{b}{n}$
+, et donc pour une matrice de taille $n = 1000$ avec 5 bandes, nous avons une proportion d'éléments non nuls de 0.005, et donc le stockage bande est très efficace pour les matrices creuses.
+
+Les bandes n'ont pas besoin d'être symétriques, et on peut généraliser.
+Pour une matrice $A$ avec $kl$ bandes en dessous de la diagonale principale et $ku$ bandes au dessus, on peut stocker la matrice en stockage bande avec $kl + ku + 1$ bandes, et donc une matrice $A$ de taille $n * m$ avec $kl$ bandes en dessous et $ku$ bandes au dessus, sera stockée en une matrice $B$ de taille $n * (kl + ku + 1)$.
+
+Exemple:
+$$
+kl = 2, ku = 1
+\\
+A = \begin{bmatrix}
+	a_{11} & a_{12} & 0 & 0 & 0 & 0 & 0 \\
+	a_{21} & a_{22} & a_{23} & 0 & 0 & 0 & 0 \\
+	a_{31} & a_{32} & a_{33} & a_{34} & 0 & 0 & 0 \\
+	0 & a_{42} & a_{43} & a_{44} & a_{45} & 0 & 0 \\
+	0 & 0 & a_{53} & a_{54} & a_{55} & a_{56} & 0 \\
+	0 & 0 & 0 & a_{64} & a_{65} & a_{66} & a_{67} \\
+	0 & 0 & 0 & 0 & a_{75} & a_{76} & a_{77} \\
+\end{bmatrix}
+$$
+sera stockée en
+$$
+B = \begin{bmatrix}
+	0 & a_{12} & a_{23} & a_{34} & a_{45} & a_{56} & a_{67} \\
+	a_{11} & a_{22} & a_{33} & a_{44} & a_{55} & a_{66} & a_{77} \\
+	a_{21} & a_{32} & a_{43} & a_{54} & a_{65} & a_{76} & 0 \\
+	a_{31} & a_{42} & a_{53} & a_{64} & a_{75} & 0 & 0 \\
+\end{bmatrix}
+$$
+
+Ici, nous pouvons voir que nous avons gagné un gain de place considérable.
+De plus, cet exemple reste assez petit, mais vous pouvez imaginez avec des matrices bien plus grandes.
+
+Nous allons maintenant utiliser les fonctions de BLAS et LAPACK pour manipuler des matrices bandes.
 
 Q4. Que fait la fonction dgbmv ? Quelle méthode implémente-t-elle ?
 
