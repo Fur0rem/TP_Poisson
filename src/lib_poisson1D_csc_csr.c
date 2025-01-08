@@ -5,9 +5,9 @@
 #include <string.h>
 
 double* csr_to_dense_col_major(CSRMatrix* csr) {
-	double* dense = (double*)malloc(csr->nb_rows * csr->nb_cols * sizeof(double));
-	memset(dense, 0, csr->nb_rows * csr->nb_cols * sizeof(double));
+	double* dense = (double*)calloc(csr->nb_rows * csr->nb_cols, sizeof(double));
 	for (int i = 0; i < csr->nb_rows; i++) {
+		// Fill a row
 		for (int j = csr->row_ptr[i]; j < csr->row_ptr[i + 1]; j++) {
 			dense[i + csr->col_index[j] * csr->nb_rows] = csr->values[j];
 		}
@@ -20,6 +20,8 @@ CSRMatrix dense_col_major_to_csr(double* dense, int nb_rows, int nb_cols) {
 	csr.nb_rows = nb_rows;
 	csr.nb_cols = nb_cols;
 	csr.nb_non_zero = 0;
+
+	// Count the number of non-zero elements
 	for (int i = 0; i < nb_rows; i++) {
 		for (int j = 0; j < nb_cols; j++) {
 			if (dense[i + j * nb_rows] != 0) {
@@ -27,9 +29,13 @@ CSRMatrix dense_col_major_to_csr(double* dense, int nb_rows, int nb_cols) {
 			}
 		}
 	}
+
+	// Allocate memory for CSR arrays
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
+
+	// Fill the CSR arrays
 	int non_zero_idx = 0;
 	for (int i = 0; i < nb_rows; i++) {
 		csr.row_ptr[i] = non_zero_idx;
@@ -42,12 +48,14 @@ CSRMatrix dense_col_major_to_csr(double* dense, int nb_rows, int nb_cols) {
 		}
 	}
 	csr.row_ptr[nb_rows] = non_zero_idx;
+
 	return csr;
 }
 
 void print_csr_matrix(CSRMatrix* csr) {
 	for (int i = 0; i < csr->nb_rows; i++) {
 		for (int j = 0; j < csr->nb_cols; j++) {
+			// Try to find if the number exists in the matrix (0 otherwise)
 			int found = 0;
 			for (int k = csr->row_ptr[i]; k < csr->row_ptr[i + 1]; k++) {
 				if (csr->col_index[k] == j) {
@@ -68,18 +76,20 @@ CSRMatrix poisson1D_csr_matrix(int nb_equations) {
 	CSRMatrix csr;
 	csr.nb_rows = nb_equations;
 	csr.nb_cols = nb_equations;
-	csr.nb_non_zero = 3 * nb_equations - 2;
+	csr.nb_non_zero = 3 * nb_equations - 2; // All rows are filled with 3 elements except 1st and last with 2 elements
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_equations + 1) * sizeof(int));
-	// first line has 2 and -1
+
+	// First row has 2 and -1
 	csr.values[0] = 2;
 	csr.col_index[0] = 0;
 	csr.values[1] = -1;
 	csr.col_index[1] = 1;
 	csr.row_ptr[0] = 0;
 	csr.row_ptr[1] = 2;
-	// middle lines have -1, 2, -1
+
+	// Middle rows have -1, 2, -1
 	for (int i = 1; i < nb_equations - 1; i++) {
 		csr.values[3 * i - 1] = -1;
 		csr.col_index[3 * i - 1] = i - 1;
@@ -89,12 +99,14 @@ CSRMatrix poisson1D_csr_matrix(int nb_equations) {
 		csr.col_index[3 * i + 1] = i + 1;
 		csr.row_ptr[i + 1] = 3 * i + 2;
 	}
-	// last line has -1 and 2
+
+	// Last row has -1 and 2
 	csr.values[3 * nb_equations - 3] = -1;
 	csr.col_index[3 * nb_equations - 3] = nb_equations - 2;
 	csr.values[3 * nb_equations - 2] = 2;
 	csr.col_index[3 * nb_equations - 2] = nb_equations - 1;
 	csr.row_ptr[nb_equations] = 3 * nb_equations;
+
 	return csr;
 }
 
@@ -102,6 +114,7 @@ double* csc_to_dense_col_major(CSCMatrix* csc) {
 	double* dense = (double*)malloc(csc->nb_rows * csc->nb_cols * sizeof(double));
 	memset(dense, 0, csc->nb_rows * csc->nb_cols * sizeof(double));
 	for (int i = 0; i < csc->nb_cols; i++) {
+		// Fill a column
 		for (int j = csc->col_ptr[i]; j < csc->col_ptr[i + 1]; j++) {
 			dense[csc->row_index[j] + i * csc->nb_rows] = csc->values[j];
 		}
@@ -113,6 +126,8 @@ CSCMatrix dense_col_major_to_csc(double* dense, int nb_rows, int nb_cols) {
 	CSCMatrix csc;
 	csc.nb_rows = nb_rows;
 	csc.nb_cols = nb_cols;
+
+	// Count the number of non-zero elements
 	csc.nb_non_zero = 0;
 	for (int i = 0; i < nb_cols; i++) {
 		for (int j = 0; j < nb_rows; j++) {
@@ -121,9 +136,13 @@ CSCMatrix dense_col_major_to_csc(double* dense, int nb_rows, int nb_cols) {
 			}
 		}
 	}
+
+	// Allocate memory for CSC arrays
 	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
 	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
 	csc.col_ptr = (int*)malloc((nb_cols + 1) * sizeof(int));
+
+	// Fill the CSC arrays
 	int non_zero_idx = 0;
 	for (int i = 0; i < nb_cols; i++) {
 		csc.col_ptr[i] = non_zero_idx;
@@ -136,12 +155,14 @@ CSCMatrix dense_col_major_to_csc(double* dense, int nb_rows, int nb_cols) {
 		}
 	}
 	csc.col_ptr[nb_cols] = non_zero_idx;
+
 	return csc;
 }
 
 void print_csc_matrix(CSCMatrix* csc) {
 	for (int i = 0; i < csc->nb_rows; i++) {
 		for (int j = 0; j < csc->nb_cols; j++) {
+			// Try to find if the number exists in the matrix (0 otherwise)
 			int found = 0;
 			for (int k = csc->col_ptr[j]; k < csc->col_ptr[j + 1]; k++) {
 				if (csc->row_index[k] == i) {
@@ -166,14 +187,16 @@ CSCMatrix poisson1D_csc_matrix(int nb_equations) {
 	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
 	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
 	csc.col_ptr = (int*)malloc((nb_equations + 1) * sizeof(int));
-	// first column has 2 and -1
+
+	// First column has 2 and -1
 	csc.values[0] = 2;
 	csc.row_index[0] = 0;
 	csc.values[1] = -1;
 	csc.row_index[1] = 1;
 	csc.col_ptr[0] = 0;
 	csc.col_ptr[1] = 2;
-	// middle columns have -1, 2, -1
+
+	// Middle columns have -1, 2, -1
 	for (int i = 1; i < nb_equations - 1; i++) {
 		csc.values[3 * i - 1] = -1;
 		csc.row_index[3 * i - 1] = i - 1;
@@ -183,12 +206,14 @@ CSCMatrix poisson1D_csc_matrix(int nb_equations) {
 		csc.row_index[3 * i + 1] = i + 1;
 		csc.col_ptr[i + 1] = 3 * i + 2;
 	}
-	// last column has -1 and 2
+
+	// Last column has -1 and 2
 	csc.values[3 * nb_equations - 3] = -1;
 	csc.row_index[3 * nb_equations - 3] = nb_equations - 2;
 	csc.values[3 * nb_equations - 2] = 2;
 	csc.row_index[3 * nb_equations - 2] = nb_equations - 1;
 	csc.col_ptr[nb_equations] = 3 * nb_equations;
+
 	return csc;
 }
 
@@ -232,65 +257,14 @@ void csc_free(CSCMatrix* csc) {
 	free(csc->col_ptr);
 }
 
-void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy) {
-	// If M is not transposed, we can directly do the dot product of each row of M with x and not have to use extra memory
-	if (is_M_transposed == 'N') {
-		for (int i = 0; i < M->nb_rows; i++) {
-			double sum = 0;
-			for (int nz_idx = M->row_ptr[i]; nz_idx < M->row_ptr[i + 1]; nz_idx++) {
-				sum += M->values[nz_idx] * x[M->col_index[nz_idx] * incx];
-			}
-			y[i * incy] = alpha * sum + beta * y[i * incy];
-		}
-	}
-	// If M is transposed, we can't do it line by line, we need to store each result in their appropriate column and then sum them up
-	else {
-		double* result = (double*)calloc(M->nb_cols, sizeof(double));
-		for (int i = 0; i < M->nb_rows; i++) {
-			for (int nz_idx = M->row_ptr[i]; nz_idx < M->row_ptr[i + 1]; nz_idx++) {
-				result[M->col_index[nz_idx]] += M->values[nz_idx] * x[i * incx];
-			}
-		}
-		for (int i = 0; i < M->nb_cols; i++) {
-			y[i * incy] = alpha * result[i] + beta * y[i * incy];
-		}
-		free(result);
-	}
-}
-
-// TODO
-void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy) {
-	// If M is not transposed, we can directly do the dot product of each row of M with x and not have to use extra memory
-	if (is_M_transposed == 'N') {
-		for (int i = 0; i < M->nb_cols; i++) {
-			double sum = 0;
-			for (int nz_idx = M->col_ptr[i]; nz_idx < M->col_ptr[i + 1]; nz_idx++) {
-				sum += M->values[nz_idx] * x[M->row_index[nz_idx] * incx];
-			}
-			y[i * incy] = alpha * sum + beta * y[i * incy];
-		}
-	}
-	// If M is transposed, we can't do it line by line, we need to store each result in their appropriate column and then sum them up
-	else {
-		double* result = (double*)calloc(M->nb_rows, sizeof(double));
-		for (int i = 0; i < M->nb_cols; i++) {
-			for (int nz_idx = M->col_ptr[i]; nz_idx < M->col_ptr[i + 1]; nz_idx++) {
-				result[M->row_index[nz_idx]] += M->values[nz_idx] * x[i * incx];
-			}
-		}
-		for (int i = 0; i < M->nb_rows; i++) {
-			y[i * incy] = alpha * result[i] + beta * y[i * incy];
-		}
-		free(result);
-	}
-}
-
 double csr_elem_at(CSRMatrix* csr, int i, int j) {
 	for (int nz_idx = csr->row_ptr[i]; nz_idx < csr->row_ptr[i + 1]; nz_idx++) {
 		if (csr->col_index[nz_idx] == j) {
 			return csr->values[nz_idx];
 		}
 	}
+
+	// If the element is not found, it's a 0
 	return 0;
 }
 
@@ -309,6 +283,8 @@ double csc_elem_at(CSCMatrix* csc, int i, int j) {
 			return csc->values[nz_idx];
 		}
 	}
+
+	// If the element is not found, it's a 0
 	return 0;
 }
 
@@ -323,35 +299,51 @@ void csc_write_at(CSCMatrix* csc, int i, int j, double value) {
 
 CSRMatrix csr_from_diag(double* diag, int nb_elements) {
 	CSRMatrix csr;
+	// Square matrix
 	csr.nb_rows = nb_elements;
 	csr.nb_cols = nb_elements;
 	csr.nb_non_zero = nb_elements;
+
+	// Allocate memory for CSR arrays
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+
+	// All the elements on the diagonal also end up in the same order in the CSR values array
+	memcpy(csr.values, diag, nb_elements * sizeof(double));
+
+	// Fill the CSR arrays
 	for (int i = 0; i < nb_elements; i++) {
-		csr.values[i] = diag[i];
 		csr.col_index[i] = i;
 		csr.row_ptr[i] = i;
 	}
 	csr.row_ptr[nb_elements] = nb_elements;
+
 	return csr;
 }
 
 CSCMatrix csc_from_diag(double* diag, int nb_elements) {
 	CSCMatrix csc;
+	// Square matrix
 	csc.nb_rows = nb_elements;
 	csc.nb_cols = nb_elements;
 	csc.nb_non_zero = nb_elements;
+
+	// Allocate memory for CSC arrays
 	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
 	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
 	csc.col_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
+
+	// All the elements on the diagonal also end up in the same order in the CSC values array
+	memcpy(csc.values, diag, nb_elements * sizeof(double));
+
+	// Fill the CSC arrays
 	for (int i = 0; i < nb_elements; i++) {
-		csc.values[i] = diag[i];
 		csc.row_index[i] = i;
 		csc.col_ptr[i] = i;
 	}
 	csc.col_ptr[nb_elements] = nb_elements;
+
 	return csc;
 }
 
@@ -359,33 +351,27 @@ CSRMatrix csr_from_tridiag(double* diag, double* lower, double* upper, int nb_el
 	CSRMatrix csr;
 	csr.nb_rows = nb_elements;
 	csr.nb_cols = nb_elements;
-	csr.nb_non_zero = 3 * nb_elements - 2;
+	csr.nb_non_zero = 3 * nb_elements; // All rows are filled with 3 elements
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
-	// first line has 2 and -1
-	csr.values[0] = diag[0];
-	csr.col_index[0] = 0;
-	csr.values[1] = upper[0];
-	csr.col_index[1] = 1;
-	csr.row_ptr[0] = 0;
-	csr.row_ptr[1] = 2;
-	// middle lines have -1, 2, -1
-	for (int i = 1; i < nb_elements - 1; i++) {
-		csr.values[3 * i - 1] = lower[i - 1];
-		csr.col_index[3 * i - 1] = i - 1;
+
+	// Copy line by line
+	for (int i = 0; i < nb_elements; i++) {
+		csr.row_ptr[i] = 3 * i;
 		csr.values[3 * i] = diag[i];
 		csr.col_index[3 * i] = i;
-		csr.values[3 * i + 1] = upper[i];
-		csr.col_index[3 * i + 1] = i + 1;
-		csr.row_ptr[i + 1] = 3 * i + 2;
+		if (i > 0) {
+			csr.values[3 * i - 1] = lower[i - 1];
+			csr.col_index[3 * i - 1] = i - 1;
+		}
+		if (i < nb_elements - 1) {
+			csr.values[3 * i + 1] = upper[i];
+			csr.col_index[3 * i + 1] = i + 1;
+		}
 	}
-	// last line has -1 and 2
-	csr.values[3 * nb_elements - 3] = lower[nb_elements - 2];
-	csr.col_index[3 * nb_elements - 3] = nb_elements - 2;
-	csr.values[3 * nb_elements - 2] = diag[nb_elements - 1];
-	csr.col_index[3 * nb_elements - 2] = nb_elements - 1;
 	csr.row_ptr[nb_elements] = 3 * nb_elements;
+
 	return csr;
 }
 
@@ -393,70 +379,73 @@ CSCMatrix csc_from_tridiag(double* diag, double* lower, double* upper, int nb_el
 	CSCMatrix csc;
 	csc.nb_rows = nb_elements;
 	csc.nb_cols = nb_elements;
-	csc.nb_non_zero = 3 * nb_elements - 2;
+	csc.nb_non_zero = 3 * nb_elements; // All columns are filled with 3 elements
 	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
 	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
 	csc.col_ptr = (int*)malloc((nb_elements + 1) * sizeof(int));
-	// first column has 2 and -1
-	csc.values[0] = diag[0];
-	csc.row_index[0] = 0;
-	csc.values[1] = upper[0];
-	csc.row_index[1] = 1;
-	csc.col_ptr[0] = 0;
-	csc.col_ptr[1] = 2;
-	// middle columns have -1, 2, -1
-	for (int i = 1; i < nb_elements - 1; i++) {
-		csc.values[3 * i - 1] = lower[i - 1];
-		csc.row_index[3 * i - 1] = i - 1;
+
+	// Copy column by column
+	for (int i = 0; i < nb_elements; i++) {
+		csc.col_ptr[i] = 3 * i;
 		csc.values[3 * i] = diag[i];
 		csc.row_index[3 * i] = i;
-		csc.values[3 * i + 1] = upper[i];
-		csc.row_index[3 * i + 1] = i + 1;
-		csc.col_ptr[i + 1] = 3 * i + 2;
+		if (i > 0) {
+			csc.values[3 * i - 1] = lower[i - 1];
+			csc.row_index[3 * i - 1] = i - 1;
+		}
+		if (i < nb_elements - 1) {
+			csc.values[3 * i + 1] = upper[i];
+			csc.row_index[3 * i + 1] = i + 1;
+		}
 	}
-	// last column has -1 and 2
-	csc.values[3 * nb_elements - 3] = lower[nb_elements - 2];
-	csc.row_index[3 * nb_elements - 3] = nb_elements - 2;
-	csc.values[3 * nb_elements - 2] = diag[nb_elements - 1];
-	csc.row_index[3 * nb_elements - 2] = nb_elements - 1;
 	csc.col_ptr[nb_elements] = 3 * nb_elements;
+
 	return csc;
 }
 
 CSRMatrix csr_from_lower_triangular(double* mat, int nb_rows) {
-	// mat is a lower triangular matrix, we can directly copy the values
 	CSRMatrix csr;
 	csr.nb_rows = nb_rows;
 	csr.nb_cols = nb_rows;
 	csr.nb_non_zero = nb_rows * (nb_rows + 1) / 2;
+
+	// Allocate memory for CSR arrays
 	csr.values = (double*)malloc(csr.nb_non_zero * sizeof(double));
-	memcpy(csr.values, mat, csr.nb_non_zero * sizeof(double));
 	csr.col_index = (int*)malloc(csr.nb_non_zero * sizeof(int));
 	csr.row_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
+
+	// mat is a lower triangular matrix stocked in 1D, all the elements are in the right order
+	memcpy(csr.values, mat, csr.nb_non_zero * sizeof(double));
+
+	// Compute the column indices
 	int non_zero_idx = 0;
 	int current_idx = 0;
 	for (int i = 0; i < nb_rows; i++) {
 		csr.row_ptr[i] = non_zero_idx;
 		for (int j = 0; j <= i; j++) {
-			// csr.values[non_zero_idx] = mat[current_idx];
 			csr.col_index[non_zero_idx] = j;
 			non_zero_idx++;
 			current_idx++;
 		}
 	}
 	csr.row_ptr[nb_rows] = non_zero_idx;
+
 	return csr;
 }
 
 CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows) {
-	// mat is a lower triangular matrix, but we can't copy because it's in the wrong order
 	CSCMatrix csc;
 	csc.nb_rows = nb_rows;
 	csc.nb_cols = nb_rows;
 	csc.nb_non_zero = nb_rows * (nb_rows + 1) / 2;
+
+	// Allocate memory for CSC arrays
 	csc.values = (double*)malloc(csc.nb_non_zero * sizeof(double));
 	csc.row_index = (int*)malloc(csc.nb_non_zero * sizeof(int));
 	csc.col_ptr = (int*)malloc((nb_rows + 1) * sizeof(int));
+
+	// Compute the column pointers and values
+	// mat is a lower triangular matrix, but we can't copy because it's in the wrong order
 	int non_zero_idx = 0;
 	int current_idx = 0;
 	for (int i = 0; i < nb_rows; i++) {
@@ -469,5 +458,6 @@ CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows) {
 		}
 	}
 	csc.col_ptr[nb_rows] = non_zero_idx;
+
 	return csc;
 }

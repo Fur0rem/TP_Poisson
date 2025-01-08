@@ -431,6 +431,19 @@ CSCMatrix csc_from_lower_triangular(double* mat, int nb_rows);
 void dcsrmv(char is_M_transposed, double alpha, CSRMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy);
 
 /**
+ * @brief Compute the matrix-vector product y = alpha * M * x + beta * y
+ * @param[in] is_M_transposed 'N' if M is not transposed, 'T' if M is transposed
+ * @param[in] alpha scalar alpha to multiply M * x by
+ * @param[in] M matrix M in CSC format
+ * @param[in] x vector x
+ * @param[in] beta scalar beta to multiply y by
+ * @param[in,out] y vector y, will be updated with the result
+ * @param[in] incx increment for x
+ * @param[in] incy increment for y
+ */
+void dcscmv(char is_M_transposed, double alpha, CSCMatrix* M, double* x, size_t incx, double beta, double* y, size_t incy);
+
+/**
  * @brief Extracts the Gauss-Seidel iteration matrix from the richardson algorithm in CSR format
  * @param[in] AB Equation matrix in CSR format
  * @return Gauss-Seidel iteration matrix in CSR format

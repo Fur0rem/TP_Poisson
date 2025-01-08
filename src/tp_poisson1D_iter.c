@@ -137,11 +137,13 @@ int main(int argc, char* argv[]) {
 	}
 	else if (FORMAT == CSR) {
 		printf("Format : CSR\n");
+		// Extract CSR matrix
 		CSRMatrix AB = poisson1D_csr_matrix(la);
 
-		printf("AB matrix:\n");
-		print_csr_matrix(&AB);
+		// printf("AB matrix:\n");
+		// print_csr_matrix(&AB);
 
+		// Solve with Richardson alpha
 		if (IMPLEM == ALPHA) {
 			opt_alpha = richardson_alpha_opt(&la);
 			printf("Optimal alpha for simple Richardson iteration is : %lf\n", opt_alpha);
@@ -149,7 +151,7 @@ int main(int argc, char* argv[]) {
 			plot_convergence_history(resvec, nbite, "rapport/convergence_richardson_alpha_format_CSR");
 			printf("Number of iterations for Richardson with optimal alpha is : %d\n", nbite);
 		}
-		/* Richardson General Tridiag */
+		/* Richardson General CSR */
 
 		/* get MB (:=M, D for Jacobi, (D-E) for Gauss-seidel) */
 		CSRMatrix MB;
@@ -162,11 +164,10 @@ int main(int argc, char* argv[]) {
 			MB = extract_MB_gauss_seidel_csr(&AB);
 		}
 
-		print_csr_matrix(&MB);
+		// print_csr_matrix(&MB);
 
 		/* Solve with General Richardson */
 		if (IMPLEM == JAC || IMPLEM == GS) {
-			// write_GB_operator_colMajor_poisson1D(MB, &lab, &la, "MB.dat");
 			richardson_MB_csr(&AB, RHS, SOL, &MB, &tol, &maxit, resvec, &nbite);
 			if (IMPLEM == JAC) {
 				plot_convergence_history(resvec, nbite, "rapport/convergence_jacobi_format_CSR");
@@ -178,8 +179,12 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+	else if (IMPLEM == CSC) {
+		printf("Not implemented yet\n");
+		exit(EXIT_FAILURE);
+	}
 
-	// print x and exact solution
+	// Print x and exact solution
 	printf("X found:\t");
 	for (int i = 0; i < la; i++) {
 		printf("%lf\t", SOL[i]);
@@ -197,7 +202,6 @@ int main(int argc, char* argv[]) {
 
 	/* Write convergence history */
 	write_vec(resvec, &nbite, "RESVEC.dat");
-	// plot_convergence_history(resvec, nbite, "rapport/convergence_richardson");
 
 	free(resvec);
 	free(RHS);

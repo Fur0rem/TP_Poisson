@@ -22,7 +22,6 @@ int main() {
 		};
 		double* expected_dense = flattened_row_major(4, 4, expected);
 		ASSERT(mat_equals(dense, expected_dense, 4, 4));
-		printf("Test format CSR passed\n");
 	}
 	{
 		CSCMatrix poisson = poisson1D_csc_matrix(4);
@@ -37,7 +36,6 @@ int main() {
 		};
 		double* expected_dense = flattened_row_major(4, 4, expected);
 		ASSERT(mat_equals(dense, expected_dense, 4, 4));
-		printf("Test format CSC passed\n");
 	}
 
 	// CSR Tests
@@ -51,7 +49,7 @@ int main() {
 		double vec_y[2] = {0, 0};
 		double* dense = flattened_row_major(2, 3, dense_mat);
 		CSRMatrix csr = dense_col_major_to_csr(dense, 2, 3);
-		dcsrmv('N', 1.0, &csr, vec_x, 0.0, vec_y, 1, 1);
+		dcsrmv('N', 1.0, &csr, vec_x, 1, 0.0, vec_y, 1);
 
 		double expected[2] = {1, -3};
 		ASSERT(vec_equals(vec_y, expected, 2));
@@ -66,7 +64,7 @@ int main() {
 		double vec_x[6] = {2, 0, 1, 0, 0, 0};
 		double vec_y[2] = {1, 1};
 		CSRMatrix csr = dense_col_major_to_csr(flattened_row_major(2, 3, dense_mat), 2, 3);
-		dcsrmv('N', 2.0, &csr, vec_x, 3.0, vec_y, 2, 1);
+		dcsrmv('N', 2.0, &csr, vec_x, 2, 3.0, vec_y, 1);
 		double expected[2] = {5, -3};
 		ASSERT(vec_equals(vec_y, expected, 2));
 	}
@@ -81,16 +79,15 @@ int main() {
 		double vec_x[6] = {2, 0, 1, 0, 0, 0};
 		double vec_y[2] = {1, 1};
 		CSRMatrix csr = dense_col_major_to_csr(flattened_row_major(3, 2, dense_mat), 3, 2);
-		dcsrmv('T', 2.0, &csr, vec_x, 3.0, vec_y, 2, 1);
-		double expected[2] = {5, -3};
-		printf("vec_y = %lf %lf\n", vec_y[0], vec_y[1]);
+		dcsrmv('T', 2.0, &csr, vec_x, 2, 3.0, vec_y, 1);
 
+		double expected[2] = {5, -3};
 		ASSERT(vec_equals(vec_y, expected, 2));
 	}
+	printf("Test format CSR passed\n");
 
 	// CSC tests
 	{
-		// Example taken from https://mathinsight.org/matrix_vector_multiplication
 		double dense_mat[2][3] = {
 		    {1, -1, 2},
 		    {0, -3, 1},
@@ -99,7 +96,7 @@ int main() {
 		double vec_y[2] = {0, 0};
 		double* dense = flattened_row_major(2, 3, dense_mat);
 		CSCMatrix csc = dense_col_major_to_csc(dense, 2, 3);
-		dcscmv('N', 1.0, &csc, vec_x, 0.0, vec_y, 1, 1);
+		dcscmv('N', 1.0, &csc, vec_x, 1, 0.0, vec_y, 1);
 
 		double expected[2] = {1, -3};
 		ASSERT(vec_equals(vec_y, expected, 2));
@@ -114,7 +111,7 @@ int main() {
 		double vec_x[6] = {2, 0, 1, 0, 0, 0};
 		double vec_y[2] = {1, 1};
 		CSCMatrix csc = dense_col_major_to_csc(flattened_row_major(2, 3, dense_mat), 2, 3);
-		dcscmv('N', 2.0, &csc, vec_x, 3.0, vec_y, 2, 1);
+		dcscmv('N', 2.0, &csc, vec_x, 2, 3.0, vec_y, 1);
 		double expected[2] = {5, -3};
 		ASSERT(vec_equals(vec_y, expected, 2));
 	}
@@ -129,10 +126,9 @@ int main() {
 		double vec_x[6] = {2, 0, 1, 0, 0, 0};
 		double vec_y[2] = {1, 1};
 		CSCMatrix csc = dense_col_major_to_csc(flattened_row_major(3, 2, dense_mat), 3, 2);
-		dcscmv('T', 2.0, &csc, vec_x, 3.0, vec_y, 2, 1);
+		dcscmv('T', 2.0, &csc, vec_x, 2, 3.0, vec_y, 1);
 		double expected[2] = {5, -3};
-		printf("vec_y = %lf %lf\n", vec_y[0], vec_y[1]);
-
 		ASSERT(vec_equals(vec_y, expected, 2));
 	}
+	printf("Test format CSC passed\n");
 }

@@ -82,7 +82,7 @@ bin/%: $(TEST_FOLDERS)/%.c $(OBJLIBPOISSON)
 bin/benchmark_direct_methods: benchmarks/benchmark_direct_methods.c $(OBJLIBPOISSON)
 	$(CC) -o $@ $(OPTC) $(INCL) $(addprefix $(TPDIROBJ)/, $(OBJLIBPOISSON)) $< $(LIBS)
 
-run_tests: bin/test_creation_poisson bin/test_forward_error bin/test_facto_LU bin/test_csr
+run_tests: bin/test_creation_poisson bin/test_forward_error bin/test_facto_LU bin/test_csr_csc
 	$(foreach test, $^, $(test);)
 
 run_testenv: bin/tp_testenv
